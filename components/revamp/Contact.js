@@ -9,7 +9,7 @@ const Contact = () => {
           {/* Left Column: Info */}
           <div className="space-y-8">
             <div>
-              <p className="text-[#E34836] font-heading italic text-xl mb-3">
+              <p className="text-[#E34836] font-cursive text-3xl mb-3">
                 Get In Touch
               </p>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900 leading-[1.1] mb-6">
@@ -63,7 +63,7 @@ const Contact = () => {
 
             <div className="pt-4">
               <a 
-                href="https://wa.me/916238418293" 
+                href="https://wa.me/916238418293?text=Hi%20Travel%20Diaries%2C%20I%20want%20to%20inquire%20about%20a%20travel%20package." 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white px-8 py-3.5 rounded-full font-semibold transition-colors shadow-md hover:shadow-lg"

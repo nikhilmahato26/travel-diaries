@@ -64,7 +64,7 @@ const Destinations = () => {
         
         <div className="flex flex-col md:flex-row justify-between items-end mb-12">
           <div>
-            <p className="text-[#E34836] font-semibold text-sm tracking-widest uppercase mb-3">
+            <p className="text-[#E34836] font-cursive text-3xl mb-3">
               Top Destinations
             </p>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900">

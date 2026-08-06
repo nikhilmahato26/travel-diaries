@@ -6,6 +6,7 @@ module.exports = {
       fontFamily: {
         heading: ['"Playfair Display"', 'serif'],
         body: ['"Plus Jakarta Sans"', 'sans-serif'],
+        cursive: ['"Playball"', 'cursive'],
       },
       colors: {
         primary: {

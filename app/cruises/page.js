@@ -88,7 +88,7 @@ export default function CruisesPage() {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
         </div>
         <div className="relative z-10 text-center px-4 max-w-3xl">
-          <p className="text-[#E34836] font-heading italic text-xl md:text-2xl mb-4">
+          <p className="text-[#E34836] font-cursive text-3xl md:text-4xl mb-4">
             Sail the Oceans
           </p>
           <h1 className="text-white font-heading font-bold text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
@@ -103,7 +103,7 @@ export default function CruisesPage() {
       {/* Cruises Grid */}
       <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <p className="text-[#E34836] font-semibold text-sm tracking-widest uppercase mb-3">
+          <p className="text-[#E34836] font-cursive text-3xl mb-3">
             Set Sail
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-gray-900">

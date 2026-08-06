@@ -34,18 +34,12 @@ const About = () => {
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
             </div>
-            
-            {/* Floating Badge */}
-            <div className="absolute bottom-4 right-0 bg-navy text-white p-4 rounded-xl shadow-xl flex flex-col items-center justify-center w-28 h-28 transform translate-x-4">
-              <span className="font-bold text-2xl">10+</span>
-              <span className="text-xs text-center mt-1 text-gray-300">Years of Experience</span>
-            </div>
           </div>
 
           {/* Text Content */}
           <div className="space-y-8 pl-4 lg:pl-8">
             <div>
-              <p className="text-[#E34836] font-semibold text-sm tracking-widest uppercase mb-3 flex items-center gap-2">
+              <p className="text-[#E34836] font-cursive text-3xl mb-3 flex items-center gap-2">
                 Our Services
               </p>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900 leading-[1.2] mb-6">

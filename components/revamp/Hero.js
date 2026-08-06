@@ -18,7 +18,7 @@ const Hero = () => {
       id: 1,
       video: 'https://videos.pexels.com/video-files/34917340/14791039_3840_2160_30fps.mp4',
       poster: 'https://images.unsplash.com/photo-1599640842225-85d111c60e6b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80',
-      subtitle: 'BETTER HOLIDAYS ABROAD',
+      subtitle: 'Better Holidays Abroad',
       title: 'Luxury\nCruises',
       description: 'Your perfect Planning for Unforgettable Travel',
       details: 'Experience the magic of the ocean with our curated cruise packages. From pristine waters to vibrant onboard life, discover true relaxation.',
@@ -32,7 +32,7 @@ const Hero = () => {
       id: 2,
       video: 'https://videos.pexels.com/video-files/29868481/12823956_3840_2160_25fps.mp4',
       poster: 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      subtitle: 'BETTER HOLIDAYS ABROAD',
+      subtitle: 'Better Holidays Abroad',
       title: 'Enchanting\nThailand',
       description: 'Your perfect Planning for Unforgettable Travel',
       details: 'Experience the magic of Thailand with our curated packages. From pristine beaches to vibrant city life, discover the true essence of the Land of Smiles.',
@@ -46,7 +46,7 @@ const Hero = () => {
       id: 3,
       video: 'https://videos.pexels.com/video-files/17576161/17576161-uhd_3840_2160_30fps.mp4',
       poster: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1038&q=80',
-      subtitle: 'BETTER HOLIDAYS ABROAD',
+      subtitle: 'Better Holidays Abroad',
       title: 'Beautiful\nBali',
       description: 'Your perfect Planning for Unforgettable Travel',
       details: 'Experience the magic of Bali with our curated packages. From pristine beaches to vibrant city life, discover the true essence of the Island of Gods.',
@@ -134,8 +134,8 @@ const Hero = () => {
               {/* Content */}
               <div className="relative z-10 h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 max-w-7xl mx-auto pt-20">
                 <div className="max-w-2xl">
-                  <h3 className="text-white font-bold tracking-widest text-sm md:text-base mb-4 uppercase flex items-center gap-2">
-                    <span className="w-8 h-[2px] bg-white inline-block"></span>
+                  <h3 className="text-white font-cursive text-3xl md:text-4xl mb-4 flex items-center gap-3">
+                    <span className="w-12 h-[1px] bg-white inline-block"></span>
                     {slide.subtitle}
                   </h3>
                   
@@ -202,7 +202,7 @@ const Hero = () => {
       
       {/* Floating WhatsApp Button (bottom right) */}
       <a
-        href="https://wa.me/916238418293"
+        href="https://wa.me/916238418293?text=Hi%20Travel%20Diaries%2C%20I%20want%20to%20plan%20a%20holiday."
         target="_blank"
         rel="noopener noreferrer"
         className="absolute bottom-8 right-8 z-50 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-colors"
