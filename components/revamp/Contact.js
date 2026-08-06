@@ -41,8 +41,8 @@ const Contact = () => {
                 </div>
                 <div>
                   <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider block mb-1">Phone</span>
-                  <a href="tel:+919971107330" className="text-gray-800 text-sm font-bold hover:text-[#E34836] transition-colors">
-                    +91 9971107330
+                  <a href="tel:+916238418293" className="text-gray-800 text-sm font-bold hover:text-[#E34836] transition-colors">
+                    +91 6238418293
                   </a>
                 </div>
               </div>
@@ -63,7 +63,7 @@ const Contact = () => {
 
             <div className="pt-4">
               <a 
-                href="https://wa.me/919971107330" 
+                href="https://wa.me/916238418293" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white px-8 py-3.5 rounded-full font-semibold transition-colors shadow-md hover:shadow-lg"

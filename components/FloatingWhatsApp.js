@@ -11,7 +11,7 @@ export default function FloatingWhatsApp() {
       zIndex: 9999
     }}>
       <MagneticButton>
-        <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" style={{
+        <a href="https://wa.me/916238418293" target="_blank" rel="noreferrer" style={{
           width: 60,
           height: 60,
           borderRadius: '50%',

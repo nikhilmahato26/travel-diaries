@@ -141,8 +141,8 @@ const Packages = () => {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900 mb-6">
             Awesome Trip With Us
           </h2>
-          <p className="text-gray-600 text-base">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          <p className="text-gray-600 max-w-xl mx-auto text-base">
+            Explore our handpicked international holiday packages designed to give you the ultimate travel experience. Book your next adventure today.
           </p>
         </div>
 

@@ -52,10 +52,10 @@ const About = () => {
                 Better Holidays<br />Abroad
               </h2>
               <p className="text-gray-600 text-base leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Travel Diaries is a premier boutique travel agency dedicated to creating personalized itineraries that inspire and delight. With over a decade of industry expertise, we specialize in curating unique international and domestic holiday packages tailored to your specific preferences.
               </p>
               <p className="text-gray-600 text-base leading-relaxed mt-4">
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+                From luxurious ocean cruises and beach escapes to heritage and adventure tours, we ensure a seamless, completely hassle-free travel experience from start to finish.
               </p>
             </div>
 

@@ -21,7 +21,7 @@ const Footer = () => {
               </div>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+              Your trusted travel partner for crafting unforgettable journeys. We offer customized holiday packages, cruise bookings, and hassle-free travel planning services.
             </p>
             <div className="flex gap-4">
               <a href="#" className="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-[#E34836] hover:border-[#E34836] transition-all text-gray-400 hover:text-white">
@@ -40,11 +40,11 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <h3 className="text-lg font-heading font-semibold mb-6 text-white uppercase tracking-wider text-sm">About Us</h3>
             <ul className="space-y-4 text-gray-400 text-sm">
-              <li><a href="#home" className="hover:text-[#E34836] transition-colors">Home</a></li>
-              <li><a href="#services" className="hover:text-[#E34836] transition-colors">About Us</a></li>
-              <li><a href="#packages" className="hover:text-[#E34836] transition-colors">Tours</a></li>
-              <li><a href="#packages" className="hover:text-[#E34836] transition-colors">Cruises</a></li>
-              <li><a href="#contact" className="hover:text-[#E34836] transition-colors">Contact</a></li>
+              <li><Link href="/#home" className="hover:text-[#E34836] transition-colors">Home</Link></li>
+              <li><Link href="/#services" className="hover:text-[#E34836] transition-colors">About Us</Link></li>
+              <li><Link href="/#packages" className="hover:text-[#E34836] transition-colors">Tours</Link></li>
+              <li><Link href="/cruises" className="hover:text-[#E34836] transition-colors">Cruises</Link></li>
+              <li><Link href="/#contact" className="hover:text-[#E34836] transition-colors">Contact</Link></li>
             </ul>
           </div>
 
@@ -52,11 +52,11 @@ const Footer = () => {
           <div className="lg:col-span-3">
             <h3 className="text-lg font-heading font-semibold mb-6 text-white uppercase tracking-wider text-sm">Top Destinations</h3>
             <ul className="space-y-4 text-gray-400 text-sm">
-              <li><a href="#destinations" className="hover:text-[#E34836] transition-colors">Thailand</a></li>
-              <li><a href="#destinations" className="hover:text-[#E34836] transition-colors">Singapore</a></li>
-              <li><a href="#destinations" className="hover:text-[#E34836] transition-colors">Dubai</a></li>
-              <li><a href="#destinations" className="hover:text-[#E34836] transition-colors">Bali, Indonesia</a></li>
-              <li><a href="#destinations" className="hover:text-[#E34836] transition-colors">Kerala, India</a></li>
+              <li><Link href="/#destinations" className="hover:text-[#E34836] transition-colors">Thailand</Link></li>
+              <li><Link href="/#destinations" className="hover:text-[#E34836] transition-colors">Singapore</Link></li>
+              <li><Link href="/#destinations" className="hover:text-[#E34836] transition-colors">Dubai</Link></li>
+              <li><Link href="/#destinations" className="hover:text-[#E34836] transition-colors">Bali, Indonesia</Link></li>
+              <li><Link href="/#destinations" className="hover:text-[#E34836] transition-colors">Kerala, India</Link></li>
             </ul>
           </div>
 
@@ -70,7 +70,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-[#E34836] shrink-0" />
-                <a href="tel:+917588626568" className="hover:text-[#E34836] transition-colors">+91 7588626568</a>
+                <a href="tel:+916238418293" className="hover:text-[#E34836] transition-colors">+91 6238418293</a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-[#E34836] shrink-0" />

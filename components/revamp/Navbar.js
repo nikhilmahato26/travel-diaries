@@ -21,19 +21,17 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#services' },
-    { name: 'Destination', href: '#destinations' },
-    { name: 'Packages', href: '#packages' },
-    { name: 'Cruises', href: '#cruises' },
+    { name: 'Home', href: '/#home' },
+    { name: 'About', href: '/#services' },
+    { name: 'Destination', href: '/#destinations' },
+    { name: 'Packages', href: '/#packages' },
+    { name: 'Cruises', href: '/cruises' },
   ];
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-300 font-body ${
-        isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-sm py-4'
-          : 'bg-transparent py-6'
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 font-body ${
+        isScrolled ? 'bg-white/95 backdrop-blur-md py-4 shadow-sm' : 'bg-transparent py-6'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,11 +53,11 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-12">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-10">
             <div className="flex space-x-8">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
                   href={link.href}
                   className={`text-[15px] font-medium transition-colors hover:text-[#E34836] ${
@@ -67,20 +65,20 @@ const Navbar = () => {
                   }`}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
             </div>
             
             <div className="flex items-center space-x-6">
-              <a href="tel:+917588626568" className={`flex items-center text-[15px] font-semibold transition-colors hover:text-[#E34836] ${isScrolled ? 'text-gray-800' : 'text-white'}`}>
-                +91 7588626568
+              <a href="tel:+916238418293" className={`flex items-center text-[15px] font-semibold transition-colors hover:text-[#E34836] ${isScrolled ? 'text-gray-800' : 'text-white'}`}>
+                +91 6238418293
               </a>
-              <a
-                href="#contact"
+              <Link
+                href="/#contact"
                 className="bg-[#E34836] text-white px-6 py-2.5 rounded-full text-[15px] font-medium hover:bg-red-700 transition-colors"
               >
                 Talk to us
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -104,25 +102,26 @@ const Navbar = () => {
       >
         <div className="px-6 space-y-4">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
               href={link.href}
               className="block text-gray-800 font-medium hover:text-[#E34836] text-lg"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
           <div className="pt-4 border-t border-gray-100 flex flex-col gap-4">
-             <a href="tel:+917588626568" className="text-gray-800 font-semibold text-lg">
-                +91 7588626568
+             <a href="tel:+916238418293" className="text-gray-800 font-semibold text-lg">
+                +91 6238418293
              </a>
-            <a
-              href="#contact"
-              className="inline-block text-center bg-[#E34836] text-white px-6 py-3 rounded-full font-medium"
+            <Link
+              href="/#contact"
+              className="bg-[#E34836] text-white px-6 py-3 rounded-full font-medium hover:bg-red-700 transition-colors text-center block text-sm"
+              onClick={() => setIsMobileMenuOpen(false)}
             >
               Talk to us
-            </a>
+            </Link>
           </div>
         </div>
       </div>
