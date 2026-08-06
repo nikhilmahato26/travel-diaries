@@ -17,7 +17,7 @@ const packages = [
     oldPrice: '50,000 INR',
     newPrice: '42,999 INR',
     type: 'International',
-    image: 'https://images.unsplash.com/photo-1527068596651-b5507e1e7e48?auto=format&fit=crop&w=700&q=80',
+    image: 'https://images.unsplash.com/photo-1584824486509-112e4181ff6b?auto=format&fit=crop&w=700&q=80',
   },
   {
     id: 3,
@@ -44,7 +44,7 @@ const packages = [
     oldPrice: '48,000 INR',
     newPrice: '41,000 INR',
     type: 'International',
-    image: 'https://images.unsplash.com/photo-1588693892795-15a0c0dbb7cc?auto=format&fit=crop&w=700&q=80',
+    image: 'https://images.unsplash.com/photo-1539635278303-d4002c07eae3?auto=format&fit=crop&w=700&q=80',
   },
   {
     id: 6,
