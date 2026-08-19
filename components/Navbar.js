@@ -19,7 +19,7 @@ export default function Navbar({ big = false }) {
   const navLinks = [
     { label: 'Home',         href: '/' },
     { label: 'About',        href: '/#about' },
-    { label: 'Packages',     href: '/packages' },
+    { label: 'Packages',     href: '/#packages' },
     { label: 'Fleet',        href: '/#fleet' },
     { label: 'Gallery',      href: '/#gallery' },
     { label: 'Contact',      href: '/#contact' },
