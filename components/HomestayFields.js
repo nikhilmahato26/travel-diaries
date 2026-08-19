@@ -109,7 +109,7 @@ export default function HomestayFields({ form, setForm, S, pkgOptions = {}, onOp
               <input type="number" min="0" value={room.guests} onChange={e => roomChange(i, 'guests', e.target.value)} style={S.input} placeholder="2" />
             </div>
             <div>
-              <label style={S.label}>Price (₹)</label>
+              <label style={S.label}>Price (OMR)</label>
               <input type="number" min="0" value={room.price} onChange={e => roomChange(i, 'price', e.target.value)} style={S.input} placeholder="2000" />
             </div>
             <div style={{ gridColumn: '1/-1' }}>

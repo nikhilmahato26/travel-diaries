@@ -4,12 +4,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { invalidateSettingsCache } from '@/hooks/useSettings'
 import TagSelector from '@/components/TagSelector'
-import PackagePreview from '@/components/PackagePreview'
-import HomestayFields from '@/components/HomestayFields'
 import ImageUploader from '@/components/ImageUploader'
-import ClientsAdmin from '@/components/ClientsAdmin'
-import TeamAdmin from '@/components/TeamAdmin'
-import FleetAdmin from '@/components/FleetAdmin'
 import {
   Plus, Pencil, Copy, Trash2, LogOut, Eye, X, Check, ExternalLink, AlertTriangle,
   Package, MapPin, Inbox, Settings, Phone, MessageCircle, Mail, Calendar,
@@ -18,7 +13,7 @@ import {
 import Link from 'next/link'
 import { toast } from 'sonner'
 
-function fmt(n) { return '₹' + Number(n).toLocaleString('en-IN') }
+function fmt(n) { return 'OMR ' + Number(n).toLocaleString('en-IN') }
 
 const PKG_PREFIX = { package: 'PKG', group: 'GPKG', homestay: 'HS', houseboat: 'HB', other: 'OTH' }
 const CONFORMING_ID = /^(PKG|GPKG|HS|HB|OTH)-\d+$/
@@ -716,19 +711,23 @@ export default function Dashboard() {
       <div style={{ display: 'flex', minHeight: '100vh' }}>
         {/* Sidebar */}
         <div style={{ width: 250, background: '#fff', borderRight: '1px solid #f3f4f6', height: '100vh', position: 'sticky', top: 0, display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
-          <div style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: 10, borderBottom: '1px solid #f3f4f6' }}>
-            <Image src="/logo-rtw.png" alt="R Travel World" width={140} height={45} style={{ objectFit: 'contain' }} />
+          <div style={{ padding: '24px 20px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid #f3f4f6' }}>
+            <div style={{ backgroundColor: '#E34836', padding: '8px', borderRadius: '12px', color: 'white', boxShadow: '0 4px 6px -1px rgba(227, 72, 54, 0.2)' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z" />
+              </svg>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+              <span style={{ fontFamily: 'inherit', fontWeight: 'bold', fontSize: '14px', letterSpacing: '0.25em', textTransform: 'uppercase', lineHeight: '1', color: '#111' }}>Travel</span>
+              <span style={{ color: '#E34836', fontFamily: 'serif', fontStyle: 'italic', fontWeight: '600', fontSize: '16px', lineHeight: '1', marginTop: '2px' }}>diaries</span>
+            </div>
           </div>
           <div style={{ flex: 1, padding: '20px 0', overflowY: 'auto' }}>
             {[
               { key: 'packages',      label: 'Packages',     icon: Package,   badge: pendingCount > 0 ? pendingCount : null },
-              { key: 'destinations',  label: 'Categories',   icon: MapPin },
+              { key: 'destinations',  label: 'Destinations',   icon: MapPin },
               { key: 'enquiries',     label: 'Enquiries',    icon: Inbox,     badge: enquiries.length > 0 && section !== 'enquiries' ? enquiries.length : null },
               { key: 'testimonials',  label: 'Testimonials', icon: MessageCircle },
-              { key: 'gallery',       label: 'Gallery',      icon: ImageIcon },
-              { key: 'clients',       label: 'Clients',      icon: Building2 },
-              { key: 'team',          label: 'Team',         icon: Users },
-              { key: 'fleet',         label: 'Fleet',        icon: Ship },
               { key: 'settings',      label: 'Settings',     icon: Settings },
             ].map(({ key, label, icon: Icon, badge }) => (
               <button key={key} onClick={() => setSection(key)}
@@ -752,7 +751,7 @@ export default function Dashboard() {
         {/* Main Content */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
           <div style={{ background: '#fff', borderBottom: '1px solid #f3f4f6', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', position: 'sticky', top: 0, zIndex: 40 }}>
-            <h1 style={{ fontSize: 16, fontWeight: 700, textTransform: 'capitalize' }}>{section === 'destinations' ? 'Categories' : section}</h1>
+            <h1 style={{ fontSize: 16, fontWeight: 700, textTransform: 'capitalize' }}>{section === 'destinations' ? 'Destinations' : section}</h1>
             <Link href="/" target="_blank" style={{ ...S.btn('#f3f4f6', '#555'), textDecoration: 'none' }}>
               <ExternalLink size={13} /> View Site
             </Link>
@@ -844,7 +843,7 @@ export default function Dashboard() {
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
                 <button onClick={() => { setNewDest({ name: '', color: '#7e5233', image_url: '', description: '', emoji: '📍', image_pos: '' }); setEditDestId(null); setModal('destination') }} style={S.btn('#f3f4f6', '#555')}>
-                  <MapPin size={13} /> Categories
+                  <MapPin size={13} /> Destinations
                 </button>
 <button onClick={openAdd} style={{ padding: '10px 20px', borderRadius: 10, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#7e5233,#c93d00)', color: '#fff', fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
                   <Plus size={16} /> Add Package
@@ -1008,7 +1007,7 @@ export default function Dashboard() {
           <>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
               <div>
-                <h2 style={{ fontWeight: 700, fontSize: 18, color: '#111', margin: 0 }}>Categories</h2>
+                <h2 style={{ fontWeight: 700, fontSize: 18, color: '#111', margin: 0 }}>Destinations</h2>
                 <p style={{ fontSize: 13, color: '#9ca3af', margin: '4px 0 0' }}>{destinations.length} total · {destinations.filter(d => d.featured !== false).length} shown on website</p>
               </div>
               <button onClick={() => { setNewDest({ name: '', color: '#7e5233', image_url: '', description: '', emoji: '📍', image_pos: '' }); setEditDestId(null); setModal('destination') }} style={S.btn()}>
@@ -1240,46 +1239,6 @@ export default function Dashboard() {
           </div>
         )}
 
-        {section === 'gallery' && (
-          <div style={{ maxWidth: 1000, margin: '0 auto', paddingBottom: 60 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <div>
-                <h1 style={{ fontSize: 24, fontWeight: 800, color: '#111' }}>Gallery Images</h1>
-                <p style={{ color: '#6b7280', fontSize: 14, marginTop: 4 }}>Manage images shown in the landing page gallery section.</p>
-              </div>
-              <div style={{ position: 'relative' }}>
-                <input type="file" accept="image/*" onChange={handleGalleryUpload} disabled={galleryUploading}
-                  style={{ position: 'absolute', inset: 0, opacity: 0, cursor: galleryUploading ? 'not-allowed' : 'pointer' }} />
-                <button disabled={galleryUploading} style={{ ...S.btn('#fbf8f1', '#7e5233'), display: 'flex', alignItems: 'center', gap: 6 }}>
-                  {galleryUploading ? <span style={{ width: 14, height: 14, border: '2px solid #e5dbce', borderTop: '2px solid #7e5233', borderRadius: '50%', animation: 'spin 1s linear infinite' }} /> : <Plus size={16} />}
-                  Add Image
-                </button>
-              </div>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }}>
-              {gallery.map(img => (
-                <div key={img.id} style={{ position: 'relative', borderRadius: 12, overflow: 'hidden', aspectRatio: '4/3', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
-                  <img src={img.image_url} alt="Gallery" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  <button onClick={() => handleDeleteGallery(img.id)}
-                    style={{ position: 'absolute', top: 8, right: 8, background: 'rgba(255,255,255,0.9)', color: '#ef4444', border: 'none', padding: 6, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Trash size={14} />
-                  </button>
-                </div>
-              ))}
-              {gallery.length === 0 && (
-                <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 20px', background: '#fbf8f1', borderRadius: 16, color: '#9ca3af' }}>
-                  No images in gallery yet.
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {section === 'clients' && <ClientsAdmin />}
-        {section === 'team' && <TeamAdmin />}
-        {section === 'fleet' && <FleetAdmin />}
-
         {section === 'settings' && (
           <>
           <div style={{ width: '100%', maxWidth: 900, margin: '0 auto', background: '#fff', padding: '40px 48px', borderRadius: 16, boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
@@ -1477,15 +1436,15 @@ export default function Dashboard() {
                     <input value={form.hotels} onChange={e => setForm(f => ({ ...f, hotels: e.target.value }))} style={S.input} />
                   </div>
                   <div>
-                    <label style={S.label}>Original Price (₹)</label>
+                    <label style={S.label}>Original Price (OMR)</label>
                     <input type="number" value={form.originalPrice} onChange={e => setForm(f => ({ ...f, originalPrice: e.target.value }))} style={S.input} />
                   </div>
                   <div>
-                    <label style={S.label}>Sale Price (₹) * <span style={{ textTransform: 'none', fontWeight: 600, color: '#9ca3af' }}>· per adult</span></label>
+                    <label style={S.label}>Sale Price (OMR) * <span style={{ textTransform: 'none', fontWeight: 600, color: '#9ca3af' }}>· per adult</span></label>
                     <input type="number" value={form.salePrice} onChange={e => setForm(f => ({ ...f, salePrice: e.target.value }))} style={S.input} />
                   </div>
                   <div>
-                    <label style={S.label}>Price per Child (₹)</label>
+                    <label style={S.label}>Price per Child (OMR)</label>
                     <input type="number" value={form.childPrice} onChange={e => setForm(f => ({ ...f, childPrice: e.target.value }))} style={S.input} />
                   </div>
                   <div>
@@ -1695,13 +1654,13 @@ export default function Dashboard() {
         <div style={{ ...S.overlay, alignItems: 'center' }} onClick={e => e.target === e.currentTarget && setModal(null)}>
           <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 500, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', overflow: 'hidden', maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: 'linear-gradient(135deg,#153e2d,#1c2575)', flexShrink: 0 }}>
-              <h2 style={{ fontWeight: 700, fontSize: 16, color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}><MapPin size={16} /> Manage Categories</h2>
+              <h2 style={{ fontWeight: 700, fontSize: 16, color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}><MapPin size={16} /> Manage Destinations</h2>
               <button onClick={() => setModal(null)} style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', border: 'none', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={15} /></button>
             </div>
             <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
               {destinations.length > 0 && (
                 <div style={{ marginBottom: 24 }}>
-                  <label style={S.label}>Existing Categories</label>
+                  <label style={S.label}>Existing Destinations</label>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {destinations.map(d => (
                       <div key={d.id} style={{ borderRadius: 12, border: '1px solid #f3f4f6', background: '#fafafa', overflow: 'hidden' }}>

@@ -7,7 +7,7 @@ import {
 } from 'lucide-react'
 import EnquiryForm from '@/components/EnquiryForm'
 
-function fmt(n) { return '₹' + Number(n || 0).toLocaleString('en-IN') }
+function fmt(n) { return 'OMR ' + Number(n || 0).toLocaleString('en-IN') }
 
 function amenityIcon(name = '') {
   const n = name.toLowerCase()

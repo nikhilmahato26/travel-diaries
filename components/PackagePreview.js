@@ -1,7 +1,7 @@
 'use client'
 import { Clock, MapPin, Tag, Check, CalendarDays, Users, Baby, BedDouble, Info } from 'lucide-react'
 
-function fmt(n) { return '₹' + Number(n || 0).toLocaleString('en-IN') }
+function fmt(n) { return 'OMR ' + Number(n || 0).toLocaleString('en-IN') }
 
 function fmtRange(start, end) {
   if (!start && !end) return ''

@@ -9,7 +9,7 @@ import { Phone, MessageCircle, Clock, MapPin, Check, X, ChevronDown, ChevronUp, 
 import Link from 'next/link'
 
 function fmt(n) {
-  return '₹' + Number(n).toLocaleString('en-IN')
+  return 'OMR ' + Number(n).toLocaleString('en-IN')
 }
 
 function fmtRange(dr) {
@@ -133,7 +133,7 @@ export default function PackagePage({ params }) {
     ? `${pkg.childAgeMin}–${pkg.childAgeMax} yrs`
     : pkg.childAgeMin ? `${pkg.childAgeMin}+ yrs`
     : pkg.childAgeMax ? `up to ${pkg.childAgeMax} yrs` : ''
-  const waChanges = `Hi! I'd like to request changes for ${pkg.title} (${pkg.id})${occSummary ? ` — ${occSummary}` : ''}. Current rate: ₹${Number(pkg.salePrice).toLocaleString('en-IN')}/adult${Number(pkg.childPrice) > 0 ? `, ₹${Number(pkg.childPrice).toLocaleString('en-IN')}/child` : ''}.`
+  const waChanges = `Hi! I'd like to request changes for ${pkg.title} (${pkg.id})${occSummary ? ` — ${occSummary}` : ''}. Current rate: OMR ${Number(pkg.salePrice).toLocaleString('en-IN')}/adult${Number(pkg.childPrice) > 0 ? `, OMR ${Number(pkg.childPrice).toLocaleString('en-IN')}/child` : ''}.`
 
   return (
     <main style={{ minHeight: '100vh', background: '#fff' }}>

@@ -42,7 +42,7 @@ const Footer = () => {
             <ul className="space-y-4 text-gray-400 text-sm">
               <li><Link href="/#home" className="hover:text-[#E34836] transition-colors">Home</Link></li>
               <li><Link href="/#services" className="hover:text-[#E34836] transition-colors">About Us</Link></li>
-              <li><Link href="/#packages" className="hover:text-[#E34836] transition-colors">Tours</Link></li>
+              <li><Link href="/packages" className="hover:text-[#E34836] transition-colors">Tours</Link></li>
               <li><Link href="/cruises" className="hover:text-[#E34836] transition-colors">Cruises</Link></li>
               <li><Link href="/#contact" className="hover:text-[#E34836] transition-colors">Contact</Link></li>
             </ul>
@@ -66,11 +66,11 @@ const Footer = () => {
             <ul className="space-y-5 text-gray-400 text-sm">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-[#E34836] shrink-0" />
-                <span className="leading-relaxed">123 Travel Avenue, Tourism Sector,<br/>New Delhi 110001, India</span>
+                <span className="leading-relaxed">Al Souroh Building, 6511 Way<br/>Al Wadi Al Kabir, Muscat, Oman</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-[#E34836] shrink-0" />
-                <a href="tel:+916238418293" className="hover:text-[#E34836] transition-colors">+91 6238418293</a>
+                <a href="tel:+96895950141" className="hover:text-[#E34836] transition-colors">+968 9595 0141</a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-[#E34836] shrink-0" />

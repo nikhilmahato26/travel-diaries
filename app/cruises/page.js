@@ -11,8 +11,8 @@ export default function CruisesPage() {
       ship: 'Spectrum of the Seas (Royal Caribbean)',
       duration: '4 Nights / 5 Days',
       route: 'Singapore - Penang - Singapore',
-      price: '38,500 INR',
-      oldPrice: '45,000 INR',
+      price: '38,500 OMR',
+      oldPrice: '45,000 OMR',
       image: 'https://images.unsplash.com/photo-1599640842225-85d111c60e6b?auto=format&fit=crop&w=800&q=80',
       highlights: ['FlowRider surf simulator', 'RipCord by iFly skydiving simulator', 'North Star viewing capsule', '20+ dining venues'],
     },
@@ -22,8 +22,8 @@ export default function CruisesPage() {
       ship: 'MSC World Europa (MSC Cruises)',
       duration: '7 Nights / 8 Days',
       route: 'Barcelona - Marseille - Genoa - Naples - Messina - Valletta - Barcelona',
-      price: '78,999 INR',
-      oldPrice: '90,000 INR',
+      price: '78,999 OMR',
+      oldPrice: '90,000 OMR',
       image: 'https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=800&q=80',
       highlights: ['World Promenade with ocean views', 'Futuristic architecture', '13 dining venues', 'Massive aquapark'],
     },
@@ -33,8 +33,8 @@ export default function CruisesPage() {
       ship: 'Discovery Princess (Princess Cruises)',
       duration: '7 Nights / 8 Days',
       route: 'Seattle - Juneau - Skagway - Glacier Bay - Ketchikan - Victoria - Seattle',
-      price: '92,000 INR',
-      oldPrice: '1,05,000 INR',
+      price: '92,000 OMR',
+      oldPrice: '1,05,000 OMR',
       image: 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80',
       highlights: ['Scenic glacier cruising in Glacier Bay', 'Sanctuary adults-only retreat', 'Princess Live! entertainment', 'Chef’s Table Lumiere'],
     },
@@ -44,8 +44,8 @@ export default function CruisesPage() {
       ship: 'Utopia of the Seas (Royal Caribbean)',
       duration: '3 Nights / 4 Days',
       route: 'Port Canaveral - Nassau - Perfect Day at CocoCay - Port Canaveral',
-      price: '48,000 INR',
-      oldPrice: '55,000 INR',
+      price: '48,000 OMR',
+      oldPrice: '55,000 OMR',
       image: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80',
       highlights: ['Exclusive private island CocoCay access', 'Thrill Waterpark with 13 waterslides', '40+ restaurants & bars', 'Central Park neighborhood'],
     },
@@ -55,8 +55,8 @@ export default function CruisesPage() {
       ship: 'Norwegian Joy (Norwegian Cruise Line)',
       duration: '7 Nights / 8 Days',
       route: 'Miami - Roatan - Harvest Caye - Costa Maya - Cozumel - Miami',
-      price: '65,999 INR',
-      oldPrice: '75,000 INR',
+      price: '65,999 OMR',
+      oldPrice: '75,000 OMR',
       image: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=800&q=80',
       highlights: ['Go-kart race track at sea', 'Galaxy Pavilion virtual reality arena', 'Broadway-style shows', 'Exclusive beach at Harvest Caye'],
     },
@@ -66,8 +66,8 @@ export default function CruisesPage() {
       ship: 'MS Fridtjof Nansen (Hurtigruten)',
       duration: '10 Nights / 11 Days',
       route: 'Ushuaia - Drake Passage - Antarctic Peninsula - Ushuaia',
-      price: '4,50,000 INR',
-      oldPrice: '5,10,000 INR',
+      price: '4,50,000 OMR',
+      oldPrice: '5,10,000 OMR',
       image: 'https://images.unsplash.com/photo-1551244072-5d12893278ab?auto=format&fit=crop&w=800&q=80',
       highlights: ['Polar explorer science center', 'Daily landings via rigid inflatable boats', 'Expert expedition lectures', 'Environmentally hybrid engines'],
     },
@@ -162,7 +162,7 @@ export default function CruisesPage() {
                   <span className="text-gray-900 font-heading font-bold text-lg">{cruise.price}</span>
                 </div>
                 <a
-                  href={`https://wa.me/916238418293?text=Hi%20Travel%20Diaries%2C%20I%20am%20interested%20in%20booking%20the%20${encodeURIComponent(cruise.title)}.`}
+                  href={`https://wa.me/96895950141?text=Hi%20Travel%20Diaries%2C%20I%20am%20interested%20in%20booking%20the%20${encodeURIComponent(cruise.title)}.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-[#E34836] text-white hover:bg-red-700 font-semibold px-5 py-2.5 rounded-full text-xs transition-colors shadow-sm flex items-center gap-1"
@@ -190,7 +190,7 @@ export default function CruisesPage() {
             Tell us about your holiday plans and ship preferences. Our team will design a custom itinerary with cabin bookings, shore excursions, and transfers.
           </p>
           <a
-            href="https://wa.me/916238418293?text=Hi%20Travel%20Diaries%2C%20I%20want%20to%20plan%20a%20customized%20cruise%20holiday."
+            href="https://wa.me/96895950141?text=Hi%20Travel%20Diaries%2C%20I%20want%20to%20plan%20a%20customized%20cruise%20holiday."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white px-8 py-4 rounded-full font-semibold transition-colors shadow-md hover:shadow-lg text-sm"

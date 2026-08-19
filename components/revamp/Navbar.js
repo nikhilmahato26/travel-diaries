@@ -24,7 +24,7 @@ const Navbar = () => {
     { name: 'Home', href: '/#home' },
     { name: 'About', href: '/#services' },
     { name: 'Destination', href: '/#destinations' },
-    { name: 'Packages', href: '/#packages' },
+    { name: 'Packages', href: '/packages' },
     { name: 'Cruises', href: '/cruises' },
   ];
 
@@ -70,8 +70,8 @@ const Navbar = () => {
             </div>
             
             <div className="flex items-center space-x-6">
-              <a href="tel:+916238418293" className={`flex items-center text-[15px] font-semibold transition-colors hover:text-[#E34836] ${isScrolled ? 'text-gray-800' : 'text-white'}`}>
-                +91 6238418293
+              <a href="tel:+96895950141" className={`flex items-center text-[15px] font-semibold transition-colors hover:text-[#E34836] ${isScrolled ? 'text-gray-800' : 'text-white'}`}>
+                +968 9595 0141
               </a>
               <Link
                 href="/#contact"
@@ -112,8 +112,8 @@ const Navbar = () => {
             </Link>
           ))}
           <div className="pt-4 border-t border-gray-100 flex flex-col gap-4">
-             <a href="tel:+916238418293" className="text-gray-800 font-semibold text-lg">
-                +91 6238418293
+             <a href="tel:+96895950141" className="text-gray-800 font-semibold text-lg">
+                +968 9595 0141
              </a>
             <Link
               href="/#contact"

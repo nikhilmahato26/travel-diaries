@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import { Eye, EyeOff, LogIn } from 'lucide-react'
 import Link from 'next/link'
 
@@ -39,82 +38,111 @@ export default function AdminLogin() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, background: '#fbf8f1' }}>
-      <div style={{ width: '100%', maxWidth: 420 }}>
-        <div style={{ background: '#fff', borderRadius: 24, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.12)' }}>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 font-body relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-red-100/50 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-orange-100/50 rounded-full blur-3xl pointer-events-none" />
 
+      <div className="w-full max-w-md relative z-10">
+        <div className="bg-white rounded-[2rem] overflow-hidden shadow-2xl border border-gray-100">
+          
           {/* Header */}
-          <div style={{ padding: '32px 32px 24px', textAlign: 'center', background: 'linear-gradient(135deg,#153e2d,#1c2575)' }}>
-            <div style={{ width: 74, height: 74, borderRadius: '50%', overflow: 'hidden', border: '4px solid rgba(255,255,255,0.3)', margin: '0 auto 12px' , background:'#ffffff'}}>
-              <Image src="/logo.png" alt="Triphoga" width={64} height={64} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <div className="px-8 pt-10 pb-8 text-center bg-gray-900 relative overflow-hidden">
+            {/* Pattern overlay */}
+            <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
+            
+            <div className="relative z-10 flex flex-col items-center">
+              {/* Logo */}
+              <div className="flex items-center gap-3 mb-8">
+                <div className="bg-[#E34836] p-3 rounded-xl text-white shadow-lg shadow-red-500/30">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z" />
+                  </svg>
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="font-body font-bold text-lg tracking-[0.25em] uppercase leading-none text-white">Travel</span>
+                  <span className="text-[#E34836] font-heading font-semibold italic text-xl leading-none mt-0.5">diaries</span>
+                </div>
+              </div>
+              
+              <h1 className="font-heading font-bold text-2xl text-white mb-1.5">Welcome Back</h1>
+              <p className="text-sm text-gray-400 font-medium">Log in to the Admin Panel</p>
             </div>
-            <h1 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 20, color: '#fff', marginBottom: 4 }}>Triphoga</h1>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>Admin Panel</p>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleLogin} style={{ padding: '28px 32px 32px' }}>
-            <div style={{ marginBottom: 18 }}>
-              <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Username</label>
+          <form onSubmit={handleLogin} className="p-8">
+            <div className="mb-5">
+              <label className="block text-sm font-bold text-gray-700 mb-2">Username</label>
               <input
-                type="text" value={username} onChange={e => setUsername(e.target.value)} required
-                placeholder="admin"
-                style={{
-                  width: '100%', padding: '11px 14px', borderRadius: 12,
-                  border: '1.5px solid #e5e7eb', fontSize: 14, color: '#111',
-                  background: '#f9fafb', outline: 'none', boxSizing: 'border-box',
-                }}
+                type="text"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                required
+                placeholder="Enter your username"
+                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 text-sm text-gray-900 bg-gray-50 focus:bg-white focus:outline-none focus:border-[#E34836] focus:ring-4 focus:ring-red-500/10 transition-all font-medium placeholder-gray-400"
               />
             </div>
 
-            <div style={{ marginBottom: 20 }}>
-              <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Password</label>
-              <div style={{ position: 'relative' }}>
+            <div className="mb-6">
+              <label className="block text-sm font-bold text-gray-700 mb-2">Password</label>
+              <div className="relative">
                 <input
-                  type={show ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} required
+                  type={show ? 'text' : 'password'}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  required
                   placeholder="••••••••"
-                  style={{
-                    width: '100%', padding: '11px 44px 11px 14px', borderRadius: 12,
-                    border: '1.5px solid #e5e7eb', fontSize: 14, color: '#111',
-                    background: '#f9fafb', outline: 'none', boxSizing: 'border-box',
-                  }}
+                  className="w-full pl-4 pr-12 py-3.5 rounded-xl border border-gray-200 text-sm text-gray-900 bg-gray-50 focus:bg-white focus:outline-none focus:border-[#E34836] focus:ring-4 focus:ring-red-500/10 transition-all font-medium placeholder-gray-400"
                 />
                 <button
-                  type="button" onClick={() => setShow(!show)}
-                  style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', display: 'flex' }}
+                  type="button"
+                  onClick={() => setShow(!show)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-2"
                 >
-                  {show ? <EyeOff size={17} /> : <Eye size={17} />}
+                  {show ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
 
             {error && (
-              <div style={{ padding: '10px 14px', borderRadius: 10, background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', fontSize: 13, marginBottom: 16 }}>
+              <div className="p-3 mb-6 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm font-semibold flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                 {error}
               </div>
             )}
 
             <button
-              type="submit" disabled={loading}
-              style={{
-                width: '100%', padding: '13px 0', borderRadius: 12, border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
-                background: 'linear-gradient(135deg,#7e5233,#c93d00)', color: '#fff',
-                fontWeight: 700, fontSize: 15, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                opacity: loading ? 0.7 : 1,
-              }}
+              type="submit"
+              disabled={loading}
+              className={`w-full py-3.5 rounded-xl text-white font-bold text-[15px] flex items-center justify-center gap-2 transition-all shadow-md shadow-red-500/20 ${
+                loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#E34836] hover:bg-red-700 hover:shadow-lg hover:shadow-red-500/30 hover:-translate-y-0.5'
+              }`}
             >
-              {loading
-                ? <><span style={{ width: 16, height: 16, border: '2.5px solid rgba(255,255,255,0.3)', borderTop: '2.5px solid #fff', borderRadius: '50%', animation: 'spin 1s linear infinite', display: 'inline-block' }} /> Signing in...</>
-                : <><LogIn size={16} /> Sign In</>
-              }
+              {loading ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Signing in...
+                </>
+              ) : (
+                <>
+                  <LogIn size={18} /> Sign In
+                </>
+              )}
             </button>
-            <div style={{ textAlign: 'center', marginTop: 14 }}>
-              <Link href="/admin/forgot-password" style={{ fontSize: 13, color: '#9ca3af', textDecoration: 'none', fontWeight: 600 }}>
-                Forgot password?
+
+            <div className="text-center mt-6">
+              <Link href="/admin/forgot-password" className="text-sm text-gray-500 hover:text-[#E34836] font-semibold transition-colors">
+                Forgot your password?
               </Link>
             </div>
           </form>
         </div>
+        
+        {/* Footer text */}
+        <p className="text-center text-sm font-medium text-gray-400 mt-8">
+          &copy; {new Date().getFullYear()} Travel Diaries. All rights reserved.
+        </p>
       </div>
     </div>
   )

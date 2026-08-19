@@ -2,7 +2,6 @@
 import Navbar from '@/components/revamp/Navbar'
 import Hero from '@/components/revamp/Hero'
 import About from '@/components/revamp/About'
-import Packages from '@/components/revamp/Packages'
 import Destinations from '@/components/revamp/Destinations'
 import Contact from '@/components/revamp/Contact'
 import Footer from '@/components/revamp/Footer'
@@ -14,7 +13,6 @@ export default function HomePage() {
       <Navbar />
       <Hero />
       <About />
-      <Packages />
       <Destinations />
       <Contact />
       <Footer />

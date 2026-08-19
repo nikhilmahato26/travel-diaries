@@ -48,7 +48,7 @@ const EMPTY_PKG = {
   checkIn: '', checkOut: '', frontDesk: '', childPolicy: '', cribsExtraBeds: '', finePrint: '',
 }
 
-function fmt(n) { return '₹' + Number(n).toLocaleString('en-IN') }
+function fmt(n) { return 'OMR ' + Number(n).toLocaleString('en-IN') }
 
 const STATUS_CONFIG = {
   pending:  { label: 'Under Review', color: '#f59e0b', bg: '#fffbeb', icon: Clock },
@@ -496,15 +496,15 @@ export default function AgencyDashboard() {
                     <input value={form.hotels} onChange={e => setForm(f => ({ ...f, hotels: e.target.value }))} style={S.input} placeholder="e.g. 2N Munnar · 1N Thekkady" />
                   </div>
                   <div>
-                    <label style={S.label}>Original Price (₹) *</label>
+                    <label style={S.label}>Original Price (OMR) *</label>
                     <input type="number" value={form.originalPrice} onChange={e => setForm(f => ({ ...f, originalPrice: e.target.value }))} style={S.input} placeholder="15000" />
                   </div>
                   <div>
-                    <label style={S.label}>Sale Price (₹) * <span style={{ textTransform: 'none', fontWeight: 600, color: '#9ca3af' }}>· per adult</span></label>
+                    <label style={S.label}>Sale Price (OMR) * <span style={{ textTransform: 'none', fontWeight: 600, color: '#9ca3af' }}>· per adult</span></label>
                     <input type="number" value={form.salePrice} onChange={e => setForm(f => ({ ...f, salePrice: e.target.value }))} style={S.input} placeholder="12000" />
                   </div>
                   <div>
-                    <label style={S.label}>Price per Child (₹)</label>
+                    <label style={S.label}>Price per Child (OMR)</label>
                     <input type="number" value={form.childPrice} onChange={e => setForm(f => ({ ...f, childPrice: e.target.value }))} style={S.input} placeholder="6000" />
                   </div>
                   <div>

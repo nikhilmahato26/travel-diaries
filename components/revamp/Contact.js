@@ -29,7 +29,7 @@ const Contact = () => {
                 <div>
                   <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider block mb-1">Location</span>
                   <p className="text-gray-800 text-sm font-medium leading-relaxed">
-                    C-53, Second Floor, Chander Nagar,<br />Janak Puri, New Delhi - 110058
+                    Al Souroh Building, 6511 Way<br />Al Wadi Al Kabir, Muscat, Oman
                   </p>
                 </div>
               </div>
@@ -41,8 +41,8 @@ const Contact = () => {
                 </div>
                 <div>
                   <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider block mb-1">Phone</span>
-                  <a href="tel:+916238418293" className="text-gray-800 text-sm font-bold hover:text-[#E34836] transition-colors">
-                    +91 6238418293
+                  <a href="tel:+96895950141" className="text-gray-800 text-sm font-bold hover:text-[#E34836] transition-colors">
+                    +968 9595 0141
                   </a>
                 </div>
               </div>
@@ -63,7 +63,7 @@ const Contact = () => {
 
             <div className="pt-4">
               <a 
-                href="https://wa.me/916238418293?text=Hi%20Travel%20Diaries%2C%20I%20want%20to%20inquire%20about%20a%20travel%20package." 
+                href="https://wa.me/96895950141?text=Hi%20Travel%20Diaries%2C%20I%20want%20to%20inquire%20about%20a%20travel%20package." 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white px-8 py-3.5 rounded-full font-semibold transition-colors shadow-md hover:shadow-lg"
