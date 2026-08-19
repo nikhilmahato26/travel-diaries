@@ -3,6 +3,9 @@ import Navbar from '@/components/revamp/Navbar'
 import Hero from '@/components/revamp/Hero'
 import About from '@/components/revamp/About'
 import Destinations from '@/components/revamp/Destinations'
+import Packages from '@/components/revamp/Packages'
+import UpcomingTrips from '@/components/revamp/UpcomingTrips'
+import VideoTestimonials from '@/components/revamp/VideoTestimonials'
 import Contact from '@/components/revamp/Contact'
 import Footer from '@/components/revamp/Footer'
 import FloatingWhatsApp from '@/components/FloatingWhatsApp'
@@ -14,6 +17,9 @@ export default function HomePage() {
       <Hero />
       <About />
       <Destinations />
+      <Packages />
+      <UpcomingTrips />
+      <VideoTestimonials />
       <Contact />
       <Footer />
       <FloatingWhatsApp />

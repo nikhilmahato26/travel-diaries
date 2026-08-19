@@ -26,6 +26,7 @@ const Navbar = () => {
     { name: 'Destination', href: '/#destinations' },
     { name: 'Packages', href: '/#packages' },
     { name: 'Cruises', href: '/cruises' },
+    { name: 'Upcoming Trips', href: '/#upcoming-trips' },
   ];
 
   return (
@@ -70,11 +71,8 @@ const Navbar = () => {
             </div>
             
             <div className="flex items-center space-x-6">
-              <a href="tel:+96895950141" className={`flex items-center text-[15px] font-semibold transition-colors hover:text-[#E34836] ${isScrolled ? 'text-gray-800' : 'text-white'}`}>
-                +968 9595 0141
-              </a>
               <Link
-                href="/#contact"
+                href="tel:+96895950141"
                 className="bg-[#E34836] text-white px-6 py-2.5 rounded-full text-[15px] font-medium hover:bg-red-700 transition-colors"
               >
                 Talk to us
@@ -112,11 +110,8 @@ const Navbar = () => {
             </Link>
           ))}
           <div className="pt-4 border-t border-gray-100 flex flex-col gap-4">
-             <a href="tel:+96895950141" className="text-gray-800 font-semibold text-lg">
-                +968 9595 0141
-             </a>
             <Link
-              href="/#contact"
+              href="tel:+96895950141"
               className="bg-[#E34836] text-white px-6 py-3 rounded-full font-medium hover:bg-red-700 transition-colors text-center block text-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             >

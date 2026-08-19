@@ -21,7 +21,7 @@ const Hero = () => {
       {/* Central Content */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 text-center">
         <h1 className="text-white font-heading font-bold text-5xl md:text-7xl lg:text-8xl leading-tight mb-6">
-          Unforgettable Travel
+          Let's Travel Together
         </h1>
         <p className="text-white/90 text-lg md:text-2xl font-medium mb-8 max-w-2xl">
           Discover the world's most amazing destinations with us.

@@ -1,53 +1,42 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { use } from 'react'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+import { useEffect, useState, use } from 'react'
+import Navbar from '@/components/revamp/Navbar'
+import Footer from '@/components/revamp/Footer'
 import HomestayDetail from '@/components/HomestayDetail'
 import { usePhone, useWhatsapp } from '@/hooks/useSettings'
-import { Phone, MessageCircle, Clock, MapPin, Check, X, ChevronDown, ChevronUp, ArrowLeft, Send, User, Info, Users, Baby, BedDouble } from 'lucide-react'
+import { MapPin, User, ChevronDown, ChevronUp, Share2 } from 'lucide-react'
 import Link from 'next/link'
 
 function fmt(n) {
-  return 'OMR ' + Number(n).toLocaleString('en-IN')
-}
-
-function fmtRange(dr) {
-  if (typeof dr === 'string') return dr
-  const { start, end } = dr || {}
-  if (!start && !end) return ''
-  const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-  const f = d => { const dt = new Date(d + 'T00:00:00'); return `${dt.getDate()} ${M[dt.getMonth()]}, ${dt.getFullYear()}` }
-  const s = start ? f(start) : '', e = end ? f(end) : ''
-  return s && e ? `${s} – ${e}` : s || e
-}
-function groupMonth(group) {
-  if (group.month) return group.month
-  const first = group.dates?.[0]
-  const start = first ? (typeof first === 'string' ? '' : first.start) : ''
-  if (!start) return ''
-  const dt = new Date(start + 'T00:00:00')
-  return dt.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })
+  return Number(n).toLocaleString('en-IN')
 }
 
 const INPUT = {
-  width: '100%', padding: '11px 14px', borderRadius: 10,
-  border: '1.5px solid #e5e7eb', fontSize: 14, color: '#111',
+  width: '100%', padding: '14px 16px', borderRadius: 12,
+  border: '1px solid #e5e7eb', fontSize: 14, color: '#111',
   background: '#f9fafb', outline: 'none', boxSizing: 'border-box',
   fontFamily: 'inherit',
 }
+
+const WhatsAppIcon = () => (
+  <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+  </svg>
+)
 
 export default function PackagePage({ params }) {
   const { id } = use(params)
   const [pkg, setPkg] = useState(null)
   const [openDay, setOpenDay] = useState(0)
+  const [activeTab, setActiveTab] = useState('itinerary')
   const [loading, setLoading] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
+  
   const phone = usePhone()
   const whatsapp = useWhatsapp()
 
-  const [enquiry, setEnquiry] = useState({ name: '', phone: '', email: '', message: '' })
-  const [enquiryStatus, setEnquiryStatus] = useState(null) // null | 'sending' | 'sent' | 'error'
+  const [enquiry, setEnquiry] = useState({ name: '', phone: '', email: '', date: '', message: '' })
+  const [enquiryStatus, setEnquiryStatus] = useState(null)
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 1024)
@@ -68,9 +57,12 @@ export default function PackagePage({ params }) {
     e.preventDefault()
     if (!enquiry.name.trim() || !enquiry.phone.trim()) return
     setEnquiryStatus('sending')
-    const msgWithId = enquiry.message.trim()
-      ? `${enquiry.message.trim()}\n\nPackage ID: ${pkg.id}`
-      : `Package ID: ${pkg.id}`
+    const msgWithId = [
+      enquiry.date ? `Travel Date: ${enquiry.date}` : '',
+      enquiry.message.trim(),
+      `Package ID: ${pkg.id}`
+    ].filter(Boolean).join('\n\n')
+    
     try {
       const res = await fetch('/api/enquiries', {
         method: 'POST',
@@ -84,7 +76,8 @@ export default function PackagePage({ params }) {
       })
       if (res.ok) {
         setEnquiryStatus('sent')
-        setEnquiry({ name: '', phone: '', email: '', message: '' })
+        setEnquiry({ name: '', phone: '', email: '', date: '', message: '' })
+        setTimeout(() => setEnquiryStatus(null), 3000)
       } else {
         setEnquiryStatus('error')
       }
@@ -96,528 +89,338 @@ export default function PackagePage({ params }) {
   if (loading) return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f9fafb' }}>
       <div style={{ textAlign: 'center' }}>
-        <div style={{ width: 40, height: 40, border: '3px solid #fbf8f1', borderTop: '3px solid #7e5233', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 12px' }} />
+        <div style={{ width: 40, height: 40, border: '3px solid #fbf8f1', borderTop: '3px solid #E34836', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 12px' }} />
         <p style={{ color: '#9ca3af' }}>Loading package...</p>
       </div>
     </div>
   )
 
   if (!pkg) return (
-    <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f9fafb' }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 64, marginBottom: 16 }}>🗺️</div>
-        <h2 style={{ fontSize: 24, fontWeight: 700, color: '#374151', marginBottom: 8 }}>Package not found</h2>
-        <Link href="/" style={{ color: '#7e5233', textDecoration: 'underline' }}>← Back to home</Link>
+    <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f9fafb' }}>
+      <Navbar />
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+        <div>
+          <div style={{ fontSize: 64, marginBottom: 16 }}>🗺️</div>
+          <h2 style={{ fontSize: 24, fontWeight: 700, color: '#374151', marginBottom: 8 }}>Package not found</h2>
+          <Link href="/" style={{ color: '#E34836', textDecoration: 'underline' }}>← Back to home</Link>
+        </div>
       </div>
+      <Footer />
     </main>
   )
 
   if (pkg.category === 'homestay' || pkg.category === 'houseboat') return (
     <main style={{ minHeight: '100vh', background: '#fff' }}>
-      <Navbar big />
+      <Navbar />
       <HomestayDetail pkg={pkg} phone={phone} whatsapp={whatsapp} isMobile={isMobile} />
       <Footer />
     </main>
   )
 
-  const waMsg = `Hi! I want to book ${pkg.title} (${pkg.id}) — ${!isNaN(pkg.duration) && pkg.duration !== '' ? pkg.duration + ' Days' : pkg.duration} — ${fmt(pkg.salePrice)}/person`
+  const travelers = (Number(pkg.adults) || 0) + (Number(pkg.children) || 0)
+  const travelerText = travelers > 0 ? `${travelers} Pax` : '2 Pax'
 
-  const occParts = [
-    Number(pkg.rooms) > 0 && `${pkg.rooms} room${Number(pkg.rooms) !== 1 ? 's' : ''}`,
-    Number(pkg.adults) > 0 && `${pkg.adults} adult${Number(pkg.adults) !== 1 ? 's' : ''}`,
-    Number(pkg.children) > 0 && `${pkg.children} child${Number(pkg.children) !== 1 ? 'ren' : ''}`,
-  ].filter(Boolean)
-  const occSummary = occParts.join(', ')
-  const hasBreakdown = Number(pkg.salePrice) > 0 && (Number(pkg.adults) > 0 || Number(pkg.children) > 0 || Number(pkg.childPrice) > 0)
-  const childAgeLabel = (pkg.childAgeMin && pkg.childAgeMax)
-    ? `${pkg.childAgeMin}–${pkg.childAgeMax} yrs`
-    : pkg.childAgeMin ? `${pkg.childAgeMin}+ yrs`
-    : pkg.childAgeMax ? `up to ${pkg.childAgeMax} yrs` : ''
-  const waChanges = `Hi! I'd like to request changes for ${pkg.title} (${pkg.id})${occSummary ? ` — ${occSummary}` : ''}. Current rate: OMR ${Number(pkg.salePrice).toLocaleString('en-IN')}/adult${Number(pkg.childPrice) > 0 ? `, OMR ${Number(pkg.childPrice).toLocaleString('en-IN')}/child` : ''}.`
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: pkg.title,
+        url: window.location.href
+      }).catch(() => {})
+    } else {
+      navigator.clipboard.writeText(window.location.href)
+      alert('Link copied to clipboard')
+    }
+  }
 
   return (
-    <main style={{ minHeight: '100vh', background: '#fff' }}>
+    <main style={{ minHeight: '100vh', background: '#fafafa', fontFamily: 'Inter, sans-serif' }}>
       <Navbar />
 
-      {/* Hero */}
-      <div style={{ position: 'relative', height: isMobile ? '45vh' : '55vh', minHeight: 280, overflow: 'hidden' }}>
+      {/* Hero Section */}
+      <div style={{ position: 'relative', height: '40vh', minHeight: 320, overflow: 'hidden' }}>
         <img
           src={pkg.heroImage || pkg.image}
           alt={pkg.title}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: (pkg.heroImage ? pkg.heroImagePos : pkg.imagePos) || 'center', filter: 'brightness(0.45)' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: (pkg.heroImage ? pkg.heroImagePos : pkg.imagePos) || 'center' }}
           onError={e => { e.target.src = 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=1400&q=85' }}
         />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)' }} />
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'flex-end' }}>
-          <div style={{ maxWidth: 1280, margin: '0 auto', padding: isMobile ? '0 16px 24px' : '0 24px 40px', width: '100%' }}>
-            <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 16, textDecoration: 'none' }}>
-              <ArrowLeft size={14} /> Back to packages
-            </Link>
-            <div style={{ display: 'flex', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 12px', borderRadius: 999, background: pkg.badgeColor + 'cc', color: '#fff', fontSize: 12, fontWeight: 600 }}>
-                <MapPin size={10} /> {pkg.destination}
-              </span>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 12px', borderRadius: 999, background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)', color: '#fff', fontSize: 12, fontWeight: 600 }}>
-                <Clock size={10} /> {!isNaN(pkg.duration) && pkg.duration !== '' ? pkg.duration + ' Days' : pkg.duration}
-              </span>
-            </div>
-            <h1 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 800, fontSize: isMobile ? 'clamp(1.5rem, 6vw, 2.2rem)' : 'clamp(1.8rem, 5vw, 3.5rem)', color: '#fff', marginBottom: 6, lineHeight: 1.1 }}>
-              {pkg.title}
-            </h1>
-            <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: isMobile ? 14 : 18 }}>{pkg.subtitle}</p>
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)' }} />
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+          <h1 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 800, fontSize: isMobile ? 40 : 64, color: '#fff', marginBottom: 12, textAlign: 'center' }}>
+            Tour Details
+          </h1>
+          <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, display: 'flex', gap: 8, alignItems: 'center' }}>
+            <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Home</Link>
+            <span>›</span>
+            <span>Tour Details</span>
           </div>
         </div>
       </div>
 
-      {/* Body */}
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: isMobile ? '24px 16px 130px' : '48px 24px 80px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'minmax(0,2fr) minmax(0,1fr)', gap: isMobile ? 32 : 40 }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '30px 16px 80px' : '50px 24px 100px' }}>
+        
+        {/* Title & Info Section */}
+        <div style={{ marginBottom: 40 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 20, marginBottom: 30 }}>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 800, fontSize: isMobile ? 28 : 42, color: '#111827', margin: 0, lineHeight: 1.2 }}>
+              {pkg.title}
+            </h2>
+            <button onClick={handleShare} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 20px', borderRadius: 999, border: '1px solid #ef4444', color: '#ef4444', background: 'transparent', cursor: 'pointer', fontWeight: 600, fontSize: 14, flexShrink: 0 }}>
+              Share <Share2 size={14} />
+            </button>
+          </div>
 
-          {/* Left column */}
-          <div style={{ minWidth: 0 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: isMobile ? 16 : 40, borderBottom: '1px solid #e5e7eb', paddingBottom: 30 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={{ width: 44, height: 44, borderRadius: '50%', border: '1px solid #fecaca', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <MapPin size={20} style={{ color: '#ef4444' }} />
+              </div>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>Location</div>
+                <div style={{ fontSize: 13, color: '#6b7280' }}>{pkg.destination || 'Multiple'}</div>
+              </div>
+            </div>
 
-            {/* Overview */}
-            <section style={{ marginBottom: 36 }}>
-              <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: isMobile ? 20 : 24, color: '#111', marginBottom: 12 }}>Overview</h2>
-              <p style={{ color: '#4b5563', lineHeight: 1.8, fontSize: 15 }}>{pkg.overview}</p>
-            </section>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={{ width: 44, height: 44, borderRadius: '50%', border: '1px solid #fecaca', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <User size={20} style={{ color: '#ef4444' }} />
+              </div>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>Traveler</div>
+                <div style={{ fontSize: 13, color: '#6b7280' }}>{travelerText}</div>
+              </div>
+            </div>
 
-            {/* Highlights */}
-            {pkg.highlights?.length > 0 && (
-              <section style={{ marginBottom: 36 }}>
-                <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: isMobile ? 20 : 24, color: '#111', marginBottom: 14 }}>Highlights</h2>
-                <ul style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 10, listStyle: 'none', padding: 0, margin: 0 }}>
-                  {pkg.highlights.map((h, i) => (
-                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 14, color: '#374151' }}>
-                      <span style={{ width: 20, height: 20, borderRadius: '50%', background: '#fff5ef', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
-                        <Check size={10} style={{ color: '#7e5233' }} strokeWidth={3} />
-                      </span>
-                      {h}
+            <div style={{ marginLeft: isMobile ? 0 : 'auto', width: isMobile ? '100%' : 'auto' }}>
+              <div style={{ padding: '14px 28px', borderRadius: 999, background: '#ef4444', color: '#fff', fontWeight: 700, fontSize: 16, textAlign: 'center' }}>
+                ₹ Starting from {fmt(pkg.salePrice)} / Per Person
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content Layout */}
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr', gap: isMobile ? 40 : 40 }}>
+          
+          {/* Left Column */}
+          <div>
+            {/* Top Inclusions & Exclusions */}
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 30, marginBottom: 40 }}>
+              <div>
+                <h3 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 800, fontSize: 28, color: '#111827', margin: '0 0 20px' }}>Inclusion</h3>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  {pkg.inclusions?.map((item, i) => (
+                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 15, color: '#4b5563', fontWeight: 500 }}>
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#f59e0b', flexShrink: 0, marginTop: 8 }} />
+                      {item}
                     </li>
                   ))}
+                  {!pkg.inclusions?.length && <li style={{ fontSize: 14, color: '#9ca3af' }}>No inclusions specified</li>}
                 </ul>
-              </section>
-            )}
+              </div>
+              <div>
+                <h3 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 800, fontSize: 28, color: '#111827', margin: '0 0 20px' }}>Exclusion</h3>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  {pkg.exclusions?.map((item, i) => (
+                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 15, color: '#4b5563', fontWeight: 500 }}>
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#ef4444', flexShrink: 0, marginTop: 8 }} />
+                      {item}
+                    </li>
+                  ))}
+                  {!pkg.exclusions?.length && <li style={{ fontSize: 14, color: '#9ca3af' }}>No exclusions specified</li>}
+                </ul>
+              </div>
+            </div>
 
-            {/* Note */}
-            {pkg.note?.trim() && (
-              <section style={{ marginBottom: 28 }}>
-                <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 12, padding: '10px 14px', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                  <Info size={15} style={{ color: '#f59e0b', flexShrink: 0, marginTop: 2 }} />
-                  <p style={{ color: '#92400e', fontSize: 13, lineHeight: 1.55, whiteSpace: 'pre-wrap', margin: 0 }}><strong>Note: </strong>{pkg.note}</p>
-                </div>
-              </section>
-            )}
+            {/* Tabbed Card */}
+            <div style={{ background: '#fff', borderRadius: 24, padding: isMobile ? 24 : 40, boxShadow: '0 4px 24px rgba(0,0,0,0.03)' }}>
+              
+              {/* Tabs */}
+              <div style={{ display: 'flex', gap: 40, borderBottom: '1px solid #f3f4f6', marginBottom: 30, overflowX: 'auto', paddingBottom: 16 }}>
+                {['itinerary', 'inclusion', 'exclusion'].map(tab => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    style={{
+                      background: 'none', border: 'none', padding: 0, position: 'relative',
+                      fontSize: 13, fontWeight: activeTab === tab ? 600 : 500,
+                      color: activeTab === tab ? '#ef4444' : '#6b7280',
+                      cursor: 'pointer', textTransform: 'capitalize', whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {tab}
+                    {activeTab === tab && (
+                      <div style={{ position: 'absolute', bottom: -17, left: 0, right: 0, height: 2, background: '#ef4444' }} />
+                    )}
+                  </button>
+                ))}
+              </div>
 
-            {/* Available Dates — Group Packages */}
-            {pkg.category === 'group' && pkg.availableDates?.length > 0 && (() => {
-              // Flatten all date ranges and re-group by actual calendar month
-              const allDates = pkg.availableDates.flatMap(g => (g.dates || []))
-              const validDates = allDates.filter(dr => fmtRange(dr))
-              if (!validDates.length) return null
-
-              const monthMap = {}
-              const monthOrder = []
-              for (const dr of validDates) {
-                const d = typeof dr === 'object' ? dr : { start: '', end: dr || '' }
-                const monthKey = d.start
-                  ? new Date(d.start + 'T00:00:00').toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })
-                  : 'Upcoming'
-                if (!monthMap[monthKey]) { monthMap[monthKey] = []; monthOrder.push(monthKey) }
-                monthMap[monthKey].push(dr)
-              }
-
-              return (
-                <section style={{ marginBottom: 36 }}>
-                  <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: isMobile ? 20 : 24, color: '#111', marginBottom: 16 }}>Available Departures</h2>
-                  <div style={{ border: '1px solid #e5e7eb', borderRadius: 16, overflow: 'hidden' }}>
-                    {monthOrder.map((month, mi) => (
-                      <div key={month} style={{ borderBottom: mi < monthOrder.length - 1 ? '1px solid #e5e7eb' : 'none' }}>
-                        {/* Month header */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px', background: 'linear-gradient(135deg,#fff5ef,#fef3ec)', borderBottom: '1px solid #fbd0b5' }}>
-                          <span style={{ fontSize: 15 }}>📅</span>
-                          <span style={{ fontWeight: 700, fontSize: 13, color: '#c93d00', letterSpacing: '0.03em' }}>{month}</span>
-                        </div>
-                        {/* Date rows */}
-                        {monthMap[month].map((dr, di) => (
-                          <div key={di} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 18px', background: di % 2 === 0 ? '#fff' : '#fafafa', borderBottom: di < monthMap[month].length - 1 ? '1px solid #f3f4f6' : 'none', gap: 12 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#2e9e7a', flexShrink: 0 }} />
-                              <span style={{ fontSize: 14, color: '#374151', fontWeight: 500 }}>{fmtRange(dr)}</span>
+              {/* Tab Content */}
+              {activeTab === 'itinerary' && (
+                <div>
+                  <h3 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 800, fontSize: 28, color: '#111827', margin: '0 0 24px' }}>Itinerary</h3>
+                  
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                    {pkg.itinerary?.map((day, i) => {
+                      const acts = (day.activities || []).map(a => typeof a === 'string' ? a : a.title)
+                      const isOpen = openDay === i
+                      
+                      return (
+                        <div key={i} style={{ borderRadius: 16, overflow: 'hidden', border: isOpen ? 'none' : '1px solid #f3f4f6', background: isOpen ? '#ef4444' : '#f9fafb', transition: 'all 0.2s' }}>
+                          <button
+                            onClick={() => setOpenDay(isOpen ? -1 : i)}
+                            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', color: isOpen ? '#fff' : '#111827' }}
+                          >
+                            <span style={{ fontWeight: 700, fontSize: 15 }}>Day {day.day} : {day.title}</span>
+                            <div style={{ width: 32, height: 32, borderRadius: '50%', background: isOpen ? 'rgba(255,255,255,0.2)' : '#fff', border: isOpen ? 'none' : '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                              {isOpen ? <ChevronUp size={18} color="#fff" /> : <ChevronDown size={18} color="#9ca3af" />}
                             </div>
-                            <a
-                              href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(`Hi! I want to reserve the following package:\n\nPackage: ${pkg.title}\nPackage ID: ${pkg.id}\nDate: ${fmtRange(dr)}`)}`}
-                              target="_blank" rel="noopener noreferrer"
-                              style={{ padding: '7px 18px', borderRadius: 999, background: 'linear-gradient(135deg,#2e9e7a,#1e7a5e)', color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0 }}
-                            >
-                              Reserve
-                            </a>
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )
-            })()}
-
-            {/* Itinerary */}
-            {pkg.itinerary?.length > 0 && (
-              <section style={{ marginBottom: 36 }}>
-                <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: isMobile ? 20 : 24, color: '#111', marginBottom: 18 }}>
-                  Day-wise Itinerary
-                </h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {pkg.itinerary.map((day, i) => {
-                    const acts = (day.activities || []).map(a => typeof a === 'string' ? { time: '', emoji: '', title: a, details: [], tags: [] } : a)
-                    return (
-                      <div key={i} style={{ border: '1px solid', borderColor: openDay === i ? '#fbd0b5' : '#f3f4f6', borderRadius: 16, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}>
-                        <button
-                          onClick={() => setOpenDay(openDay === i ? -1 : i)}
-                          style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', background: openDay === i ? '#fff8f5' : '#fff', border: 'none', cursor: 'pointer', textAlign: 'left' }}
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                            <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'linear-gradient(135deg,#7e5233,#c93d00)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
-                              {day.day}
-                            </div>
-                            <div>
-                              <div style={{ fontSize: 11, color: '#9ca3af', fontWeight: 600 }}>Day {day.day}</div>
-                              <div style={{ fontSize: 14, fontWeight: 600, color: '#111' }}>{day.title}</div>
-                            </div>
-                          </div>
-                          {openDay === i ? <ChevronUp size={16} style={{ color: '#9ca3af', flexShrink: 0 }} /> : <ChevronDown size={16} style={{ color: '#9ca3af', flexShrink: 0 }} />}
-                        </button>
-                        {openDay === i && (
-                          <div style={{ padding: '0 16px 20px', borderTop: '1px solid #f9f0eb' }}>
-                            {day.image && (
-                              <img src={day.image} alt={day.title} onError={e => e.target.style.display = 'none'}
-                                style={{ width: '100%', height: isMobile ? 280 : 440, objectFit: 'cover', objectPosition: day.imagePos || 'center', borderRadius: 10, marginTop: 14, marginBottom: 14 }} />
-                            )}
-                            {day.description && (
-                              <p style={{ color: '#6b7280', fontSize: 13, lineHeight: 1.7, marginTop: 14, marginBottom: acts.length ? 20 : 0, padding: '0 2px' }}>{day.description}</p>
-                            )}
-                            {/* Timeline */}
-                            {acts.length > 0 && (
-                              <div style={{ position: 'relative', paddingLeft: 0, marginTop: day.description ? 0 : 14 }}>
-                                {/* Vertical line */}
-                                <div style={{ position: 'absolute', left: 44, top: 0, bottom: day.hotel ? 40 : 0, width: 2, background: '#fbf8f1', zIndex: 0 }} />
-                                {acts.map((act, ai) => (
-                                  <div key={ai} style={{ display: 'flex', gap: 0, marginBottom: 20, position: 'relative' }}>
-                                    {/* Time bubble */}
-                                    <div style={{ flexShrink: 0, width: 90, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, zIndex: 1 }}>
-                                      {act.time ? (
-                                        <div style={{ background: '#1e293b', color: '#fff', fontSize: 11, fontWeight: 700, padding: '4px 8px', borderRadius: 6, fontFamily: 'monospace', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>
-                                          {act.time}
-                                        </div>
-                                      ) : (
-                                        <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#7e5233', border: '2px solid #fff', boxShadow: '0 0 0 2px #fbd0b5', marginTop: 6 }} />
-                                      )}
-                                    </div>
-                                    {/* Activity card */}
-                                    <div style={{ flex: 1, background: '#fff', border: '1px solid #f3f4f6', borderRadius: 12, padding: '12px 14px', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-                                      {/* Title */}
-                                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, marginBottom: 8 }}>
-                                        {act.emoji && <span style={{ fontSize: 16, lineHeight: 1.3, flexShrink: 0 }}>{act.emoji}</span>}
-                                        <span style={{ fontWeight: 700, fontSize: 13, color: '#111', lineHeight: 1.4 }}>{act.title}</span>
-                                      </div>
-                                      {/* Checkmark details */}
-                                      {(act.details || []).filter(Boolean).length > 0 && (
-                                        <ul style={{ margin: '0 0 8px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 4 }}>
-                                          {act.details.filter(Boolean).map((det, ki) => (
-                                            <li key={ki} style={{ display: 'flex', alignItems: 'flex-start', gap: 6, fontSize: 12, color: '#6b7280' }}>
-                                              <span style={{ color: '#22c55e', fontWeight: 700, flexShrink: 0, marginTop: 1 }}>✓</span>
-                                              <span style={{ lineHeight: 1.5 }}>{det}</span>
-                                            </li>
-                                          ))}
-                                        </ul>
-                                      )}
-                                      {/* Tags */}
-                                      {(act.tags || []).length > 0 && (
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                                          {act.tags.map((tag, ti) => (
-                                            <span key={ti} style={{ padding: '3px 10px', borderRadius: 999, fontSize: 11, fontWeight: 600, background: '#e0f2fe', color: '#0369a1' }}>{tag}</span>
-                                          ))}
-                                        </div>
-                                      )}
-                                    </div>
-                                  </div>
-                                ))}
-                                {/* Overnight stay */}
+                          </button>
+                          
+                          {isOpen && (
+                            <div style={{ padding: '0 24px 24px', color: 'rgba(255,255,255,0.9)', fontSize: 14, lineHeight: 1.6 }}>
+                              <div style={{ background: '#f9fafb', borderRadius: 12, padding: 20, color: '#4b5563' }}>
+                                <p style={{ margin: '0 0 16px' }}>{day.description}</p>
+                                
+                                {acts.length > 0 && (
+                                  <ul style={{ margin: 0, padding: '0 0 0 20px' }}>
+                                    {acts.map((act, ai) => <li key={ai} style={{ marginBottom: 4 }}>{act}</li>)}
+                                  </ul>
+                                )}
+                                
                                 {day.hotel && (
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0', marginTop: 4 }}>
-                                    <span style={{ fontSize: 16 }}>🛏</span>
-                                    <span style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>Overnight stay at <span style={{ color: '#111' }}>{day.hotel}</span></span>
+                                  <div style={{ marginTop: 16, padding: '12px 16px', background: '#fff', borderRadius: 8, border: '1px solid #f3f4f6', display: 'flex', gap: 10, alignItems: 'center' }}>
+                                    <span style={{ fontSize: 18 }}>🛏</span>
+                                    <span>Overnight at {day.hotel}</span>
                                   </div>
                                 )}
                               </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    )
-                  })}
-                </div>
-              </section>
-            )}
-
-            {/* Inclusions / Exclusions */}
-            <section style={{ marginBottom: 40 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 20 }}>
-                {[
-                  { label: 'Inclusions', items: pkg.inclusions, icon: Check, color: '#16a34a', bg: '#dcfce7' },
-                  { label: 'Exclusions', items: pkg.exclusions, icon: X,     color: '#dc2626', bg: '#fee2e2' },
-                ].map(({ label, items, icon: Icon, color, bg }) => (
-                  <div key={label}>
-                    <h3 style={{ fontWeight: 700, fontSize: 15, color: '#111', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <span style={{ width: 22, height: 22, borderRadius: '50%', background: bg, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Icon size={12} style={{ color }} strokeWidth={3} />
-                      </span>
-                      {label}
-                    </h3>
-                    <ul style={{ display: 'flex', flexDirection: 'column', gap: 7, listStyle: 'none', padding: 0, margin: 0 }}>
-                      {items?.map((item, i) => (
-                        <li key={i} style={{ display: 'flex', gap: 8, fontSize: 13, color: '#6b7280' }}>
-                          <Icon size={13} style={{ color, flexShrink: 0, marginTop: 1 }} />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                    {!pkg.itinerary?.length && <p style={{ color: '#6b7280' }}>No itinerary available.</p>}
                   </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Note */}
-            {pkg.note?.trim() && (
-              <section style={{ marginBottom: 28 }}>
-                <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 12, padding: '10px 14px', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                  <Info size={15} style={{ color: '#f59e0b', flexShrink: 0, marginTop: 2 }} />
-                  <p style={{ color: '#92400e', fontSize: 13, lineHeight: 1.55, whiteSpace: 'pre-wrap', margin: 0 }}><strong>Note: </strong>{pkg.note}</p>
                 </div>
-              </section>
-            )}
+              )}
 
-            {/* ── Enquiry Form ── */}
-            <section style={{ background: '#f9fafb', borderRadius: 20, padding: isMobile ? 20 : 28, border: '1px solid #f3f4f6' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-                <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg,#7e5233,#c93d00)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Send size={16} style={{ color: '#fff' }} />
-                </div>
+              {activeTab === 'inclusion' && (
                 <div>
-                  <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: isMobile ? 18 : 22, color: '#111', margin: 0 }}>Send an Enquiry</h2>
-                  <p style={{ fontSize: 13, color: '#9ca3af', margin: 0 }}>We&apos;ll get back to you within a few hours</p>
+                  <h3 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 800, fontSize: 28, color: '#111827', margin: '0 0 24px' }}>Inclusions</h3>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {pkg.inclusions?.map((item, i) => (
+                      <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 15, color: '#4b5563' }}>
+                        <span style={{ color: '#22c55e', fontWeight: 700 }}>✓</span> {item}
+                      </li>
+                    ))}
+                    {!pkg.inclusions?.length && <li style={{ fontSize: 15, color: '#9ca3af' }}>No inclusions specified</li>}
+                  </ul>
                 </div>
-              </div>
+              )}
 
-              {enquiryStatus === 'sent' ? (
-                <div style={{ marginTop: 20, padding: '20px', background: '#dcfce7', borderRadius: 14, textAlign: 'center' }}>
-                  <div style={{ fontSize: 32, marginBottom: 8 }}>✅</div>
-                  <p style={{ fontWeight: 700, color: '#15803d', fontSize: 15, margin: 0 }}>Enquiry sent successfully!</p>
-                  <p style={{ fontSize: 13, color: '#166534', margin: '4px 0 0' }}>Our team will contact you shortly.</p>
-                  <button onClick={() => setEnquiryStatus(null)} style={{ marginTop: 14, padding: '8px 20px', borderRadius: 999, border: 'none', background: '#15803d', color: '#fff', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>
-                    Send Another
-                  </button>
+              {activeTab === 'exclusion' && (
+                <div>
+                  <h3 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 800, fontSize: 28, color: '#111827', margin: '0 0 24px' }}>Exclusions</h3>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {pkg.exclusions?.map((item, i) => (
+                      <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 15, color: '#4b5563' }}>
+                        <span style={{ color: '#ef4444', fontWeight: 700 }}>✕</span> {item}
+                      </li>
+                    ))}
+                    {!pkg.exclusions?.length && <li style={{ fontSize: 15, color: '#9ca3af' }}>No exclusions specified</li>}
+                  </ul>
                 </div>
-              ) : (
-                <form onSubmit={submitEnquiry} style={{ marginTop: 20 }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 12, marginBottom: 12 }}>
-                    <div>
-                      <label style={{ fontSize: 12, fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: 5 }}>Your Name *</label>
-                      <input
-                        required
-                        value={enquiry.name}
-                        onChange={e => setEnquiry(q => ({ ...q, name: e.target.value }))}
-                        placeholder="e.g. Rahul Sharma"
-                        style={INPUT}
-                      />
-                    </div>
-                    <div>
-                      <label style={{ fontSize: 12, fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: 5 }}>Phone Number *</label>
-                      <input
-                        required
-                        type="tel"
-                        value={enquiry.phone}
-                        onChange={e => setEnquiry(q => ({ ...q, phone: e.target.value }))}
-                        placeholder="e.g. 9876543210"
-                        style={INPUT}
-                      />
-                    </div>
-                  </div>
-                  <div style={{ marginBottom: 12 }}>
-                    <label style={{ fontSize: 12, fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: 5 }}>Email (optional)</label>
+              )}
+            </div>
+          </div>
+
+          {/* Right Column: Booking Form */}
+          <div>
+            <div style={{ position: 'sticky', top: 100, background: '#fff', borderRadius: 24, padding: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f3f4f6' }}>
+              <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, fontSize: 24, color: '#111827', margin: '0 0 24px' }}>Tour Booking</h3>
+              
+              <form onSubmit={submitEnquiry}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  <input
+                    required
+                    value={enquiry.name}
+                    onChange={e => setEnquiry(q => ({ ...q, name: e.target.value }))}
+                    placeholder="Name"
+                    style={INPUT}
+                  />
+                  
+                  <input
+                    type="email"
+                    value={enquiry.email}
+                    onChange={e => setEnquiry(q => ({ ...q, email: e.target.value }))}
+                    placeholder="Email"
+                    style={INPUT}
+                  />
+                  
+                  <input
+                    required
+                    type="tel"
+                    value={enquiry.phone}
+                    onChange={e => setEnquiry(q => ({ ...q, phone: e.target.value }))}
+                    placeholder="Phone"
+                    style={INPUT}
+                  />
+                  
+                  <div style={{ position: 'relative' }}>
                     <input
-                      type="email"
-                      value={enquiry.email}
-                      onChange={e => setEnquiry(q => ({ ...q, email: e.target.value }))}
-                      placeholder="e.g. rahul@email.com"
-                      style={INPUT}
+                      type="date"
+                      value={enquiry.date}
+                      onChange={e => setEnquiry(q => ({ ...q, date: e.target.value }))}
+                      style={{ ...INPUT, color: enquiry.date ? '#111' : 'transparent' }}
                     />
+                    {!enquiry.date && (
+                      <span style={{ position: 'absolute', left: 16, top: 15, color: '#9ca3af', fontSize: 14, pointerEvents: 'none' }}>dd/mm/yyyy</span>
+                    )}
+                    {!enquiry.date && (
+                      <svg style={{ position: 'absolute', right: 16, top: 15, color: '#9ca3af', pointerEvents: 'none' }} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    )}
                   </div>
-                  <div style={{ marginBottom: 18 }}>
-                    <label style={{ fontSize: 12, fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: 5 }}>Message (optional)</label>
-                    <textarea
-                      rows={3}
-                      value={enquiry.message}
-                      onChange={e => setEnquiry(q => ({ ...q, message: e.target.value }))}
-                      placeholder="Any specific dates, group size, or questions?"
-                      style={{ ...INPUT, resize: 'vertical', lineHeight: 1.6 }}
-                    />
-                  </div>
-                  {enquiryStatus === 'error' && (
-                    <p style={{ fontSize: 13, color: '#dc2626', marginBottom: 12 }}>Something went wrong. Please try again.</p>
-                  )}
+                  
+                  <textarea
+                    rows={4}
+                    value={enquiry.message}
+                    onChange={e => setEnquiry(q => ({ ...q, message: e.target.value }))}
+                    placeholder="Additional information"
+                    style={{ ...INPUT, resize: 'vertical' }}
+                  />
+                  
                   <button
                     type="submit"
                     disabled={enquiryStatus === 'sending'}
                     style={{
-                      width: '100%', padding: '13px 0', borderRadius: 999, border: 'none',
-                      background: enquiryStatus === 'sending' ? '#e5e7eb' : 'linear-gradient(135deg,#7e5233,#c93d00)',
-                      color: enquiryStatus === 'sending' ? '#9ca3af' : '#fff',
-                      fontWeight: 700, fontSize: 15, cursor: enquiryStatus === 'sending' ? 'not-allowed' : 'pointer',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                      marginTop: 8, width: '100%', padding: '16px 0', borderRadius: 12, border: 'none',
+                      background: enquiryStatus === 'sending' ? '#fca5a5' : '#ef4444',
+                      color: '#fff', fontWeight: 700, fontSize: 16, cursor: enquiryStatus === 'sending' ? 'not-allowed' : 'pointer',
+                      transition: 'background 0.2s'
                     }}
                   >
-                    {enquiryStatus === 'sending'
-                      ? <><span style={{ width: 14, height: 14, border: '2px solid #d1d5db', borderTop: '2px solid #9ca3af', borderRadius: '50%', animation: 'spin 1s linear infinite', display: 'inline-block' }} /> Sending...</>
-                      : <><Send size={15} /> Send Enquiry</>
-                    }
+                    {enquiryStatus === 'sending' ? 'Sending...' : enquiryStatus === 'sent' ? 'Sent Successfully!' : 'Book Now'}
                   </button>
-                </form>
-              )}
-            </section>
+                  
+                  {enquiryStatus === 'error' && (
+                    <p style={{ color: '#ef4444', fontSize: 13, textAlign: 'center', margin: '4px 0 0' }}>Something went wrong. Please try again.</p>
+                  )}
+                </div>
+              </form>
+            </div>
           </div>
 
-          {/* Right: Booking card (sticky, hidden on mobile) */}
-          {!isMobile && (
-            <div>
-              <div style={{ position: 'sticky', top: 88 }}>
-                <div style={{ background: '#fff', borderRadius: 20, boxShadow: '0 8px 40px rgba(0,0,0,0.12)', border: '1px solid #f3f4f6', overflow: 'hidden' }}>
-                  <div style={{ padding: '24px', background: 'linear-gradient(135deg,#7e5233,#c93d00)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                      <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', textDecoration: 'line-through' }}>{fmt(pkg.originalPrice)}</span>
-                      <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 999, background: 'rgba(255,255,255,0.2)', color: '#fff' }}>
-                        SAVE {fmt(pkg.originalPrice - pkg.salePrice)}
-                      </span>
-                    </div>
-                    <div style={{ fontSize: 40, fontWeight: 800, color: '#fff', lineHeight: 1 }}>{fmt(pkg.salePrice)}</div>
-                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', marginTop: 2 }}>{Number(pkg.childPrice) > 0 ? 'Per Adult' : pkg.priceNote}</div>
-                    <div style={{ display: 'flex', gap: 6, alignItems: 'flex-start', marginTop: 12, padding: '8px 10px', borderRadius: 10, background: 'rgba(255,255,255,0.15)' }}>
-                      <Info size={13} style={{ color: '#fff', flexShrink: 0, marginTop: 1 }} />
-                      <span style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.9)', lineHeight: 1.5 }}>Rate may change based on your customization.</span>
-                    </div>
-                  </div>
-
-                  <div style={{ padding: '20px 24px' }}>
-                    {(Number(pkg.rooms) > 0 || Number(pkg.adults) > 0 || Number(pkg.children) > 0) && (
-                      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
-                        {[
-                          { Icon: BedDouble, n: pkg.rooms, s: 'Room', p: 'Rooms' },
-                          { Icon: Users, n: pkg.adults, s: 'Adult', p: 'Adults' },
-                          { Icon: Baby, n: pkg.children, s: 'Child', p: 'Children' },
-                        ].filter(({ n }) => Number(n) > 0).map(({ Icon, n, s, p }) => (
-                          <span key={s} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '6px 12px', borderRadius: 999, background: '#f5f0e8', color: '#9a3412', fontSize: 12.5, fontWeight: 700 }}>
-                            <Icon size={14} /> {n} {Number(n) !== 1 ? p : s}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    {[
-                      { l: 'Duration', v: pkg.duration },
-                      { l: 'Destination', v: pkg.destination },
-                      { l: 'Stay', v: pkg.hotels },
-                    ].filter(({ v }) => v).map(({ l, v }) => (
-                      <div key={l} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12, fontSize: 13 }}>
-                        <span style={{ color: '#9ca3af' }}>{l}</span>
-                        <span style={{ fontWeight: 600, color: '#111', maxWidth: '60%', textAlign: 'right' }}>{v}</span>
-                      </div>
-                    ))}
-
-                    {hasBreakdown && (
-                      <>
-                        <div style={{ height: 1, background: '#f3f4f6', margin: '16px 0' }} />
-                        <div style={{ fontSize: 13, fontWeight: 800, color: '#111', marginBottom: 10 }}>Price Breakdown</div>
-                        {Number(pkg.salePrice) > 0 && (
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, fontSize: 13 }}>
-                            <span style={{ color: '#6b7280' }}>Price per adult</span>
-                            <span style={{ fontWeight: 700, color: '#111' }}>{fmt(pkg.salePrice)}</span>
-                          </div>
-                        )}
-                        {Number(pkg.childPrice) > 0 && (
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, fontSize: 13 }}>
-                            <span style={{ color: '#6b7280' }}>Price per child{childAgeLabel ? ` (${childAgeLabel})` : ''}</span>
-                            <span style={{ fontWeight: 700, color: '#111' }}>{fmt(pkg.childPrice)}</span>
-                          </div>
-                        )}
-                        <a
-                          href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(waChanges)}`}
-                          target="_blank" rel="noopener noreferrer"
-                          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '11px 0', borderRadius: 999, marginTop: 6, background: 'linear-gradient(135deg,#25d366,#128c7e)', color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none' }}
-                        >
-                          <MessageCircle size={15} /> Request Changes
-                        </a>
-                      </>
-                    )}
-
-                    <div style={{ height: 1, background: '#f3f4f6', margin: '16px 0' }} />
-
-                    <a
-                      href={`tel:+${phone}`}
-                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '13px 0', borderRadius: 999, background: 'linear-gradient(135deg,#7e5233,#c93d00)', color: '#fff', fontWeight: 700, fontSize: 14, textDecoration: 'none', marginBottom: 10 }}
-                    >
-                      <Phone size={16} /> Call to Book
-                    </a>
-                    <a
-                      href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(waMsg)}`}
-                      target="_blank" rel="noopener noreferrer"
-                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '13px 0', borderRadius: 999, background: 'linear-gradient(135deg,#25d366,#128c7e)', color: '#fff', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}
-                    >
-                      <MessageCircle size={16} /> WhatsApp Enquiry
-                    </a>
-                    <p style={{ textAlign: 'center', fontSize: 11, color: '#9ca3af', marginTop: 10 }}>
-                      No booking fees · Instant confirmation
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
       <Footer />
 
-      {/* Mobile sticky bottom bar */}
-      {isMobile && (
-        <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50, background: '#fff', borderTop: '1px solid #f3f4f6', boxShadow: '0 -4px 20px rgba(0,0,0,0.08)' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, padding: '7px 16px', background: '#fff7ed', borderBottom: '1px solid #fde9d3' }}>
-            <Info size={12} style={{ color: '#7e5233', flexShrink: 0, marginTop: 1 }} />
-            <span style={{ fontSize: 11, color: '#9a3412', lineHeight: 1.4 }}>
-              {Number(pkg.childPrice) > 0 ? `${fmt(pkg.childPrice)}/child · ` : ''}Rate may change based on your customization.
-            </span>
-          </div>
-          <div style={{ padding: '10px 16px', display: 'flex', gap: 10, alignItems: 'center' }}>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 11, color: '#9ca3af', textDecoration: 'line-through' }}>{fmt(pkg.originalPrice)}</div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: '#7e5233' }}>
-              {fmt(pkg.salePrice)}<span style={{ fontSize: 11, color: '#9ca3af', fontWeight: 400 }}>/{Number(pkg.childPrice) > 0 ? 'adult' : 'person'}</span>
-            </div>
-          </div>
-          <a
-            href={`tel:+${phone}`}
-            style={{ padding: '12px 18px', borderRadius: 999, background: 'linear-gradient(135deg,#7e5233,#c93d00)', color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}
-          >
-            <Phone size={14} /> Call
-          </a>
-          <a
-            href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(waMsg)}`}
-            target="_blank" rel="noopener noreferrer"
-            style={{ padding: '12px 18px', borderRadius: 999, background: 'linear-gradient(135deg,#25d366,#128c7e)', color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}
-          >
-            <MessageCircle size={14} /> WhatsApp
-          </a>
-          </div>
-        </div>
-      )}
+      {/* Floating WhatsApp Button */}
+      <a href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(`Hi! I'm interested in ${pkg?.title}`)}`} target="_blank" rel="noopener noreferrer" style={{ position: 'fixed', bottom: 30, right: 30, width: 60, height: 60, borderRadius: '50%', background: '#25d366', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 15px rgba(37,211,102,0.4)', zIndex: 50, transition: 'transform 0.2s' }}>
+        <WhatsAppIcon />
+      </a>
     </main>
   )
 }

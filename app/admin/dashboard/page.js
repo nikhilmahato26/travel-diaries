@@ -15,7 +15,7 @@ import { toast } from 'sonner'
 
 function fmt(n) { return 'OMR ' + Number(n).toLocaleString('en-IN') }
 
-const PKG_PREFIX = { package: 'PKG', group: 'GPKG', homestay: 'HS', houseboat: 'HB', other: 'OTH' }
+const PKG_PREFIX = { package: 'PKG', group: 'GPKG', upcoming: 'UPC', homestay: 'HS', houseboat: 'HB', other: 'OTH' }
 const CONFORMING_ID = /^(PKG|GPKG|HS|HB|OTH)-\d+$/
 function generatePkgId(category, existingPackages) {
   const prefix = PKG_PREFIX[category] || 'PKG'
@@ -76,9 +76,12 @@ export default function Dashboard() {
   const [testimonialModal, setTestimonialModal] = useState(null)
   const [testimonialForm, setTestimonialForm] = useState({ name: '', text: '' })
   const [testimonialSaving, setTestimonialSaving] = useState(false)
+  const [videoTestimonials, setVideoTestimonials] = useState([])
+  const [videoTestimonialForm, setVideoTestimonialForm] = useState({ youtube_url: '' })
+  const [videoTestimonialSaving, setVideoTestimonialSaving] = useState(false)
 
   const [section, setSection] = useState('packages')
-  const [pkgFilter, setPkgFilter] = useState('all')      // 'all' | 'group' | 'homestay' | 'other'
+  const [pkgFilter, setPkgFilter] = useState('all')      // 'all' | 'group' | 'upcoming' | 'homestay' | 'other'
   const [pkgStatus, setPkgStatus] = useState('approved') // 'approved' | 'pending' | 'rejected' | 'all'
   const [modal, setModal] = useState(null)
   const [form, setForm] = useState(EMPTY_PKG)
@@ -225,13 +228,14 @@ export default function Dashboard() {
     if (section === 'agencies') fetchAgencies()
     if (section === 'gallery') fetchGallery()
     if (section === 'testimonials') fetchTestimonials()
+    if (section === 'video_testimonials') fetchVideoTestimonials()
     if (section === 'settings') {
       let ignore = false
       fetch('/api/settings').then(r => r.ok ? r.json() : null).then(s => { if (!ignore && s) setSettingsForm({ phone: s.phone || '', whatsapp: s.whatsapp || '', email: s.email || '', email2: s.email2 || '', facebook_url: s.facebook_url || '', instagram_url: s.instagram_url || '', banner_days: s.banner_days || '30', admin_recovery_email: s.admin_recovery_email || '', min_dest_packages: s.min_dest_packages || '1' }) }).catch(() => {})
       fetch('/api/auth/admin-profile').then(r => r.ok ? r.json() : null).then(d => { if (!ignore && d?.username) { setAdminUsername(d.username); setNewUsername(d.username) } }).catch(() => {})
       return () => { ignore = true }
     }
-  }, [section, fetchEnquiries, fetchAgencies, fetchGallery, fetchTestimonials])
+  }, [section, fetchEnquiries, fetchAgencies, fetchGallery, fetchTestimonials, fetchVideoTestimonials])
 
   const destColor = (name) => destinations.find(d => d.name === name)?.color ?? '#9ca3af'
 
@@ -611,20 +615,46 @@ export default function Dashboard() {
     modal:       { background: '#fff', borderRadius: 20, width: '100%', maxWidth: 860, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', overflow: 'hidden', marginBottom: 32 },
   }
 
-  const LISTING_META = {
+  const handleSaveVideoTestimonial = async () => {
+    if (!videoTestimonialForm.youtube_url.trim()) return toast.error('YouTube URL is required')
+    setVideoTestimonialSaving(true)
+    try {
+      const res = await fetch('/api/video-testimonials', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(videoTestimonialForm)
+      })
+      if (!res.ok) throw new Error()
+      toast.success('Video testimonial added')
+      setVideoTestimonialForm({ youtube_url: '' })
+      fetchVideoTestimonials()
+    } catch { toast.error('Failed to save') }
+    finally { setVideoTestimonialSaving(false) }
+  }
+
+  const handleDeleteVideoTestimonial = async (id) => {
+    if (!confirm('Delete this video testimonial?')) return
+    try {
+      const res = await fetch('/api/video-testimonials/' + id, { method: 'DELETE' })
+      if (!res.ok) throw new Error()
+      toast.success('Deleted successfully')
+      fetchVideoTestimonials()
+    } catch { toast.error('Failed to delete') }
+  }
+
+  const SIDEBAR_MENUS = {
     homestay:  { label: 'Homestay',  plural: 'Homestays',  icon: Home, emoji: '🏡', noun: 'homestays' },
     houseboat: { label: 'Houseboat', plural: 'Houseboats', icon: Ship, emoji: '🛶', noun: 'houseboats' },
   }
 
   const openListingModal = (type) => {
-    setNewListing({ name: '', color: '#7e5233', image_url: '', description: '', location: '', price: '', emoji: LISTING_META[type].emoji, image_pos: '' })
+    setNewListing({ name: '', color: '#7e5233', image_url: '', description: '', location: '', price: '', emoji: SIDEBAR_MENUS[type].emoji, image_pos: '' })
     setEditListingId(null)
     setListingModalType(type)
     setModal('listing')
   }
 
   const renderListingSection = (type, items) => {
-    const meta = LISTING_META[type]
+    const meta = SIDEBAR_MENUS[type]
     const Icon = meta.icon
     return (
       <>
@@ -727,8 +757,9 @@ export default function Dashboard() {
               { key: 'packages',      label: 'Packages',     icon: Package,   badge: pendingCount > 0 ? pendingCount : null },
               { key: 'destinations',  label: 'Destinations',   icon: MapPin },
               { key: 'enquiries',     label: 'Enquiries',    icon: Inbox,     badge: enquiries.length > 0 && section !== 'enquiries' ? enquiries.length : null },
-              { key: 'testimonials',  label: 'Testimonials', icon: MessageCircle },
-              { key: 'settings',      label: 'Settings',     icon: Settings },
+              { key: 'testimonials', label: 'Testimonials', icon: MessageCircle },
+              { key: 'video_testimonials', label: 'Video Testimonials', icon: Star },
+              { key: 'settings', label: 'Settings', icon: Settings },
             ].map(({ key, label, icon: Icon, badge }) => (
               <button key={key} onClick={() => setSection(key)}
                 style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 20px', fontSize: 13, fontWeight: 600, border: 'none', background: section === key ? '#fbf8f1' : 'transparent', width: '100%', textAlign: 'left', cursor: 'pointer', borderRight: `3px solid ${section === key ? '#7e5233' : 'transparent'}`, color: section === key ? '#7e5233' : '#6b7280', position: 'relative' }}>
@@ -751,7 +782,7 @@ export default function Dashboard() {
         {/* Main Content */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
           <div style={{ background: '#fff', borderBottom: '1px solid #f3f4f6', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', position: 'sticky', top: 0, zIndex: 40 }}>
-            <h1 style={{ fontSize: 16, fontWeight: 700, textTransform: 'capitalize' }}>{section === 'destinations' ? 'Destinations' : section}</h1>
+            <h1 style={{ fontSize: 16, fontWeight: 700, textTransform: 'capitalize' }}>{section === 'destinations' ? 'Destinations' : section.replace('_', ' ')}</h1>
             <Link href="/" target="_blank" style={{ ...S.btn('#f3f4f6', '#555'), textDecoration: 'none' }}>
               <ExternalLink size={13} /> View Site
             </Link>
@@ -845,7 +876,7 @@ export default function Dashboard() {
                 <button onClick={() => { setNewDest({ name: '', color: '#7e5233', image_url: '', description: '', emoji: '📍', image_pos: '' }); setEditDestId(null); setModal('destination') }} style={S.btn('#f3f4f6', '#555')}>
                   <MapPin size={13} /> Destinations
                 </button>
-<button onClick={openAdd} style={{ padding: '10px 20px', borderRadius: 10, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#7e5233,#c93d00)', color: '#fff', fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <button onClick={openAdd} style={{ padding: '10px 20px', borderRadius: 10, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#7e5233,#c93d00)', color: '#fff', fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
                   <Plus size={16} /> Add Package
                 </button>
               </div>
@@ -1194,8 +1225,6 @@ export default function Dashboard() {
           </>
         )}
 
-        {/* ── Settings ── */}
-        
         {section === 'testimonials' && (
           <div style={{ maxWidth: 1000, margin: '0 auto', paddingBottom: 60 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
@@ -1239,8 +1268,44 @@ export default function Dashboard() {
           </div>
         )}
 
+        {section === 'video_testimonials' && (
+          <div style={{ maxWidth: 800 }}>
+            <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
+              <input 
+                placeholder="YouTube URL (e.g. https://youtube.com/watch?v=...)" 
+                style={{ flex: 1, padding: '10px 14px', borderRadius: 8, border: '1px solid #d1d5db' }}
+                value={videoTestimonialForm.youtube_url} onChange={e => setVideoTestimonialForm({ ...videoTestimonialForm, youtube_url: e.target.value })}
+              />
+              <button 
+                onClick={handleSaveVideoTestimonial}
+                disabled={videoTestimonialSaving}
+                style={{ background: '#0B1E30', color: '#fff', padding: '10px 20px', borderRadius: 8, fontWeight: 600, border: 'none', cursor: 'pointer' }}
+              >
+                {videoTestimonialSaving ? 'Saving...' : 'Add Video'}
+              </button>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
+              {videoTestimonials.map(v => (
+                <div key={v.id} style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e5e7eb', position: 'relative' }}>
+                  <button onClick={() => handleDeleteVideoTestimonial(v.id)} style={{ position: 'absolute', top: 10, right: 10, background: '#ef4444', color: '#fff', border: 'none', width: 32, height: 32, borderRadius: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
+                    <Trash2 size={14} />
+                  </button>
+                  <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
+                    <iframe 
+                      src={`https://www.youtube.com/embed/${v.youtube_url.match(/(?:youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/)?.[1] || ''}`}
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                      frameBorder="0" allowFullScreen
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            {videoTestimonials.length === 0 && <p style={{ textAlign: 'center', color: '#6b7280', padding: 40 }}>No video testimonials added.</p>}
+          </div>
+        )}
+
         {section === 'settings' && (
-          <>
           <div style={{ width: '100%', maxWidth: 900, margin: '0 auto', background: '#fff', padding: '40px 48px', borderRadius: 16, boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, borderBottom: '1px solid #e5e7eb', paddingBottom: 16 }}>
               <h2 style={{ fontWeight: 700, fontSize: 24, color: '#111', margin: 0 }}>Settings</h2>
@@ -1368,7 +1433,6 @@ export default function Dashboard() {
             </div>
             
           </div>
-          </>
         )}
       </div>
         </div>
@@ -1393,14 +1457,23 @@ export default function Dashboard() {
               {showPreview && <PackagePreview pkg={form} />}
               {!showPreview && tab === 'basic' && (
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  <div style={{ gridColumn: '1/-1' }}>
+                    <label style={S.label}>Category</label>
+                    <div style={{ display: 'flex', gap: 15, flexWrap: 'wrap' }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="package" checked={form.category === 'package'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Standard</label>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="group" checked={form.category === 'group'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Group</label>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="upcoming" checked={form.category === 'upcoming'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Upcoming</label>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="homestay" checked={form.category === 'homestay'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Homestay</label>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="houseboat" checked={form.category === 'houseboat'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Houseboat</label>
+                    </div>
+                  </div>
                   <div>
                     <label style={S.label}>Package ID</label>
                     <input value={form.id} readOnly style={{ ...S.input, background: '#f0f0f0', color: '#6b7280', fontFamily: 'monospace', fontSize: 13, letterSpacing: '0.04em', cursor: 'default' }} />
                   </div>
                   <div style={{ display: 'flex', alignItems: 'flex-end' }}>
                     <div style={{ fontSize: 11, color: '#9ca3af', lineHeight: 1.5, paddingBottom: 10 }}>
-                      Auto-generated based on category.<br />
-                      <span style={{ color: '#6b7280' }}>PKG · GPKG · HS · OTH</span>
+                      Auto-generated based on category.
                     </div>
                   </div>
                   <div style={{ gridColumn: '1/-1' }}>
@@ -1478,7 +1551,7 @@ export default function Dashboard() {
                     <label style={S.label}>Note (optional)</label>
                     <textarea rows={2} value={form.note} onChange={e => setForm(f => ({ ...f, note: e.target.value }))} style={{ ...S.input, resize: 'vertical', lineHeight: 1.6 }} placeholder="e.g. Rates vary on customization, special terms, important info..." />
                   </div>
-                  {form.category === 'group' && (
+                  {['group', 'upcoming'].includes(form.category) && (
                     <div style={{ gridColumn: '1/-1' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, marginTop: 4 }}>
                         <label style={S.label}>Available Dates</label>
@@ -1532,14 +1605,12 @@ export default function Dashboard() {
                 <div>
                   {(form.itinerary || []).map((day, di) => (
                     <div key={di} style={{ border: '1px solid #f3f4f6', borderRadius: 12, padding: 14, marginBottom: 10, background: '#fafafa' }}>
-                      {/* Day header */}
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
                         <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(135deg,#7e5233,#c93d00)', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{day.day}</div>
                         {(form.itinerary || []).length > 1 && <button onClick={() => removeDay(di)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#f87171', display: 'flex' }}><Trash2 size={14} /></button>}
                       </div>
                       <input value={day.title} onChange={e => itinChange(di, 'title', e.target.value)} style={{ ...S.input, marginBottom: 8 }} placeholder={`Day ${day.day} title (e.g. Arrival & Sightseeing)`} />
                       <textarea rows={2} value={day.description} onChange={e => itinChange(di, 'description', e.target.value)} style={{ ...S.input, resize: 'none', marginBottom: 8, lineHeight: 1.5 }} placeholder="Brief day description..." />
-                      {/* Hotel / overnight */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
                         <span style={{ fontSize: 14 }}>🛏</span>
                         <input value={day.hotel || ''} onChange={e => itinChange(di, 'hotel', e.target.value)} style={{ ...S.input, fontSize: 12 }} placeholder="Overnight stay at... (e.g. The ONE Legian)" />

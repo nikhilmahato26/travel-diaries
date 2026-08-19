@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 
-const DEFAULTS = { phone: '96895950141' } 
+const DEFAULTS = { phone: '96895950141', email: 'sales@mytraveldiaries.in' } 
 let _cache = null
 let _fetchPromise = null
 
@@ -38,7 +38,7 @@ export function useWhatsapp() {
 }
 
 export function useEmail() {
-  return useSettings().email || ''
+  return useSettings().email || DEFAULTS.email || ''
 }
 
 export function useEmail2() {

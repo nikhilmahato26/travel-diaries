@@ -3,27 +3,26 @@ import { Phone } from 'lucide-react';
 import Link from 'next/link';
 import { usePackages } from '@/hooks/usePackages';
 
-const Packages = () => {
+const UpcomingTrips = () => {
   const { packages, loaded } = usePackages();
 
   const fmt = (n) => 'OMR ' + Number(n || 0).toLocaleString('en-IN');
 
-  // Let's take up to 8 packages for the homepage, featured or simply the first 8
-  const displayPackages = packages.slice(0, 8);
+  const displayPackages = packages.filter(p => p.category === 'upcoming').slice(0, 4);
 
   return (
-    <section id="packages" className="py-24 bg-gray-50 font-body">
+    <section id="upcoming-trips" className="py-24 bg-white font-body">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-3xl mx-auto mb-16">
           <p className="text-[#E34836] font-cursive text-3xl mb-3">
-            Explore the World
+            Plan Ahead
           </p>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900 mb-6">
-            Awesome Trip With Us
+            Upcoming Trips
           </h2>
           <p className="text-gray-600 max-w-xl mx-auto text-base">
-            Explore our handpicked holiday packages designed to give you the ultimate travel experience. Book your next adventure today.
+            Join our upcoming group departures and explore the world with like-minded travelers.
           </p>
         </div>
 
@@ -128,15 +127,11 @@ const Packages = () => {
           </div>
         )}
         
-        <div className="text-center mt-12">
-           <Link href="/packages" className="inline-block bg-white border border-gray-200 text-gray-900 font-bold px-8 py-3.5 rounded-full hover:bg-gray-50 transition-colors shadow-sm">
-             View All Packages
-           </Link>
-        </div>
+
 
       </div>
     </section>
   );
 };
 
-export default Packages;
+export default UpcomingTrips;
