@@ -40,12 +40,12 @@ export default function Navbar({ big = false }) {
 
           {/* Logo */}
           <Link href="/" className="flex items-center justify-center group">
-            <div className="w-36 h-10 md:w-48 md:h-20 relative shrink-0">
+            <div className="w-32 h-8 md:w-40 md:h-10 relative shrink-0">
               <Image
-                src="/logo-rtw.png"
-                alt="R Travel World"
+                src="/logo-full.png"
+                alt="Travel Diaries"
                 fill
-                sizes="(max-width: 768px) 144px, 192px"
+                sizes="(max-width: 768px) 40px, 56px"
                 className="object-contain object-left"
               />
             </div>

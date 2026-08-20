@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   Plus, Package, LogOut, X, Check, Trash2, Clock, CheckCircle, XCircle, ExternalLink, Eye, Pencil, Copy,
 } from 'lucide-react'
@@ -277,9 +278,14 @@ export default function AgencyDashboard() {
       {/* Topbar */}
       <div style={S.topbar}>
         <div style={S.topbarInner}>
-          <div>
-            <div style={{ fontWeight: 700, fontSize: 15, color: '#111' }}>Agency Dashboard</div>
-            <div style={{ fontSize: 11, color: '#9ca3af' }}>Triphoga</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 140, height: 36, position: 'relative' }}>
+              <Image src="/logo-full.png" alt="Travel Diaries" fill style={{ objectFit: 'contain' }} />
+            </div>
+            <div style={{ marginLeft: 8, paddingLeft: 12, borderLeft: '1px solid #e5e7eb' }}>
+              <div style={{ fontWeight: 700, fontSize: 14, color: '#111', lineHeight: 1.2 }}>Agency</div>
+              <div style={{ fontSize: 11, color: '#9ca3af', lineHeight: 1.2 }}>Portal</div>
+            </div>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
             <Link href="/" target="_blank" style={{ ...S.btn('#f3f4f6', '#555'), textDecoration: 'none' }}>

@@ -33,11 +33,11 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 sm:px-10 py-16">
         <div className="grid md:grid-cols-4 gap-10 mb-12">
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-48 h-12 shrink-0 relative">
-                <Image src="/logo-rtw.png" alt="R Travel World" fill className="object-contain object-left" />
+            <Link href="/" className="flex items-center justify-start group mb-6">
+              <div className="w-40 h-10 md:w-48 md:h-12 relative shrink-0">
+                <Image src="/logo-full.png" alt="Travel Diaries" fill className="object-contain object-left" />
               </div>
-            </div>
+            </Link>
             <p className="text-sm leading-relaxed mb-4" style={{ color:'#4b5563' }}>15+ years of trusted expertise in customized Indian holidays and travel planning.</p>
             <div className="flex gap-3">
               <a href={instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full flex items-center justify-center text-gray-700 transition hover:bg-orange-100" style={{ background:'rgba(0,0,0,0.05)' }}><IgIcon/></a>

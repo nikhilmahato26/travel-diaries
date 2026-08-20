@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -37,19 +38,10 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="bg-[#E34836] p-2 rounded-xl text-white shadow-md shadow-red-500/20 group-hover:scale-105 transition-transform duration-300">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z" />
-                </svg>
-              </div>
-              <div className="flex flex-col">
-                <span className={`font-body font-bold text-sm tracking-[0.25em] uppercase leading-none group-hover:text-[#E34836] transition-colors ${
-                  isScrolled ? 'text-gray-900' : 'text-white'
-                }`}>Travel</span>
-                <span className="text-[#E34836] font-heading font-semibold italic text-base leading-none mt-0.5">diaries</span>
+              <div className="relative w-40 h-10">
+                <Image src="/logo-full.png" alt="Travel Diaries" fill className="object-contain" />
               </div>
             </Link>
           </div>

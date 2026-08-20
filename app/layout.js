@@ -8,9 +8,9 @@ export const metadata = {
   title: 'Travel Diaries — Travel with Confidence. Experience the Difference.',
   description: 'Customized holidays, domestic tour packages, flight bookings, railway reservations, hotel bookings.',
   icons: {
-    icon: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23E34836%22 stroke-width=%222.5%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22M22 2 11 13M22 2l-7 20-4-9-9-4Z%22/></svg>',
-    shortcut: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23E34836%22 stroke-width=%222.5%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22M22 2 11 13M22 2l-7 20-4-9-9-4Z%22/></svg>',
-    apple: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23E34836%22 stroke-width=%222.5%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22M22 2 11 13M22 2l-7 20-4-9-9-4Z%22/></svg>',
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
   },
 }
 

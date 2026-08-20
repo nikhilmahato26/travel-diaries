@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Eye, EyeOff, LogIn } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('')
@@ -53,15 +54,9 @@ export default function AdminLogin() {
             
             <div className="relative z-10 flex flex-col items-center">
               {/* Logo */}
-              <div className="flex items-center gap-3 mb-8">
-                <div className="bg-[#E34836] p-3 rounded-xl text-white shadow-lg shadow-red-500/30">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z" />
-                  </svg>
-                </div>
-                <div className="flex flex-col text-left">
-                  <span className="font-body font-bold text-lg tracking-[0.25em] uppercase leading-none text-white">Travel</span>
-                  <span className="text-[#E34836] font-heading font-semibold italic text-xl leading-none mt-0.5">diaries</span>
+              <div className="flex items-center justify-center mb-8">
+                <div className="relative w-48 h-12">
+                  <Image src="/logo-full.png" alt="Travel Diaries" fill className="object-contain" />
                 </div>
               </div>
               

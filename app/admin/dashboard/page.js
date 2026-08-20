@@ -742,14 +742,8 @@ export default function Dashboard() {
         {/* Sidebar */}
         <div style={{ width: 250, background: '#fff', borderRight: '1px solid #f3f4f6', height: '100vh', position: 'sticky', top: 0, display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
           <div style={{ padding: '24px 20px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid #f3f4f6' }}>
-            <div style={{ backgroundColor: '#E34836', padding: '8px', borderRadius: '12px', color: 'white', boxShadow: '0 4px 6px -1px rgba(227, 72, 54, 0.2)' }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z" />
-              </svg>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-              <span style={{ fontFamily: 'inherit', fontWeight: 'bold', fontSize: '14px', letterSpacing: '0.25em', textTransform: 'uppercase', lineHeight: '1', color: '#111' }}>Travel</span>
-              <span style={{ color: '#E34836', fontFamily: 'serif', fontStyle: 'italic', fontWeight: '600', fontSize: '16px', lineHeight: '1', marginTop: '2px' }}>diaries</span>
+            <div style={{ width: 140, height: 36, position: 'relative' }}>
+              <Image src="/logo-full.png" alt="Travel Diaries" fill style={{ objectFit: 'contain' }} />
             </div>
           </div>
           <div style={{ flex: 1, padding: '20px 0', overflowY: 'auto' }}>
