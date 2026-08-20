@@ -209,6 +209,13 @@ export default function Dashboard() {
     } catch {}
   }, [])
 
+  const fetchVideoTestimonials = useCallback(async () => {
+    try {
+      const res = await fetch('/api/video-testimonials')
+      if (res.ok) setVideoTestimonials(await res.json())
+    } catch {}
+  }, [])
+
   const fetchAgencies = useCallback(async () => {
     try {
       const res = await fetch('/api/agencies')
