@@ -88,7 +88,7 @@ export default function CruisesPage() {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
         </div>
         <div className="relative z-10 text-center px-4 max-w-3xl">
-          <p className="text-[#E34836] font-cursive text-3xl md:text-4xl mb-4">
+          <p className="text-[#1B61FF] font-cursive text-3xl md:text-4xl mb-4">
             Sail the Oceans
           </p>
           <h1 className="text-white font-heading font-bold text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
@@ -103,13 +103,13 @@ export default function CruisesPage() {
       {/* Cruises Grid */}
       <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <p className="text-[#E34836] font-cursive text-3xl mb-3">
+          <p className="text-[#1B61FF] font-cursive text-3xl mb-3">
             Set Sail
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-gray-900">
             Featured Cruises
           </h2>
-          <div className="w-16 h-1 bg-[#E34836] mx-auto mt-4 rounded-full"></div>
+          <div className="w-16 h-1 bg-[#1B61FF] mx-auto mt-4 rounded-full"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -130,10 +130,10 @@ export default function CruisesPage() {
 
                 {/* Content */}
                 <div className="p-6">
-                  <span className="text-[#E34836] text-[11px] font-bold uppercase tracking-wider block mb-1">
+                  <span className="text-[#1B61FF] text-[11px] font-bold uppercase tracking-wider block mb-1">
                     {cruise.ship}
                   </span>
-                  <h3 className="text-xl font-heading font-bold text-gray-900 mb-2 leading-snug group-hover:text-[#E34836] transition-colors">
+                  <h3 className="text-xl font-heading font-bold text-gray-900 mb-2 leading-snug group-hover:text-[#1B61FF] transition-colors">
                     {cruise.title}
                   </h3>
                   
@@ -147,7 +147,7 @@ export default function CruisesPage() {
                     <span className="text-gray-400 text-[10px] font-bold uppercase tracking-wider block mb-2">Highlights</span>
                     {cruise.highlights.map((highlight, idx) => (
                       <div key={idx} className="flex items-start gap-2 text-xs text-gray-600">
-                        <span className="text-[#E34836] text-sm leading-none">•</span>
+                        <span className="text-[#1B61FF] text-sm leading-none">•</span>
                         <span>{highlight}</span>
                       </div>
                     ))}
@@ -165,7 +165,7 @@ export default function CruisesPage() {
                   href={`https://wa.me/96895950141?text=Hi%20Travel%20Diaries%2C%20I%20am%20interested%20in%20booking%20the%20${encodeURIComponent(cruise.title)}.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-[#E34836] text-white hover:bg-red-700 font-semibold px-5 py-2.5 rounded-full text-xs transition-colors shadow-sm flex items-center gap-1"
+                  className="bg-[#1B61FF] text-white hover:bg-blue-700 font-semibold px-5 py-2.5 rounded-full text-xs transition-colors shadow-sm flex items-center gap-1"
                 >
                   Book Now
                   <ArrowRight size={12} />
@@ -180,7 +180,7 @@ export default function CruisesPage() {
       {/* Booking Form Custom Integration */}
       <section className="bg-white border-t border-gray-100 py-24">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center justify-center p-3 bg-red-50 rounded-2xl text-[#E34836] mb-6">
+          <div className="inline-flex items-center justify-center p-3 bg-red-50 rounded-2xl text-[#1B61FF] mb-6">
             <Ship size={32} />
           </div>
           <h2 className="text-3xl md:text-4xl font-heading font-bold text-gray-900 mb-6">

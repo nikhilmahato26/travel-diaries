@@ -10,7 +10,7 @@ module.exports = {
       },
       colors: {
         primary: {
-          DEFAULT: '#E34836', // The red/orange color from the design
+          DEFAULT: '#1B61FF', // The blue color from the logo
         },
         navy: {
           DEFAULT: '#111827', // For footer and dark elements

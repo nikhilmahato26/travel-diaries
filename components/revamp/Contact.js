@@ -9,7 +9,7 @@ const Contact = () => {
           {/* Left Column: Info */}
           <div className="space-y-8">
             <div>
-              <p className="text-[#E34836] font-cursive text-3xl mb-3">
+              <p className="text-[#1B61FF] font-cursive text-3xl mb-3">
                 Get In Touch
               </p>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900 leading-[1.1] mb-6">
@@ -41,7 +41,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider block mb-1">Phone</span>
-                  <a href="tel:+96895950141" className="text-gray-800 text-sm font-bold hover:text-[#E34836] transition-colors">
+                  <a href="tel:+96895950141" className="text-gray-800 text-sm font-bold hover:text-[#1B61FF] transition-colors">
                     +968 9595 0141
                   </a>
                 </div>
@@ -54,7 +54,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider block mb-1">Email</span>
-                  <a href="mailto:sales@mytraveldiaries.in" className="text-gray-800 text-sm font-bold hover:text-[#E34836] transition-colors block">
+                  <a href="mailto:sales@mytraveldiaries.in" className="text-gray-800 text-sm font-bold hover:text-[#1B61FF] transition-colors block">
                     sales@mytraveldiaries.in
                   </a>
                 </div>
@@ -85,7 +85,7 @@ const Contact = () => {
                   <input 
                     type="text" 
                     placeholder="Your Name" 
-                    className="w-full bg-white border border-gray-200 text-gray-800 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#E34836] transition-colors"
+                    className="w-full bg-white border border-gray-200 text-gray-800 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1B61FF] transition-colors"
                   />
                 </div>
                 <div>
@@ -93,7 +93,7 @@ const Contact = () => {
                   <input 
                     type="text" 
                     placeholder="+91 XXXXX XXXXX" 
-                    className="w-full bg-white border border-gray-200 text-gray-800 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#E34836] transition-colors"
+                    className="w-full bg-white border border-gray-200 text-gray-800 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1B61FF] transition-colors"
                   />
                 </div>
               </div>
@@ -103,7 +103,7 @@ const Contact = () => {
                 <input 
                   type="email" 
                   placeholder="your@email.com" 
-                  className="w-full bg-white border border-gray-200 text-gray-800 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#E34836] transition-colors"
+                  className="w-full bg-white border border-gray-200 text-gray-800 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1B61FF] transition-colors"
                 />
               </div>
 
@@ -112,7 +112,7 @@ const Contact = () => {
                 <input 
                   type="text" 
                   placeholder="Where do you want to go?" 
-                  className="w-full bg-white border border-gray-200 text-gray-800 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#E34836] transition-colors"
+                  className="w-full bg-white border border-gray-200 text-gray-800 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1B61FF] transition-colors"
                 />
               </div>
 
@@ -121,7 +121,7 @@ const Contact = () => {
                 <textarea 
                   rows="4" 
                   placeholder="Tell us about your trip..." 
-                  className="w-full bg-white border border-gray-200 text-gray-800 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#E34836] transition-colors resize-none"
+                  className="w-full bg-white border border-gray-200 text-gray-800 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1B61FF] transition-colors resize-none"
                 ></textarea>
               </div>
 

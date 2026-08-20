@@ -43,7 +43,7 @@ export default function VideoTestimonials() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <p className="text-[#E34836] font-cursive text-3xl mb-3">
+          <p className="text-[#1B61FF] font-cursive text-3xl mb-3">
             Testimonials
           </p>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900 mb-6">
@@ -62,7 +62,7 @@ export default function VideoTestimonials() {
           </div>
         ) : (
           <div className="relative group">
-            <button onClick={scrollLeft} className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg text-gray-600 hover:text-[#E34836] transition-colors md:opacity-0 group-hover:opacity-100 hidden md:block">
+            <button onClick={scrollLeft} className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg text-gray-600 hover:text-[#1B61FF] transition-colors md:opacity-0 group-hover:opacity-100 hidden md:block">
               <ChevronLeft size={24} />
             </button>
             
@@ -87,7 +87,7 @@ export default function VideoTestimonials() {
               })}
             </div>
 
-            <button onClick={scrollRight} className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg text-gray-600 hover:text-[#E34836] transition-colors md:opacity-0 group-hover:opacity-100 hidden md:block">
+            <button onClick={scrollRight} className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg text-gray-600 hover:text-[#1B61FF] transition-colors md:opacity-0 group-hover:opacity-100 hidden md:block">
               <ChevronRight size={24} />
             </button>
           </div>

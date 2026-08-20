@@ -1,5 +1,5 @@
 'use client'
-import { Phone } from 'lucide-react';
+import { Phone, Download } from 'lucide-react';
 import Link from 'next/link';
 import { usePackages } from '@/hooks/usePackages';
 
@@ -16,7 +16,7 @@ const Packages = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <p className="text-[#E34836] font-cursive text-3xl mb-3">
+          <p className="text-[#1B61FF] font-cursive text-3xl mb-3">
             Explore the World
           </p>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900 mb-6">
@@ -72,7 +72,7 @@ const Packages = () => {
                         {pkg.duration || 'Flexible Duration'}
                       </span>
                       
-                      <h3 className="text-[17px] font-heading font-bold text-[#0B1E30] leading-snug tracking-tight mb-2.5 min-h-[48px] line-clamp-2 group-hover:text-[#E34836] transition-colors">
+                      <h3 className="text-[17px] font-heading font-bold text-[#0B1E30] leading-snug tracking-tight mb-2.5 min-h-[48px] line-clamp-2 group-hover:text-[#1B61FF] transition-colors">
                         {pkg.title}
                       </h3>
 
@@ -107,19 +107,31 @@ const Packages = () => {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-3">
-                      <a 
-                        href="tel:+96895950141" 
-                        className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all duration-300 shrink-0"
-                      >
-                        <Phone size={18} />
-                      </a>
-                      <Link
-                        href={`/packages/${pkg.id}`}
-                        className="flex-grow bg-[#E34836] text-white hover:bg-red-700 font-bold py-3.5 rounded-full text-[15px] text-center transition-all duration-300 shadow-md shadow-red-500/10 hover:shadow-red-500/20"
-                      >
-                        View Details
-                      </Link>
+                    <div className="flex flex-col gap-2.5">
+                      {pkg.itineraryPdf && (
+                        <a 
+                          href={pkg.itineraryPdf}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full bg-[#F3F4F6] text-gray-700 hover:bg-gray-200 hover:text-gray-900 font-bold py-2.5 rounded-full text-[14px] flex items-center justify-center gap-2 transition-all duration-300 border border-gray-200"
+                        >
+                          <Download size={16} /> Download Itinerary
+                        </a>
+                      )}
+                      <div className="flex items-center gap-3">
+                        <a 
+                          href="tel:+96895950141" 
+                          className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all duration-300 shrink-0"
+                        >
+                          <Phone size={18} />
+                        </a>
+                        <Link
+                          href={`/packages/${pkg.id}`}
+                          className="flex-grow bg-[#1B61FF] text-white hover:bg-blue-700 font-bold py-3 rounded-full text-[15px] text-center transition-all duration-300 shadow-md shadow-blue-500/10 hover:shadow-blue-500/20"
+                        >
+                          View Details
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>

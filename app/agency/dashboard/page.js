@@ -54,7 +54,7 @@ function fmt(n) { return 'OMR ' + Number(n).toLocaleString('en-IN') }
 const STATUS_CONFIG = {
   pending:  { label: 'Under Review', color: '#f59e0b', bg: '#fffbeb', icon: Clock },
   approved: { label: 'Live',         color: '#22c55e', bg: '#f0fdf4', icon: CheckCircle },
-  rejected: { label: 'Rejected',     color: '#ef4444', bg: '#fef2f2', icon: XCircle },
+  rejected: { label: 'Rejected',     color: '#3b82f6', bg: '#fef2f2', icon: XCircle },
 }
 
 export default function AgencyDashboard() {
@@ -305,7 +305,7 @@ export default function AgencyDashboard() {
             { label: 'Total', value: stats.total, color: '#1e3a5f' },
             { label: 'Under Review', value: stats.pending, color: '#f59e0b' },
             { label: 'Live', value: stats.approved, color: '#22c55e' },
-            { label: 'Rejected', value: stats.rejected, color: '#ef4444' },
+            { label: 'Rejected', value: stats.rejected, color: '#3b82f6' },
           ].map(({ label, value, color }) => (
             <div key={label} style={{ background: '#fff', borderRadius: 14, padding: '16px 18px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)', border: '1px solid #f3f4f6' }}>
               <div style={{ fontSize: 32, fontWeight: 800, color, lineHeight: 1 }}>{value}</div>
@@ -681,7 +681,7 @@ export default function AgencyDashboard() {
                   {[
                     { l: 'Highlights', f: 'highlights', type: 'highlight', color: '#1e3a5f' },
                     { l: 'Inclusions', f: 'inclusions', type: 'inclusion', color: '#22c55e' },
-                    { l: 'Exclusions', f: 'exclusions', type: 'exclusion', color: '#ef4444' },
+                    { l: 'Exclusions', f: 'exclusions', type: 'exclusion', color: '#3b82f6' },
                   ].map(({ l, f, type, color }) => (
                     <div key={f} style={{ marginBottom: 18 }}>
                       <label style={S.label}>{l}</label>

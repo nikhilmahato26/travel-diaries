@@ -86,7 +86,7 @@ export default function ImageUploader({ url, onUrlChange, pos, onPosChange, heig
             <button type="button" onClick={() => inputRef.current?.click()} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 8, border: '1px solid #e5e7eb', background: '#fff', color: '#374151', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}>
               <RefreshCw size={13} /> Replace
             </button>
-            <button type="button" onClick={remove} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 8, border: '1px solid #fee2e2', background: '#fff', color: '#ef4444', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}>
+            <button type="button" onClick={remove} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 8, border: '1px solid #fee2e2', background: '#fff', color: '#3b82f6', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}>
               <Trash2 size={13} /> Remove
             </button>
           </div>

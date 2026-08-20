@@ -15,7 +15,7 @@ export default function TourPage({ params }) {
       <main className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Tour Not Found</h1>
-          <Link href="/#packages" className="text-[#E34836] font-semibold hover:underline">
+          <Link href="/#packages" className="text-[#1B61FF] font-semibold hover:underline">
             Go back to packages
           </Link>
         </div>
@@ -41,7 +41,7 @@ export default function TourPage({ params }) {
               <ArrowLeft size={16} /> Back to Packages
             </Link>
             <div className="flex gap-4 mb-4 flex-wrap">
-              <span className="bg-[#E34836] text-white px-4 py-1.5 rounded-full text-sm font-semibold flex items-center gap-2">
+              <span className="bg-[#1B61FF] text-white px-4 py-1.5 rounded-full text-sm font-semibold flex items-center gap-2">
                 <MapPin size={14} /> {tour.country}
               </span>
               <span className="bg-white/20 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-sm font-semibold flex items-center gap-2">
@@ -86,7 +86,7 @@ export default function TourPage({ params }) {
           {/* Right Column: Pricing & Booking */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden">
-              <div className="p-8 bg-gradient-to-br from-[#E34836] to-red-700 text-white">
+              <div className="p-8 bg-gradient-to-br from-[#1B61FF] to-blue-700 text-white">
                 <div className="flex items-center gap-3 mb-2">
                   <span className="text-white/70 line-through text-lg">{tour.oldPrice}</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">

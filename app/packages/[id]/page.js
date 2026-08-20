@@ -4,7 +4,7 @@ import Navbar from '@/components/revamp/Navbar'
 import Footer from '@/components/revamp/Footer'
 import HomestayDetail from '@/components/HomestayDetail'
 import { usePhone, useWhatsapp } from '@/hooks/useSettings'
-import { MapPin, User, ChevronDown, ChevronUp, Share2 } from 'lucide-react'
+import { MapPin, User, ChevronDown, ChevronUp, Share2, Download } from 'lucide-react'
 import Link from 'next/link'
 
 function fmt(n) {
@@ -89,7 +89,7 @@ export default function PackagePage({ params }) {
   if (loading) return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f9fafb' }}>
       <div style={{ textAlign: 'center' }}>
-        <div style={{ width: 40, height: 40, border: '3px solid #fbf8f1', borderTop: '3px solid #E34836', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 12px' }} />
+        <div style={{ width: 40, height: 40, border: '3px solid #fbf8f1', borderTop: '3px solid #1B61FF', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 12px' }} />
         <p style={{ color: '#9ca3af' }}>Loading package...</p>
       </div>
     </div>
@@ -102,7 +102,7 @@ export default function PackagePage({ params }) {
         <div>
           <div style={{ fontSize: 64, marginBottom: 16 }}>🗺️</div>
           <h2 style={{ fontSize: 24, fontWeight: 700, color: '#374151', marginBottom: 8 }}>Package not found</h2>
-          <Link href="/" style={{ color: '#E34836', textDecoration: 'underline' }}>← Back to home</Link>
+          <Link href="/" style={{ color: '#1B61FF', textDecoration: 'underline' }}>← Back to home</Link>
         </div>
       </div>
       <Footer />
@@ -165,15 +165,15 @@ export default function PackagePage({ params }) {
             <h2 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 800, fontSize: isMobile ? 28 : 42, color: '#111827', margin: 0, lineHeight: 1.2 }}>
               {pkg.title}
             </h2>
-            <button onClick={handleShare} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 20px', borderRadius: 999, border: '1px solid #ef4444', color: '#ef4444', background: 'transparent', cursor: 'pointer', fontWeight: 600, fontSize: 14, flexShrink: 0 }}>
+            <button onClick={handleShare} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 20px', borderRadius: 999, border: '1px solid #3b82f6', color: '#3b82f6', background: 'transparent', cursor: 'pointer', fontWeight: 600, fontSize: 14, flexShrink: 0 }}>
               Share <Share2 size={14} />
             </button>
           </div>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: isMobile ? 16 : 40, borderBottom: '1px solid #e5e7eb', paddingBottom: 30 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ width: 44, height: 44, borderRadius: '50%', border: '1px solid #fecaca', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <MapPin size={20} style={{ color: '#ef4444' }} />
+              <div style={{ width: 44, height: 44, borderRadius: '50%', border: '1px solid #bfdbfe', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <MapPin size={20} style={{ color: '#3b82f6' }} />
               </div>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>Location</div>
@@ -182,8 +182,8 @@ export default function PackagePage({ params }) {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ width: 44, height: 44, borderRadius: '50%', border: '1px solid #fecaca', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <User size={20} style={{ color: '#ef4444' }} />
+              <div style={{ width: 44, height: 44, borderRadius: '50%', border: '1px solid #bfdbfe', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <User size={20} style={{ color: '#3b82f6' }} />
               </div>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>Traveler</div>
@@ -192,7 +192,7 @@ export default function PackagePage({ params }) {
             </div>
 
             <div style={{ marginLeft: isMobile ? 0 : 'auto', width: isMobile ? '100%' : 'auto' }}>
-              <div style={{ padding: '14px 28px', borderRadius: 999, background: '#ef4444', color: '#fff', fontWeight: 700, fontSize: 16, textAlign: 'center' }}>
+              <div style={{ padding: '14px 28px', borderRadius: 999, background: '#3b82f6', color: '#fff', fontWeight: 700, fontSize: 16, textAlign: 'center' }}>
                 ₹ Starting from {fmt(pkg.salePrice)} / Per Person
               </div>
             </div>
@@ -223,7 +223,7 @@ export default function PackagePage({ params }) {
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
                   {pkg.exclusions?.map((item, i) => (
                     <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 15, color: '#4b5563', fontWeight: 500 }}>
-                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#ef4444', flexShrink: 0, marginTop: 8 }} />
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#3b82f6', flexShrink: 0, marginTop: 8 }} />
                       {item}
                     </li>
                   ))}
@@ -244,13 +244,13 @@ export default function PackagePage({ params }) {
                     style={{
                       background: 'none', border: 'none', padding: 0, position: 'relative',
                       fontSize: 13, fontWeight: activeTab === tab ? 600 : 500,
-                      color: activeTab === tab ? '#ef4444' : '#6b7280',
+                      color: activeTab === tab ? '#3b82f6' : '#6b7280',
                       cursor: 'pointer', textTransform: 'capitalize', whiteSpace: 'nowrap'
                     }}
                   >
                     {tab}
                     {activeTab === tab && (
-                      <div style={{ position: 'absolute', bottom: -17, left: 0, right: 0, height: 2, background: '#ef4444' }} />
+                      <div style={{ position: 'absolute', bottom: -17, left: 0, right: 0, height: 2, background: '#3b82f6' }} />
                     )}
                   </button>
                 ))}
@@ -267,7 +267,7 @@ export default function PackagePage({ params }) {
                       const isOpen = openDay === i
                       
                       return (
-                        <div key={i} style={{ borderRadius: 16, overflow: 'hidden', border: isOpen ? 'none' : '1px solid #f3f4f6', background: isOpen ? '#ef4444' : '#f9fafb', transition: 'all 0.2s' }}>
+                        <div key={i} style={{ borderRadius: 16, overflow: 'hidden', border: isOpen ? 'none' : '1px solid #f3f4f6', background: isOpen ? '#3b82f6' : '#f9fafb', transition: 'all 0.2s' }}>
                           <button
                             onClick={() => setOpenDay(isOpen ? -1 : i)}
                             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', color: isOpen ? '#fff' : '#111827' }}
@@ -326,7 +326,7 @@ export default function PackagePage({ params }) {
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
                     {pkg.exclusions?.map((item, i) => (
                       <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 15, color: '#4b5563' }}>
-                        <span style={{ color: '#ef4444', fontWeight: 700 }}>✕</span> {item}
+                        <span style={{ color: '#3b82f6', fontWeight: 700 }}>✕</span> {item}
                       </li>
                     ))}
                     {!pkg.exclusions?.length && <li style={{ fontSize: 15, color: '#9ca3af' }}>No exclusions specified</li>}
@@ -339,6 +339,16 @@ export default function PackagePage({ params }) {
           {/* Right Column: Booking Form */}
           <div>
             <div style={{ position: 'sticky', top: 100, background: '#fff', borderRadius: 24, padding: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.04)', border: '1px solid #f3f4f6' }}>
+              {pkg.itineraryPdf && (
+                <a
+                  href={pkg.itineraryPdf}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', padding: '14px 0', borderRadius: 12, background: '#f8fafc', color: '#334155', fontWeight: 700, fontSize: 15, textDecoration: 'none', marginBottom: 24, border: '1px solid #e2e8f0', transition: 'all 0.2s' }}
+                >
+                  <Download size={18} /> Download Itinerary PDF
+                </a>
+              )}
               <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, fontSize: 24, color: '#111827', margin: '0 0 24px' }}>Tour Booking</h3>
               
               <form onSubmit={submitEnquiry}>
@@ -396,7 +406,7 @@ export default function PackagePage({ params }) {
                     disabled={enquiryStatus === 'sending'}
                     style={{
                       marginTop: 8, width: '100%', padding: '16px 0', borderRadius: 12, border: 'none',
-                      background: enquiryStatus === 'sending' ? '#fca5a5' : '#ef4444',
+                      background: enquiryStatus === 'sending' ? '#93c5fd' : '#3b82f6',
                       color: '#fff', fontWeight: 700, fontSize: 16, cursor: enquiryStatus === 'sending' ? 'not-allowed' : 'pointer',
                       transition: 'background 0.2s'
                     }}
@@ -405,7 +415,7 @@ export default function PackagePage({ params }) {
                   </button>
                   
                   {enquiryStatus === 'error' && (
-                    <p style={{ color: '#ef4444', fontSize: 13, textAlign: 'center', margin: '4px 0 0' }}>Something went wrong. Please try again.</p>
+                    <p style={{ color: '#3b82f6', fontSize: 13, textAlign: 'center', margin: '4px 0 0' }}>Something went wrong. Please try again.</p>
                   )}
                 </div>
               </form>

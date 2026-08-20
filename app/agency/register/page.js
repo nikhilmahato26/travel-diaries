@@ -141,7 +141,7 @@ export default function AgencyRegisterPage() {
         </div>
 
         {error && (
-          <div style={{ margin: '16px 32px 0', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 14px', color: '#dc2626', fontSize: 13, fontWeight: 600 }}>
+          <div style={{ margin: '16px 32px 0', background: '#fef2f2', border: '1px solid #bfdbfe', borderRadius: 10, padding: '10px 14px', color: '#dc2626', fontSize: 13, fontWeight: 600 }}>
             {error}
           </div>
         )}

@@ -1,6 +1,6 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import { Phone, Clock, MapPin, Tag } from 'lucide-react'
+import { Phone, Clock, MapPin, Tag, Download } from 'lucide-react'
 
 function formatPrice(n) {
   return '₹' + Number(n).toLocaleString('en-IN')
@@ -75,9 +75,22 @@ export default function PackageCard({ pkg, phone = '919846034558' }) {
             </a>
           </div>
 
-          <button style={{ marginTop: 14, width: '100%', padding: '12px 0', borderRadius: 999, fontWeight: 600, fontSize: 14, color: '#fff', background: 'linear-gradient(135deg, #7e5233, #c93d00)', border: 'none', cursor: 'pointer' }}>
-            View Details
-          </button>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 14 }}>
+            {pkg.itineraryPdf && (
+              <a
+                href={pkg.itineraryPdf}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={e => e.stopPropagation()}
+                style={{ width: '100%', padding: '10px 0', borderRadius: 999, fontWeight: 600, fontSize: 13, color: '#374151', background: '#f3f4f6', border: '1px solid #e5e7eb', cursor: 'pointer', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+              >
+                <Download size={14} /> Download Itinerary
+              </a>
+            )}
+            <button style={{ width: '100%', padding: '12px 0', borderRadius: 999, fontWeight: 600, fontSize: 14, color: '#fff', background: 'linear-gradient(135deg, #7e5233, #c93d00)', border: 'none', cursor: 'pointer' }}>
+              View Details
+            </button>
+          </div>
         </div>
     </div>
   )

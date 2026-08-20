@@ -53,7 +53,7 @@ const Navbar = () => {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`text-[15px] font-medium transition-colors hover:text-[#E34836] ${
+                  className={`text-[15px] font-medium transition-colors hover:text-[#1B61FF] ${
                     isScrolled ? 'text-gray-800' : 'text-white'
                   }`}
                 >
@@ -65,7 +65,7 @@ const Navbar = () => {
             <div className="flex items-center space-x-6">
               <Link
                 href="tel:+96895950141"
-                className="bg-[#E34836] text-white px-6 py-2.5 rounded-full text-[15px] font-medium hover:bg-red-700 transition-colors"
+                className="bg-[#1B61FF] text-white px-6 py-2.5 rounded-full text-[15px] font-medium hover:bg-blue-700 transition-colors"
               >
                 Talk to us
               </Link>
@@ -95,7 +95,7 @@ const Navbar = () => {
             <Link
               key={link.name}
               href={link.href}
-              className="block text-gray-800 font-medium hover:text-[#E34836] text-lg"
+              className="block text-gray-800 font-medium hover:text-[#1B61FF] text-lg"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {link.name}
@@ -104,7 +104,7 @@ const Navbar = () => {
           <div className="pt-4 border-t border-gray-100 flex flex-col gap-4">
             <Link
               href="tel:+96895950141"
-              className="bg-[#E34836] text-white px-6 py-3 rounded-full font-medium hover:bg-red-700 transition-colors text-center block text-sm"
+              className="bg-[#1B61FF] text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition-colors text-center block text-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Talk to us

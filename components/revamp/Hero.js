@@ -29,7 +29,7 @@ const Hero = () => {
         <div className="flex gap-4">
           <a
             href="#packages"
-            className="bg-[#E34836] text-white px-8 py-4 rounded-full font-bold hover:bg-red-700 transition-colors shadow-lg text-lg"
+            className="bg-[#1B61FF] text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700 transition-colors shadow-lg text-lg"
           >
             Explore Packages
           </a>

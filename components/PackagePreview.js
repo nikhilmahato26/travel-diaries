@@ -22,7 +22,7 @@ export default function PackagePreview({ pkg }) {
   const lists = [
     { label: 'Highlights', items: pkg.highlights, icon: '★', color: '#1e3a5f' },
     { label: 'Inclusions', items: pkg.inclusions, icon: '✓', color: '#22c55e' },
-    { label: 'Exclusions', items: pkg.exclusions, icon: '✕', color: '#ef4444' },
+    { label: 'Exclusions', items: pkg.exclusions, icon: '✕', color: '#3b82f6' },
   ].filter(l => (l.items || []).filter(Boolean).length)
 
   return (

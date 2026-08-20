@@ -129,7 +129,7 @@ export default function AdminForgotPasswordPage() {
         </div>
 
         {error && (
-          <div style={{ margin: '16px 32px 0', padding: '10px 14px', borderRadius: 10, background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', fontSize: 13, fontWeight: 600 }}>
+          <div style={{ margin: '16px 32px 0', padding: '10px 14px', borderRadius: 10, background: '#fef2f2', border: '1px solid #bfdbfe', color: '#dc2626', fontSize: 13, fontWeight: 600 }}>
             {error}
           </div>
         )}
@@ -195,7 +195,7 @@ export default function AdminForgotPasswordPage() {
               <div style={{ position: 'relative' }}>
                 <Lock size={15} style={S.icon} />
                 <input required type="password" value={confirm} onChange={e => setConfirm(e.target.value)}
-                  style={{ ...S.input, borderColor: confirm && confirm !== newPassword ? '#fca5a5' : undefined }}
+                  style={{ ...S.input, borderColor: confirm && confirm !== newPassword ? '#93c5fd' : undefined }}
                   placeholder="Repeat new password" />
               </div>
               {confirm && confirm !== newPassword && (

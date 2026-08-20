@@ -75,7 +75,7 @@ export default function AdminLogin() {
                 onChange={e => setUsername(e.target.value)}
                 required
                 placeholder="Enter your username"
-                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 text-sm text-gray-900 bg-gray-50 focus:bg-white focus:outline-none focus:border-[#E34836] focus:ring-4 focus:ring-red-500/10 transition-all font-medium placeholder-gray-400"
+                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 text-sm text-gray-900 bg-gray-50 focus:bg-white focus:outline-none focus:border-[#1B61FF] focus:ring-4 focus:ring-blue-500/10 transition-all font-medium placeholder-gray-400"
               />
             </div>
 
@@ -88,7 +88,7 @@ export default function AdminLogin() {
                   onChange={e => setPassword(e.target.value)}
                   required
                   placeholder="••••••••"
-                  className="w-full pl-4 pr-12 py-3.5 rounded-xl border border-gray-200 text-sm text-gray-900 bg-gray-50 focus:bg-white focus:outline-none focus:border-[#E34836] focus:ring-4 focus:ring-red-500/10 transition-all font-medium placeholder-gray-400"
+                  className="w-full pl-4 pr-12 py-3.5 rounded-xl border border-gray-200 text-sm text-gray-900 bg-gray-50 focus:bg-white focus:outline-none focus:border-[#1B61FF] focus:ring-4 focus:ring-blue-500/10 transition-all font-medium placeholder-gray-400"
                 />
                 <button
                   type="button"
@@ -101,7 +101,7 @@ export default function AdminLogin() {
             </div>
 
             {error && (
-              <div className="p-3 mb-6 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm font-semibold flex items-center gap-2">
+              <div className="p-3 mb-6 rounded-xl bg-red-50 border border-red-200 text-blue-600 text-sm font-semibold flex items-center gap-2">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                 {error}
               </div>
@@ -110,8 +110,8 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-3.5 rounded-xl text-white font-bold text-[15px] flex items-center justify-center gap-2 transition-all shadow-md shadow-red-500/20 ${
-                loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#E34836] hover:bg-red-700 hover:shadow-lg hover:shadow-red-500/30 hover:-translate-y-0.5'
+              className={`w-full py-3.5 rounded-xl text-white font-bold text-[15px] flex items-center justify-center gap-2 transition-all shadow-md shadow-blue-500/20 ${
+                loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#1B61FF] hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5'
               }`}
             >
               {loading ? (
@@ -127,7 +127,7 @@ export default function AdminLogin() {
             </button>
 
             <div className="text-center mt-6">
-              <Link href="/admin/forgot-password" className="text-sm text-gray-500 hover:text-[#E34836] font-semibold transition-colors">
+              <Link href="/admin/forgot-password" className="text-sm text-gray-500 hover:text-[#1B61FF] font-semibold transition-colors">
                 Forgot your password?
               </Link>
             </div>

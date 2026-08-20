@@ -31,7 +31,7 @@ function fmtDate(ts) { return new Date(ts).toLocaleDateString('en-IN', { day: 'n
 const STATUS_CONFIG = {
   pending:  { label: 'Pending',   color: '#f59e0b', bg: '#fffbeb' },
   approved: { label: 'Approved',  color: '#22c55e', bg: '#f0fdf4' },
-  rejected: { label: 'Rejected',  color: '#ef4444', bg: '#fef2f2' },
+  rejected: { label: 'Rejected',  color: '#3b82f6', bg: '#fef2f2' },
 }
 
 const EMPTY_PKG = {
@@ -39,7 +39,7 @@ const EMPTY_PKG = {
   duration: '3', title: '', subtitle: '', hotels: '',
   adults: '', children: '', rooms: '',
   originalPrice: '', salePrice: '', childPrice: '', childAgeMin: '', childAgeMax: '', priceNote: 'Per Person',
-  image: '', heroImage: '', imagePos: '', heroImagePos: '', overview: '', note: '', category: 'package',
+  image: '', heroImage: '', imagePos: '', heroImagePos: '', overview: '', note: '', itineraryPdf: '', category: 'package',
   highlights: [], inclusions: [], exclusions: [],
   itinerary: [{ day: 1, title: '', description: '', activities: [{ time: '', emoji: '', title: '', details: [''], tags: [] }], image: '', hotel: '' }],
   availableDates: [],
@@ -1282,7 +1282,7 @@ export default function Dashboard() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
               {videoTestimonials.map(v => (
                 <div key={v.id} style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', border: '1px solid #e5e7eb', position: 'relative' }}>
-                  <button onClick={() => handleDeleteVideoTestimonial(v.id)} style={{ position: 'absolute', top: 10, right: 10, background: '#ef4444', color: '#fff', border: 'none', width: 32, height: 32, borderRadius: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
+                  <button onClick={() => handleDeleteVideoTestimonial(v.id)} style={{ position: 'absolute', top: 10, right: 10, background: '#3b82f6', color: '#fff', border: 'none', width: 32, height: 32, borderRadius: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
                     <Trash2 size={14} />
                   </button>
                   <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
@@ -1545,6 +1545,10 @@ export default function Dashboard() {
                     <label style={S.label}>Note (optional)</label>
                     <textarea rows={2} value={form.note} onChange={e => setForm(f => ({ ...f, note: e.target.value }))} style={{ ...S.input, resize: 'vertical', lineHeight: 1.6 }} placeholder="e.g. Rates vary on customization, special terms, important info..." />
                   </div>
+                  <div style={{ gridColumn: '1/-1' }}>
+                    <label style={S.label}>Itinerary PDF Link (optional)</label>
+                    <input type="url" value={form.itineraryPdf || ''} onChange={e => setForm(f => ({ ...f, itineraryPdf: e.target.value }))} style={S.input} placeholder="https://example.com/itinerary.pdf" />
+                  </div>
                   {['group', 'upcoming'].includes(form.category) && (
                     <div style={{ gridColumn: '1/-1' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, marginTop: 4 }}>
@@ -1678,7 +1682,7 @@ export default function Dashboard() {
                   {[
                     { l: 'Highlights', f: 'highlights', type: 'highlight', color: '#7e5233' },
                     { l: 'Inclusions', f: 'inclusions', type: 'inclusion', color: '#22c55e' },
-                    { l: 'Exclusions', f: 'exclusions', type: 'exclusion', color: '#ef4444' },
+                    { l: 'Exclusions', f: 'exclusions', type: 'exclusion', color: '#3b82f6' },
                   ].map(({ l, f, type, color }) => (
                     <div key={f} style={{ marginBottom: 18 }}>
                       <label style={S.label}>{l}</label>
@@ -1872,12 +1876,12 @@ export default function Dashboard() {
       {confirm && (
         <div style={{ ...S.overlay, alignItems: 'center', zIndex: 70 }} onClick={e => e.target === e.currentTarget && setConfirm(null)}>
           <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 360, padding: 28, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', textAlign: 'center' }}>
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><AlertTriangle size={24} style={{ color: '#ef4444' }} /></div>
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><AlertTriangle size={24} style={{ color: '#3b82f6' }} /></div>
             <h3 style={{ fontWeight: 700, fontSize: 17, color: '#111', marginBottom: 8 }}>Are you sure?</h3>
             <p style={{ color: '#6b7280', fontSize: 13, lineHeight: 1.6, marginBottom: 22 }}>{confirm.message}</p>
             <div style={{ display: 'flex', gap: 10 }}>
               <button onClick={() => setConfirm(null)} style={{ flex: 1, padding: '11px 0', borderRadius: 10, border: '1px solid #e5e7eb', background: '#fff', color: '#6b7280', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>Cancel</button>
-              <button onClick={confirm.onConfirm} style={{ flex: 1, padding: '11px 0', borderRadius: 10, border: 'none', background: '#ef4444', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>Confirm</button>
+              <button onClick={confirm.onConfirm} style={{ flex: 1, padding: '11px 0', borderRadius: 10, border: 'none', background: '#3b82f6', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>Confirm</button>
             </div>
           </div>
         </div>
@@ -1887,12 +1891,12 @@ export default function Dashboard() {
       {modal === 'delete' && (
         <div style={{ ...S.overlay, alignItems: 'center' }} onClick={e => e.target === e.currentTarget && setModal(null)}>
           <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 380, padding: 28, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', textAlign: 'center' }}>
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><AlertTriangle size={24} style={{ color: '#ef4444' }} /></div>
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><AlertTriangle size={24} style={{ color: '#3b82f6' }} /></div>
             <h3 style={{ fontWeight: 700, fontSize: 18, color: '#111', marginBottom: 8 }}>Delete Package?</h3>
             <p style={{ color: '#6b7280', fontSize: 13, lineHeight: 1.6, marginBottom: 22 }}>This will permanently remove the package. This action cannot be undone.</p>
             <div style={{ display: 'flex', gap: 10 }}>
               <button onClick={() => { setModal(null); setDeleteId(null) }} style={{ flex: 1, padding: '11px 0', borderRadius: 10, border: '1px solid #e5e7eb', background: '#fff', color: '#6b7280', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>Cancel</button>
-              <button onClick={handleDelete} disabled={saving} style={{ flex: 1, padding: '11px 0', borderRadius: 10, border: 'none', background: '#ef4444', color: '#fff', fontWeight: 700, fontSize: 13, cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1 }}>
+              <button onClick={handleDelete} disabled={saving} style={{ flex: 1, padding: '11px 0', borderRadius: 10, border: 'none', background: '#3b82f6', color: '#fff', fontWeight: 700, fontSize: 13, cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1 }}>
                 {saving ? 'Deleting...' : 'Yes, Delete'}
               </button>
             </div>

@@ -39,7 +39,7 @@ const About = () => {
           {/* Text Content */}
           <div className="space-y-8 pl-4 lg:pl-8">
             <div>
-              <p className="text-[#E34836] font-cursive text-3xl mb-3 flex items-center gap-2">
+              <p className="text-[#1B61FF] font-cursive text-3xl mb-3 flex items-center gap-2">
                 Our Services
               </p>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900 leading-[1.2] mb-6">
@@ -55,7 +55,7 @@ const About = () => {
 
             <div className="space-y-6 pt-2">
               <div className="flex items-start gap-4">
-                <div className="bg-red-50 p-3 rounded-lg text-[#E34836] mt-1">
+                <div className="bg-red-50 p-3 rounded-lg text-[#1B61FF] mt-1">
                   <Map size={24} strokeWidth={1.5} />
                 </div>
                 <div>
@@ -65,7 +65,7 @@ const About = () => {
               </div>
               
               <div className="flex items-start gap-4">
-                <div className="bg-red-50 p-3 rounded-lg text-[#E34836] mt-1">
+                <div className="bg-red-50 p-3 rounded-lg text-[#1B61FF] mt-1">
                   <Briefcase size={24} strokeWidth={1.5} />
                 </div>
                 <div>
@@ -76,7 +76,7 @@ const About = () => {
             </div>
 
             <div className="pt-6">
-              <a href="#contact" className="inline-flex items-center gap-2 bg-[#E34836] text-white px-8 py-3.5 rounded-full font-medium hover:bg-red-700 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5">
+              <a href="#contact" className="inline-flex items-center gap-2 bg-[#1B61FF] text-white px-8 py-3.5 rounded-full font-medium hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5">
                 Get a Quote
                 <ArrowRight size={18} />
               </a>

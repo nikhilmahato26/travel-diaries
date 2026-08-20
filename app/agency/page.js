@@ -60,7 +60,7 @@ export default function AgencyLoginPage() {
 
         <form onSubmit={submit} style={{ padding: '28px 32px' }}>
           {error && (
-            <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#dc2626', fontSize: 13, fontWeight: 600 }}>
+            <div style={{ background: '#fef2f2', border: '1px solid #bfdbfe', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#dc2626', fontSize: 13, fontWeight: 600 }}>
               {error}
             </div>
           )}
