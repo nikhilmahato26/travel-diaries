@@ -7,6 +7,7 @@ import Packages from '@/components/revamp/Packages'
 import Cruises from '@/components/revamp/Cruises'
 import UpcomingTrips from '@/components/revamp/UpcomingTrips'
 import VideoTestimonials from '@/components/revamp/VideoTestimonials'
+import Testimonials from '@/components/revamp/Testimonials'
 import Contact from '@/components/revamp/Contact'
 import Footer from '@/components/revamp/Footer'
 import FloatingWhatsApp from '@/components/FloatingWhatsApp'
@@ -21,6 +22,7 @@ export default function HomePage() {
       <Cruises />
       <Packages />
       <UpcomingTrips />
+      <Testimonials />
       <VideoTestimonials />
       <Contact />
       <Footer />

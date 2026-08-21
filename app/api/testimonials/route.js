@@ -20,7 +20,7 @@ export async function POST(req) {
     if (!body.name || !body.text) {
       return NextResponse.json({ error: 'Name and text are required' }, { status: 400 })
     }
-    const t = await addTestimonial(body.name, body.text)
+    const t = await addTestimonial(body.name, body.text, body.image_url)
     return NextResponse.json(t)
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 })
@@ -36,7 +36,7 @@ export async function PUT(req) {
     if (!body.id || !body.name || !body.text) {
       return NextResponse.json({ error: 'ID, name and text are required' }, { status: 400 })
     }
-    const t = await updateTestimonial(body.id, body.name, body.text)
+    const t = await updateTestimonial(body.id, body.name, body.text, body.image_url)
     return NextResponse.json(t)
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 })

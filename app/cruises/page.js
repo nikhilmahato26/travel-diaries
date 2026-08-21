@@ -2,76 +2,13 @@
 import Navbar from '@/components/revamp/Navbar';
 import Footer from '@/components/revamp/Footer';
 import { Ship, Clock, DollarSign, ArrowRight, MessageCircle } from 'lucide-react';
+import { usePackages } from '@/hooks/usePackages';
+
+function fmt(n) { return n ? 'OMR ' + Number(n).toLocaleString('en-IN') : '' }
 
 export default function CruisesPage() {
-  const cruises = [
-    {
-      id: 1,
-      title: 'Singapore & Malaysia Cruise',
-      ship: 'Spectrum of the Seas (Royal Caribbean)',
-      duration: '4 Nights / 5 Days',
-      route: 'Singapore - Penang - Singapore',
-      price: '38,500 OMR',
-      oldPrice: '45,000 OMR',
-      image: 'https://images.unsplash.com/photo-1599640842225-85d111c60e6b?auto=format&fit=crop&w=800&q=80',
-      highlights: ['FlowRider surf simulator', 'RipCord by iFly skydiving simulator', 'North Star viewing capsule', '20+ dining venues'],
-    },
-    {
-      id: 2,
-      title: 'Mediterranean Escape Voyage',
-      ship: 'MSC World Europa (MSC Cruises)',
-      duration: '7 Nights / 8 Days',
-      route: 'Barcelona - Marseille - Genoa - Naples - Messina - Valletta - Barcelona',
-      price: '78,999 OMR',
-      oldPrice: '90,000 OMR',
-      image: 'https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=800&q=80',
-      highlights: ['World Promenade with ocean views', 'Futuristic architecture', '13 dining venues', 'Massive aquapark'],
-    },
-    {
-      id: 3,
-      title: 'Alaskan Glacier Explorer',
-      ship: 'Discovery Princess (Princess Cruises)',
-      duration: '7 Nights / 8 Days',
-      route: 'Seattle - Juneau - Skagway - Glacier Bay - Ketchikan - Victoria - Seattle',
-      price: '92,000 OMR',
-      oldPrice: '1,05,000 OMR',
-      image: 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=800&q=80',
-      highlights: ['Scenic glacier cruising in Glacier Bay', 'Sanctuary adults-only retreat', 'Princess Live! entertainment', 'Chef’s Table Lumiere'],
-    },
-    {
-      id: 4,
-      title: 'Bahamas & Perfect Day Getaway',
-      ship: 'Utopia of the Seas (Royal Caribbean)',
-      duration: '3 Nights / 4 Days',
-      route: 'Port Canaveral - Nassau - Perfect Day at CocoCay - Port Canaveral',
-      price: '48,000 OMR',
-      oldPrice: '55,000 OMR',
-      image: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80',
-      highlights: ['Exclusive private island CocoCay access', 'Thrill Waterpark with 13 waterslides', '40+ restaurants & bars', 'Central Park neighborhood'],
-    },
-    {
-      id: 5,
-      title: 'Caribbean Island Paradise',
-      ship: 'Norwegian Joy (Norwegian Cruise Line)',
-      duration: '7 Nights / 8 Days',
-      route: 'Miami - Roatan - Harvest Caye - Costa Maya - Cozumel - Miami',
-      price: '65,999 OMR',
-      oldPrice: '75,000 OMR',
-      image: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=800&q=80',
-      highlights: ['Go-kart race track at sea', 'Galaxy Pavilion virtual reality arena', 'Broadway-style shows', 'Exclusive beach at Harvest Caye'],
-    },
-    {
-      id: 6,
-      title: 'Antarctica Polar Expedition',
-      ship: 'MS Fridtjof Nansen (Hurtigruten)',
-      duration: '10 Nights / 11 Days',
-      route: 'Ushuaia - Drake Passage - Antarctic Peninsula - Ushuaia',
-      price: '4,50,000 OMR',
-      oldPrice: '5,10,000 OMR',
-      image: 'https://images.unsplash.com/photo-1551244072-5d12893278ab?auto=format&fit=crop&w=800&q=80',
-      highlights: ['Polar explorer science center', 'Daily landings via rigid inflatable boats', 'Expert expedition lectures', 'Environmentally hybrid engines'],
-    },
-  ];
+  const { packages, loaded } = usePackages()
+  const cruises = packages.filter(p => p.category === 'cruise')
 
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col font-body">
@@ -113,25 +50,31 @@ export default function CruisesPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {cruises.map((cruise) => (
+          {!loaded ? (
+            <div className="col-span-full py-20 text-center text-gray-500">Loading cruises...</div>
+          ) : cruises.length === 0 ? (
+            <div className="col-span-full py-20 text-center text-gray-500">No cruises available at the moment.</div>
+          ) : cruises.map((cruise) => (
             <div key={cruise.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col justify-between group hover:shadow-lg transition-all duration-300 h-full">
               <div>
                 {/* Image */}
-                <div className="relative h-56 overflow-hidden">
-                  <img
-                    src={cruise.image}
-                    alt={cruise.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                <div className="relative h-56 overflow-hidden bg-gray-100">
+                  {(cruise.image || cruise.heroImage) && (
+                    <img
+                      src={cruise.image || cruise.heroImage}
+                      alt={cruise.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  )}
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm">
-                    {cruise.duration}
+                    {cruise.duration || 1} Nights / {parseInt(cruise.duration || 1) + 1} Days
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-6">
                   <span className="text-[#1B61FF] text-[11px] font-bold uppercase tracking-wider block mb-1">
-                    {cruise.ship}
+                    {cruise.destination || 'Cruise'}
                   </span>
                   <h3 className="text-xl font-heading font-bold text-gray-900 mb-2 leading-snug group-hover:text-[#1B61FF] transition-colors">
                     {cruise.title}
@@ -139,27 +82,33 @@ export default function CruisesPage() {
                   
                   <div className="flex items-center gap-1.5 text-gray-500 text-xs mb-4">
                     <Clock size={14} className="shrink-0 text-gray-400" />
-                    <span>{cruise.route}</span>
+                    <span>{cruise.subtitle || cruise.destination || 'Various Routes'}</span>
                   </div>
 
                   {/* Highlights list */}
-                  <div className="space-y-1.5 border-t border-gray-100 pt-4 mb-2">
-                    <span className="text-gray-400 text-[10px] font-bold uppercase tracking-wider block mb-2">Highlights</span>
-                    {cruise.highlights.map((highlight, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs text-gray-600">
-                        <span className="text-[#1B61FF] text-sm leading-none">•</span>
-                        <span>{highlight}</span>
-                      </div>
-                    ))}
-                  </div>
+                  {(cruise.highlights || []).length > 0 && (
+                    <div className="space-y-1.5 border-t border-gray-100 pt-4 mb-2">
+                      <span className="text-gray-400 text-[10px] font-bold uppercase tracking-wider block mb-2">Highlights</span>
+                      {cruise.highlights.slice(0, 4).map((highlight, idx) => (
+                        <div key={idx} className="flex items-start gap-2 text-xs text-gray-600">
+                          <span className="text-[#1B61FF] text-sm leading-none">•</span>
+                          <span>{highlight}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Action Block */}
-              <div className="p-6 border-t border-gray-100 flex items-center justify-between bg-gray-50/50">
+              <div className="p-6 border-t border-gray-100 flex items-center justify-between bg-gray-50/50 mt-auto">
                 <div className="flex flex-col">
-                  <span className="text-gray-400 text-[10px] line-through">Was {cruise.oldPrice}</span>
-                  <span className="text-gray-900 font-heading font-bold text-lg">{cruise.price}</span>
+                  {cruise.originalPrice && cruise.salePrice ? (
+                    <span className="text-gray-400 text-[10px] line-through">Was {fmt(cruise.originalPrice)}</span>
+                  ) : <span className="h-[15px]" />}
+                  <span className="text-gray-900 font-heading font-bold text-lg">
+                    {cruise.salePrice ? fmt(cruise.salePrice) : (cruise.originalPrice ? fmt(cruise.originalPrice) : 'Price on request')}
+                  </span>
                 </div>
                 <a
                   href={`https://wa.me/96895950141?text=Hi%20Travel%20Diaries%2C%20I%20am%20interested%20in%20booking%20the%20${encodeURIComponent(cruise.title)}.`}

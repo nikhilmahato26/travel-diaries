@@ -74,7 +74,7 @@ export default function Dashboard() {
   const [galleryUploading, setGalleryUploading] = useState(false)
   const [testimonials, setTestimonials] = useState([])
   const [testimonialModal, setTestimonialModal] = useState(null)
-  const [testimonialForm, setTestimonialForm] = useState({ name: '', text: '' })
+  const [testimonialForm, setTestimonialForm] = useState({ name: '', text: '', image_url: '' })
   const [testimonialSaving, setTestimonialSaving] = useState(false)
   const [videoTestimonials, setVideoTestimonials] = useState([])
   const [videoTestimonialForm, setVideoTestimonialForm] = useState({ youtube_url: '' })
@@ -228,6 +228,15 @@ export default function Dashboard() {
     fetchListings()
     fetch('/api/package-options').then(r => r.ok ? r.json() : null).then(d => { if (d) setPkgOptions(d) }).catch(() => {})
   }, [fetchPackages, fetchDestinations, fetchListings])
+
+  useEffect(() => {
+    const anyModalOpen = modal || confirm || featureModal || testimonialModal
+    if (anyModalOpen) {
+      const prevOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      return () => { document.body.style.overflow = prevOverflow }
+    }
+  }, [modal, confirm, featureModal, testimonialModal])
 
   useEffect(() => {
     if (section === 'enquiries') fetchEnquiries()
@@ -637,14 +646,19 @@ export default function Dashboard() {
     finally { setVideoTestimonialSaving(false) }
   }
 
-  const handleDeleteVideoTestimonial = async (id) => {
-    if (!confirm('Delete this video testimonial?')) return
-    try {
-      const res = await fetch('/api/video-testimonials/' + id, { method: 'DELETE' })
-      if (!res.ok) throw new Error()
-      toast.success('Deleted successfully')
-      fetchVideoTestimonials()
-    } catch { toast.error('Failed to delete') }
+  const handleDeleteVideoTestimonial = (id) => {
+    setConfirm({
+      message: 'Delete this video testimonial?',
+      onConfirm: async () => {
+        setConfirm(null)
+        try {
+          const res = await fetch('/api/video-testimonials/' + id, { method: 'DELETE' })
+          if (!res.ok) throw new Error()
+          toast.success('Deleted successfully')
+          fetchVideoTestimonials()
+        } catch { toast.error('Failed to delete') }
+      },
+    })
   }
 
   const SIDEBAR_MENUS = {
@@ -864,12 +878,37 @@ export default function Dashboard() {
             {/* Filters */}
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 16 }}>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-                {/* Category filter */}
-                <div style={{ display: 'flex', gap: 6 }}>
-                  <button onClick={() => setPkgFilter('all')} style={S.tag(pkgFilter === 'all')}>All</button>
-                  {destinations.map(d => (
-                    <button key={d.name} onClick={() => setPkgFilter(d.name)} style={S.tag(pkgFilter === d.name)}>{d.name}</button>
-                  ))}
+                {/* Category filter dropdown */}
+                <div style={{ position: 'relative', minWidth: 240 }}>
+                  <select
+                    value={pkgFilter}
+                    onChange={(e) => setPkgFilter(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '10px 18px',
+                      borderRadius: 10,
+                      border: '1px solid #e5e7eb',
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: '#111',
+                      background: '#fff',
+                      cursor: 'pointer',
+                      appearance: 'none',
+                      outline: 'none'
+                    }}
+                  >
+                    <option value="all">All Destinations ({allPackages.filter(p => p.category !== 'cruise').length})</option>
+                    {destinations.map(d => (
+                      <option key={d.name} value={d.name}>
+                        {d.name} ({allPackages.filter(p => p.destination === d.name).length})
+                      </option>
+                    ))}
+                  </select>
+                  <div style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#6b7280' }}>
+                    <svg width="10" height="6" viewBox="0 0 12 8" fill="none">
+                      <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
@@ -1229,7 +1268,7 @@ export default function Dashboard() {
                 <h1 style={{ fontSize: 24, fontWeight: 800, color: '#111' }}>Testimonials</h1>
                 <p style={{ color: '#6b7280', fontSize: 14, marginTop: 4 }}>Manage client testimonials displayed on the homepage.</p>
               </div>
-              <button onClick={() => { setTestimonialModal('add'); setTestimonialForm({ name: '', text: '' }) }} style={{ ...S.btn('#fbf8f1', '#7e5233'), display: 'flex', alignItems: 'center', gap: 6 }}>
+              <button onClick={() => { setTestimonialModal('add'); setTestimonialForm({ name: '', text: '', image_url: '' }) }} style={{ ...S.btn('#fbf8f1', '#7e5233'), display: 'flex', alignItems: 'center', gap: 6 }}>
                 <Plus size={16} /> Add Testimonial
               </button>
             </div>
@@ -1237,20 +1276,28 @@ export default function Dashboard() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
               {testimonials.map(t => (
                 <div key={t.id} style={{ ...S.card, padding: 24, position: 'relative' }}>
-                  <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 8, color: '#111' }}>{t.name}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                    <div style={{ width: 40, height: 40, borderRadius: '50%', overflow: 'hidden', background: '#f3f4f6', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af', fontWeight: 700, fontSize: 15 }}>
+                      {t.image_url ? <img src={t.image_url} alt={t.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : t.name?.[0]?.toUpperCase()}
+                    </div>
+                    <div style={{ fontWeight: 700, fontSize: 16, color: '#111' }}>{t.name}</div>
+                  </div>
                   <p style={{ fontSize: 14, color: '#555', lineHeight: 1.6, marginBottom: 16 }}>&quot;{t.text}&quot;</p>
                   <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', borderTop: '1px solid #f3f4f6', paddingTop: 12 }}>
                     <button onClick={() => { setTestimonialModal('edit'); setTestimonialForm(t) }} style={{ ...S.btn('#f3f4f6', '#555'), padding: '6px 12px' }}>
                       <Pencil size={14} /> Edit
                     </button>
-                    <button onClick={async () => {
-                      if (!confirm('Delete this testimonial?')) return
-                      try {
-                        await fetch('/api/testimonials?id=' + t.id, { method: 'DELETE' })
-                        fetchTestimonials()
-                        toast.success('Testimonial deleted')
-                      } catch { toast.error('Failed to delete') }
-                    }} style={{ ...S.btn('#fef2f2', '#dc2626'), padding: '6px 12px' }}>
+                    <button onClick={() => setConfirm({
+                      message: `Delete testimonial from "${t.name}"?`,
+                      onConfirm: async () => {
+                        setConfirm(null)
+                        try {
+                          await fetch('/api/testimonials?id=' + t.id, { method: 'DELETE' })
+                          fetchTestimonials()
+                          toast.success('Testimonial deleted')
+                        } catch { toast.error('Failed to delete') }
+                      },
+                    })} style={{ ...S.btn('#fef2f2', '#dc2626'), padding: '6px 12px' }}>
                       <Trash size={14} /> Delete
                     </button>
                   </div>
@@ -1945,6 +1992,10 @@ export default function Dashboard() {
               <button onClick={() => setTestimonialModal(null)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#9ca3af' }}><X size={24} /></button>
             </div>
             <div style={S.modalBody}>
+              <div style={S.formGroup}>
+                <label style={S.label}>Client Photo</label>
+                <ImageUploader url={testimonialForm.image_url} onUrlChange={v => setTestimonialForm({ ...testimonialForm, image_url: v })} height={140} rounded={12} />
+              </div>
               <div style={S.formGroup}>
                 <label style={S.label}>Client Name *</label>
                 <input value={testimonialForm.name || ''} onChange={e => setTestimonialForm({ ...testimonialForm, name: e.target.value })} style={S.input} placeholder="e.g. John Doe" />
