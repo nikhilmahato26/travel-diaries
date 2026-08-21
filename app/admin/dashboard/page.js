@@ -691,7 +691,7 @@ export default function Dashboard() {
                     </div>
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span style={{ fontWeight: 700, fontSize: 15, color: '#111' }}>{d.emoji || meta.emoji} {d.name}</span>
+                        <span style={{ fontWeight: 700, fontSize: 15, color: '#111' }}>{d.emoji ?? meta.emoji} {d.name}</span>
                       </div>
                       <div style={{ fontSize: 12, color: '#9ca3af', marginTop: 2 }}>
                         {d.location && <span style={{ color: '#6b7280' }}>📍 {d.location}</span>}
@@ -710,7 +710,7 @@ export default function Dashboard() {
                         : <Eye size={13} />}
                       {d.featured !== false ? 'Visible' : 'Hidden'}
                     </button>
-                    <button onClick={() => { setEditListingId(d.id); setEditListingForm({ color: d.color, image_url: d.image_url || '', description: d.description || '', location: d.location || '', price: d.price || '', emoji: d.emoji || meta.emoji, image_pos: d.image_pos || '' }); setListingModalType(type); setModal('listing') }}
+                    <button onClick={() => { setEditListingId(d.id); setEditListingForm({ color: d.color, image_url: d.image_url || '', description: d.description || '', location: d.location || '', price: d.price || '', emoji: d.emoji ?? meta.emoji, image_pos: d.image_pos || '' }); setListingModalType(type); setModal('listing') }}
                       style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid #e5e7eb', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af' }}>
                       <Pencil size={13} />
                     </button>
@@ -1063,7 +1063,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <span style={{ fontWeight: 700, fontSize: 15, color: '#111' }}>{d.emoji || '📍'} {d.name}</span>
+                            <span style={{ fontWeight: 700, fontSize: 15, color: '#111' }}>{d.emoji ?? '📍'} {d.name}</span>
                             <span style={{ width: 10, height: 10, borderRadius: '50%', background: d.color, display: 'inline-block' }} />
                           </div>
                           <div style={{ fontSize: 12, color: '#9ca3af', marginTop: 2 }}>
@@ -1083,7 +1083,7 @@ export default function Dashboard() {
                             : <Eye size={13} />}
                           {d.featured !== false ? 'Visible' : 'Hidden'}
                         </button>
-                        <button onClick={() => { setEditDestId(d.id); setEditDestForm({ color: d.color, image_url: d.image_url || '', description: d.description || '', emoji: d.emoji || '📍', image_pos: d.image_pos || '' }); setModal('destination') }}
+                        <button onClick={() => { setEditDestId(d.id); setEditDestForm({ color: d.color, image_url: d.image_url || '', description: d.description || '', emoji: d.emoji ?? '📍', image_pos: d.image_pos || '' }); setModal('destination') }}
                           style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid #e5e7eb', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af' }}>
                           <Pencil size={13} />
                         </button>
@@ -1737,7 +1737,7 @@ export default function Dashboard() {
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                             <div style={{ width: 14, height: 14, borderRadius: '50%', background: d.color, flexShrink: 0 }} />
-                            <span style={{ fontWeight: 600, fontSize: 13 }}>{d.emoji || '📍'} {d.name}</span>
+                            <span style={{ fontWeight: 600, fontSize: 13 }}>{d.emoji ?? '📍'} {d.name}</span>
                             <span style={{ fontSize: 11, color: '#9ca3af' }}>{allPackages.filter(p => p.destination === d.name).length} pkgs</span>
                           </div>
                           <div style={{ display: 'flex', gap: 4 }}>
@@ -1750,7 +1750,7 @@ export default function Dashboard() {
                                 ? <span style={{ width: 11, height: 11, border: `2px solid ${d.featured !== false ? '#bbf7d0' : '#e5e7eb'}`, borderTop: `2px solid ${d.featured !== false ? '#22c55e' : '#9ca3af'}`, borderRadius: '50%', animation: 'spin 1s linear infinite', display: 'inline-block' }} />
                                 : <Eye size={12} />}
                             </button>
-                            <button onClick={() => { if (editDestId === d.id) { setEditDestId(null); return }; setEditDestId(d.id); setEditDestForm({ color: d.color, image_url: d.image_url || '', description: d.description || '', emoji: d.emoji || '📍', image_pos: d.image_pos || '' }) }} style={{ width: 28, height: 28, borderRadius: 7, border: '1px solid #e5e7eb', background: editDestId === d.id ? '#fff5ef' : 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: editDestId === d.id ? '#7e5233' : '#9ca3af' }}><Pencil size={12} /></button>
+                            <button onClick={() => { if (editDestId === d.id) { setEditDestId(null); return }; setEditDestId(d.id); setEditDestForm({ color: d.color, image_url: d.image_url || '', description: d.description || '', emoji: d.emoji ?? '📍', image_pos: d.image_pos || '' }) }} style={{ width: 28, height: 28, borderRadius: 7, border: '1px solid #e5e7eb', background: editDestId === d.id ? '#fff5ef' : 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: editDestId === d.id ? '#7e5233' : '#9ca3af' }}><Pencil size={12} /></button>
                             <button onClick={() => handleDeleteDestination(d.id, d.name)} style={{ width: 28, height: 28, borderRadius: 7, border: '1px solid #fee2e2', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f87171' }}><Trash2 size={12} /></button>
                           </div>
                         </div>
@@ -1816,7 +1816,7 @@ export default function Dashboard() {
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                               <div style={{ width: 14, height: 14, borderRadius: '50%', background: d.color, flexShrink: 0 }} />
-                              <span style={{ fontWeight: 600, fontSize: 13 }}>{d.emoji || meta.emoji} {d.name}</span>
+                              <span style={{ fontWeight: 600, fontSize: 13 }}>{d.emoji ?? meta.emoji} {d.name}</span>
                             </div>
                             <div style={{ display: 'flex', gap: 4 }}>
                               <button
@@ -1828,7 +1828,7 @@ export default function Dashboard() {
                                   ? <span style={{ width: 11, height: 11, border: `2px solid ${d.featured !== false ? '#bbf7d0' : '#e5e7eb'}`, borderTop: `2px solid ${d.featured !== false ? '#22c55e' : '#9ca3af'}`, borderRadius: '50%', animation: 'spin 1s linear infinite', display: 'inline-block' }} />
                                   : <Eye size={12} />}
                               </button>
-                              <button onClick={() => { if (editListingId === d.id) { setEditListingId(null); return }; setEditListingId(d.id); setEditListingForm({ color: d.color, image_url: d.image_url || '', description: d.description || '', location: d.location || '', price: d.price || '', emoji: d.emoji || meta.emoji, image_pos: d.image_pos || '' }) }} style={{ width: 28, height: 28, borderRadius: 7, border: '1px solid #e5e7eb', background: editListingId === d.id ? '#fff5ef' : 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: editListingId === d.id ? '#7e5233' : '#9ca3af' }}><Pencil size={12} /></button>
+                              <button onClick={() => { if (editListingId === d.id) { setEditListingId(null); return }; setEditListingId(d.id); setEditListingForm({ color: d.color, image_url: d.image_url || '', description: d.description || '', location: d.location || '', price: d.price || '', emoji: d.emoji ?? meta.emoji, image_pos: d.image_pos || '' }) }} style={{ width: 28, height: 28, borderRadius: 7, border: '1px solid #e5e7eb', background: editListingId === d.id ? '#fff5ef' : 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: editListingId === d.id ? '#7e5233' : '#9ca3af' }}><Pencil size={12} /></button>
                               <button onClick={() => handleDeleteListing(d.id, d.name)} style={{ width: 28, height: 28, borderRadius: 7, border: '1px solid #fee2e2', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f87171' }}><Trash2 size={12} /></button>
                             </div>
                           </div>
