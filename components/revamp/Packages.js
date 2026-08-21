@@ -1,15 +1,30 @@
 'use client'
+import { useState } from 'react';
 import { Phone, Download } from 'lucide-react';
 import Link from 'next/link';
 import { usePackages } from '@/hooks/usePackages';
 
 const Packages = () => {
   const { packages, loaded } = usePackages();
+  const [activeDest, setActiveDest] = useState('all');
 
   const fmt = (n) => 'OMR ' + Number(n || 0).toLocaleString('en-IN');
 
-  // Let's take up to 8 packages for the homepage, featured or simply the first 8
-  const displayPackages = packages.slice(0, 8);
+  // Calculate counts per destination (excluding cruises)
+  const nonCruisePackages = packages.filter(p => p.category !== 'cruise');
+  const destCounts = nonCruisePackages.reduce((acc, pkg) => {
+    acc[pkg.destination] = (acc[pkg.destination] || 0) + 1;
+    return acc;
+  }, {});
+  
+  const destinations = Object.keys(destCounts).sort();
+
+  const filteredPackages = activeDest === 'all' 
+    ? nonCruisePackages 
+    : nonCruisePackages.filter(p => p.destination === activeDest);
+
+  // Let's take up to 8 packages for the homepage
+  const displayPackages = filteredPackages.slice(0, 8);
 
   return (
     <section id="packages" className="py-24 bg-gray-50 font-body">
@@ -25,6 +40,49 @@ const Packages = () => {
           <p className="text-gray-600 max-w-xl mx-auto text-base">
             Explore our handpicked holiday packages designed to give you the ultimate travel experience. Book your next adventure today.
           </p>
+        </div>
+
+        {/* Category dropdown */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
+          <div style={{ position: 'relative', width: '100%', maxWidth: 300 }}>
+            <select
+              value={activeDest}
+              onChange={(e) => setActiveDest(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '12px 20px',
+                borderRadius: 999,
+                border: '2px solid #e5e7eb',
+                fontSize: 15,
+                fontWeight: 600,
+                color: '#111',
+                background: '#fff',
+                cursor: 'pointer',
+                appearance: 'none',
+                outline: 'none',
+                transition: 'border-color 0.2s'
+              }}
+              onFocus={(e) => e.target.style.borderColor = '#1B61FF'}
+              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            >
+              <option value="all">All Packages ({nonCruisePackages.length})</option>
+              {destinations.map(d => (
+                <option key={d} value={d}>
+                  {d} ({destCounts[d]})
+                </option>
+              ))}
+            </select>
+            <div style={{
+              position: 'absolute',
+              right: 20,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              pointerEvents: 'none',
+              color: '#1B61FF'
+            }}>
+              ▼
+            </div>
+          </div>
         </div>
 
         {!loaded ? (

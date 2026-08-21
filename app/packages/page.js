@@ -23,6 +23,13 @@ export default function PackagesPage() {
     return activeDest === 'all' || p.destination === activeDest
   })
 
+  const destCounts = packages.reduce((acc, pkg) => {
+    if (pkg.category !== 'cruise') {
+      acc[pkg.destination] = (acc[pkg.destination] || 0) + 1;
+    }
+    return acc;
+  }, {});
+
   return (
     <main style={{ minHeight: '100vh', background: '#fff', paddingTop: 80 }}>
       <Navbar />
@@ -64,10 +71,10 @@ export default function PackagesPage() {
                   onFocus={(e) => e.target.style.borderColor = '#7e5233'}
                   onBlur={(e) => e.target.style.borderColor = '#f5f0e8'}
                 >
-                  <option value="all">All Destinations</option>
+                  <option value="all">All Destinations ({packages.filter(p => p.category !== 'cruise').length})</option>
                   {destinations.map(d => (
                     <option key={d.id} value={d.name}>
-                      {d.name}
+                      {d.name} ({destCounts[d.name] || 0})
                     </option>
                   ))}
                 </select>
