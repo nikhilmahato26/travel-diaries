@@ -1,8 +1,7 @@
 import { getAllPackagesAdmin, renamePackageId } from '@/lib/db'
 import { invalidatePackagesCache } from '@/lib/redis'
 import { guardAdmin } from '@/lib/guardAdmin'
-
-const PKG_PREFIX = { package: 'PKG', group: 'GPKG', homestay: 'HS', other: 'OTH' }
+import { PKG_PREFIX } from '@/lib/packages'
 
 function isConforming(id, prefix) {
   return new RegExp(`^${prefix}-\\d+$`).test(id)

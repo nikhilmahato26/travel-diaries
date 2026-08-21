@@ -6,6 +6,7 @@ import Destinations from '@/components/revamp/Destinations'
 import Packages from '@/components/revamp/Packages'
 import Cruises from '@/components/revamp/Cruises'
 import UpcomingTrips from '@/components/revamp/UpcomingTrips'
+import TravelSolutions from '@/components/revamp/TravelSolutions'
 import VideoTestimonials from '@/components/revamp/VideoTestimonials'
 import Testimonials from '@/components/revamp/Testimonials'
 import Contact from '@/components/revamp/Contact'
@@ -22,6 +23,7 @@ export default function HomePage() {
       <Cruises />
       <Packages />
       <UpcomingTrips />
+      <TravelSolutions />
       <Testimonials />
       <VideoTestimonials />
       <Contact />

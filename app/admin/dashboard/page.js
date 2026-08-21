@@ -12,11 +12,10 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import { PKG_PREFIX } from '@/lib/packages'
 
 function fmt(n) { return 'OMR ' + Number(n).toLocaleString('en-IN') }
 
-const PKG_PREFIX = { package: 'PKG', group: 'GPKG', upcoming: 'UPC', cruise: 'CR', other: 'OTH' }
-const CONFORMING_ID = /^(PKG|GPKG|HS|HB|OTH)-\d+$/
 function generatePkgId(category, existingPackages) {
   const prefix = PKG_PREFIX[category] || 'PKG'
   const nums = existingPackages
@@ -128,17 +127,6 @@ export default function Dashboard() {
       if (res.ok) {
         const pkgs = await res.json()
         setAllPackages(pkgs)
-        // Auto-rename any old-format IDs silently
-        if (pkgs.some(p => !CONFORMING_ID.test(p.id))) {
-          fetch('/api/packages/migrate-ids', { method: 'POST' })
-            .then(r => r.ok ? r.json() : null)
-            .then(data => {
-              if (data?.renamed?.length > 0) {
-                fetch('/api/packages/admin').then(r => r.ok ? r.json() : null).then(p => { if (p) setAllPackages(p) }).catch(() => {})
-              }
-            })
-            .catch(() => {})
-        }
       }
     } catch {}
     setLoaded(true)
