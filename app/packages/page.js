@@ -41,29 +41,47 @@ export default function PackagesPage() {
               Every package includes a day-wise itinerary, accommodation & transfers.
             </p>
 
-            {/* Category tabs */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8, marginBottom: 16 }}>
-              <button
-                onClick={() => setActiveDest('all')}
-                style={{
-                  padding: '8px 20px', borderRadius: 999, fontSize: 13, fontWeight: 600, border: 'none', cursor: 'pointer', transition: 'all 0.2s',
-                  background: activeDest === 'all' ? 'linear-gradient(135deg,#7e5233,#c93d00)' : '#f5f0e8',
-                  color: activeDest === 'all' ? '#fff' : '#555',
-                }}>
-                All Categories
-              </button>
-              {destinations.map(d => (
-                <button
-                  key={d.id}
-                  onClick={() => setActiveDest(d.name)}
+            {/* Category dropdown */}
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
+              <div style={{ position: 'relative', width: '100%', maxWidth: 300 }}>
+                <select
+                  value={activeDest}
+                  onChange={(e) => setActiveDest(e.target.value)}
                   style={{
-                    padding: '8px 20px', borderRadius: 999, fontSize: 13, fontWeight: 600, border: 'none', cursor: 'pointer', transition: 'all 0.2s',
-                    background: activeDest === d.name ? 'linear-gradient(135deg,#7e5233,#c93d00)' : '#f5f0e8',
-                    color: activeDest === d.name ? '#fff' : '#555',
-                  }}>
-                  {d.name}
-                </button>
-              ))}
+                    width: '100%',
+                    padding: '12px 20px',
+                    borderRadius: 999,
+                    border: '2px solid #f5f0e8',
+                    fontSize: 15,
+                    fontWeight: 600,
+                    color: '#111',
+                    background: '#fff',
+                    cursor: 'pointer',
+                    appearance: 'none',
+                    outline: 'none',
+                    transition: 'border-color 0.2s'
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = '#7e5233'}
+                  onBlur={(e) => e.target.style.borderColor = '#f5f0e8'}
+                >
+                  <option value="all">All Destinations</option>
+                  {destinations.map(d => (
+                    <option key={d.id} value={d.name}>
+                      {d.name}
+                    </option>
+                  ))}
+                </select>
+                <div style={{
+                  position: 'absolute',
+                  right: 20,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  pointerEvents: 'none',
+                  color: '#7e5233'
+                }}>
+                  ▼
+                </div>
+              </div>
             </div>
           </div>
 

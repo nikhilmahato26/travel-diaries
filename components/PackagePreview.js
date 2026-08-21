@@ -80,7 +80,7 @@ export default function PackagePreview({ pkg }) {
       )}
 
       {/* Homestay / Houseboat details */}
-      {(pkg.category === 'homestay' || pkg.category === 'houseboat') && (
+      {(pkg.category === 'cruise') && (
         <>
           {pkg.address && (
             <div style={{ marginTop: 14, fontSize: 13, color: '#374151', display: 'flex', gap: 6, alignItems: 'flex-start' }}>
@@ -123,7 +123,7 @@ export default function PackagePreview({ pkg }) {
       {/* Overview */}
       {pkg.overview && (
         <div style={{ marginTop: 18 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>{(pkg.category === 'homestay' || pkg.category === 'houseboat') ? 'Description' : 'Overview'}</div>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>{(pkg.category === 'cruise') ? 'Description' : 'Overview'}</div>
           <p style={{ fontSize: 14, color: '#374151', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{pkg.overview}</p>
         </div>
       )}

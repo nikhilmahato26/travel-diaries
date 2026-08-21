@@ -33,10 +33,10 @@ const NEARBY_TABS = [
   { value: 'dining', label: 'Dining' },
 ]
 
-export default function HomestayDetail({ pkg, phone, whatsapp, isMobile }) {
-  const rooms = (pkg.roomTypes || []).filter(r => r.name || r.price)
-  const roomImgs = (r) => { const imgs = (r.images || []).filter(Boolean); return imgs.length ? imgs : (r.image ? [r.image] : []) }
-  const gallery = [pkg.heroImage, pkg.image, ...rooms.flatMap(roomImgs)].filter(Boolean)
+export default function CruiseDetail({ pkg, phone, whatsapp, isMobile }) {
+  const cabins = (pkg.cabinTypes || []).filter(r => r.name || r.price)
+  const cabinImgs = (r) => { const imgs = (r.images || []).filter(Boolean); return imgs.length ? imgs : (r.image ? [r.image] : []) }
+  const gallery = [pkg.heroImage, pkg.image, ...cabins.flatMap(cabinImgs)].filter(Boolean)
   const [mainImg, setMainImg] = useState(gallery[0] || '')
   const nearby = pkg.nearby || []
   const firstNearbyType = NEARBY_TABS.find(t => nearby.some(n => n.type === t.value))?.value || 'landmark'
@@ -44,11 +44,11 @@ export default function HomestayDetail({ pkg, phone, whatsapp, isMobile }) {
 
   const star = Math.round(Number(pkg.starRating) || 0)
   const score = Number(pkg.rating) || 0
-  const roomPrices = rooms.map(r => Number(r.price)).filter(p => p > 0)
-  const fromPrice = roomPrices.length ? Math.min(...roomPrices) : Number(pkg.salePrice) || 0
+  const cabinPrices = cabins.map(r => Number(r.price)).filter(p => p > 0)
+  const fromPrice = cabinPrices.length ? Math.min(...cabinPrices) : Number(pkg.salePrice) || 0
   const mapHref = pkg.mapUrl || (pkg.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pkg.address)}` : '')
 
-  const roomWa = (room) => `https://wa.me/${whatsapp}?text=${encodeURIComponent(`Hi! I'd like to book the "${room.name}" room at ${pkg.title} (${pkg.id})${room.price ? ` — ${fmt(room.price)}` : ''}.`)}`
+  const cabinWa = (cabin) => `https://wa.me/${whatsapp}?text=${encodeURIComponent(`Hi! I'd like to book the "${cabin.name}" cabin at ${pkg.title} (${pkg.id})${cabin.price ? ` — ${fmt(cabin.price)}` : ''}.`)}`
   const heading = { fontFamily: 'Poppins, sans-serif', fontWeight: 800, fontSize: isMobile ? 20 : 26, color: '#111', margin: 0 }
   const wrap = { maxWidth: 920, margin: '0 auto', padding: isMobile ? '0 16px' : '0 24px' }
 
@@ -122,25 +122,25 @@ export default function HomestayDetail({ pkg, phone, whatsapp, isMobile }) {
         </div>
       )}
 
-      {/* Choose Your Room */}
-      {rooms.length > 0 && (
-        <div id="rooms" style={{ ...wrap, marginTop: 36 }}>
-          <h2 style={{ ...heading, marginBottom: 16 }}>Choose Your Room</h2>
+      {/* Choose Your Cabin */}
+      {cabins.length > 0 && (
+        <div id="cabins" style={{ ...wrap, marginTop: 36 }}>
+          <h2 style={{ ...heading, marginBottom: 16 }}>Choose Your Cabin</h2>
           <div style={{ display: 'grid', gap: 16 }}>
-            {rooms.map((room, i) => {
+            {cabins.map((cabin, i) => {
               const facts = [
-                room.bed && { Icon: BedDouble, t: room.bed },
-                room.size && { Icon: Maximize, t: `${room.size}m²` },
-                Number(room.guests) > 0 && { Icon: Users, t: `${room.guests} guest${Number(room.guests) !== 1 ? 's' : ''}` },
+                cabin.bed && { Icon: BedDouble, t: cabin.bed },
+                cabin.size && { Icon: Maximize, t: `${cabin.size}m²` },
+                Number(cabin.guests) > 0 && { Icon: Users, t: `${cabin.guests} guest${Number(cabin.guests) !== 1 ? 's' : ''}` },
               ].filter(Boolean)
               return (
                 <div key={i} style={{ border: '1px solid #e5e7eb', borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
                   {(() => {
-                    const imgs = roomImgs(room)
+                    const imgs = cabinImgs(cabin)
                     if (!imgs.length) return null
                     return (
                       <div style={{ display: 'flex', gap: 4 }}>
-                        <img src={imgs[0]} alt={room.name} onError={e => { e.target.style.display = 'none' }} style={{ flex: imgs.length > 1 ? 2 : 1, minWidth: 0, height: 200, objectFit: 'cover' }} />
+                        <img src={imgs[0]} alt={cabin.name} onError={e => { e.target.style.display = 'none' }} style={{ flex: imgs.length > 1 ? 2 : 1, minWidth: 0, height: 200, objectFit: 'cover' }} />
                         {imgs.length > 1 && (
                           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
                             {imgs.slice(1, 3).map((g, k) => (
@@ -152,7 +152,7 @@ export default function HomestayDetail({ pkg, phone, whatsapp, isMobile }) {
                     )
                   })()}
                   <div style={{ padding: 18 }}>
-                    <h3 style={{ fontSize: 17, fontWeight: 700, color: '#111', marginBottom: 10 }}>{room.name}</h3>
+                    <h3 style={{ fontSize: 17, fontWeight: 700, color: '#111', marginBottom: 10 }}>{cabin.name}</h3>
                     {facts.length > 0 && (
                       <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 12 }}>
                         {facts.map(({ Icon, t }, j) => (
@@ -160,9 +160,9 @@ export default function HomestayDetail({ pkg, phone, whatsapp, isMobile }) {
                         ))}
                       </div>
                     )}
-                    {(room.amenities || []).length > 0 && (
+                    {(cabin.amenities || []).length > 0 && (
                       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
-                        {(room.amenities || []).map((a, j) => {
+                        {(cabin.amenities || []).map((a, j) => {
                           const Icon = amenityIcon(a)
                           return <span key={j} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12.5, color: '#374151', background: '#f5f0e8', borderRadius: 999, padding: '4px 10px' }}><Icon size={13} /> {a}</span>
                         })}
@@ -170,10 +170,10 @@ export default function HomestayDetail({ pkg, phone, whatsapp, isMobile }) {
                     )}
                     <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
                       <div>
-                        {Number(room.guests) > 0 && <div style={{ fontSize: 12, color: '#9ca3af' }}>Price for {room.guests} guest{Number(room.guests) !== 1 ? 's' : ''}</div>}
-                        {Number(room.price) > 0 && <div style={{ fontSize: 22, fontWeight: 800, color: '#111' }}>{fmt(room.price)}</div>}
+                        {Number(cabin.guests) > 0 && <div style={{ fontSize: 12, color: '#9ca3af' }}>Price for {cabin.guests} guest{Number(cabin.guests) !== 1 ? 's' : ''}</div>}
+                        {Number(cabin.price) > 0 && <div style={{ fontSize: 22, fontWeight: 800, color: '#111' }}>{fmt(cabin.price)}</div>}
                       </div>
-                      <a href={roomWa(room)} target="_blank" rel="noopener noreferrer"
+                      <a href={cabinWa(cabin)} target="_blank" rel="noopener noreferrer"
                         style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 24px', borderRadius: 10, background: 'linear-gradient(135deg,#25d366,#128c7e)', color: '#fff', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
                         <MessageCircle size={16} /> Book
                       </a>
@@ -302,8 +302,8 @@ export default function HomestayDetail({ pkg, phone, whatsapp, isMobile }) {
             <a href={`tel:+${phone}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '12px 18px', borderRadius: 999, border: '1.5px solid #e5e7eb', color: '#111', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
               <Phone size={16} /> Call
             </a>
-            <a href={rooms.length ? '#rooms' : '#enquiry'} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '12px 24px', borderRadius: 999, background: 'linear-gradient(135deg,#7e5233,#c93d00)', color: '#fff', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
-              {rooms.length ? 'Select Room' : 'Enquire'}
+            <a href={cabins.length ? '#cabins' : '#enquiry'} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '12px 24px', borderRadius: 999, background: 'linear-gradient(135deg,#7e5233,#c93d00)', color: '#fff', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
+              {cabins.length ? 'Select Cabin' : 'Enquire'}
             </a>
           </div>
         </div>

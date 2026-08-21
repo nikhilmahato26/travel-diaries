@@ -1,7 +1,7 @@
 import { getListings, createListing } from '@/lib/db'
 import { guardAdmin } from '@/lib/guardAdmin'
 
-const TYPES = ['homestay', 'houseboat']
+const TYPES = ['cruise']
 
 export async function GET(request) {
   try {

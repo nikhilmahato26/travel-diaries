@@ -2,7 +2,7 @@
 import { useEffect, useState, use } from 'react'
 import Navbar from '@/components/revamp/Navbar'
 import Footer from '@/components/revamp/Footer'
-import HomestayDetail from '@/components/HomestayDetail'
+import CruiseDetail from '@/components/CruiseDetail'
 import { usePhone, useWhatsapp } from '@/hooks/useSettings'
 import { MapPin, User, ChevronDown, ChevronUp, Share2, Download } from 'lucide-react'
 import Link from 'next/link'
@@ -112,7 +112,7 @@ export default function PackagePage({ params }) {
   if (pkg.category === 'homestay' || pkg.category === 'houseboat') return (
     <main style={{ minHeight: '100vh', background: '#fff' }}>
       <Navbar />
-      <HomestayDetail pkg={pkg} phone={phone} whatsapp={whatsapp} isMobile={isMobile} />
+      <CruiseDetail pkg={pkg} phone={phone} whatsapp={whatsapp} isMobile={isMobile} />
       <Footer />
     </main>
   )

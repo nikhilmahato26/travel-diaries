@@ -15,7 +15,7 @@ import { toast } from 'sonner'
 
 function fmt(n) { return 'OMR ' + Number(n).toLocaleString('en-IN') }
 
-const PKG_PREFIX = { package: 'PKG', group: 'GPKG', upcoming: 'UPC', homestay: 'HS', houseboat: 'HB', other: 'OTH' }
+const PKG_PREFIX = { package: 'PKG', group: 'GPKG', upcoming: 'UPC', cruise: 'CR', other: 'OTH' }
 const CONFORMING_ID = /^(PKG|GPKG|HS|HB|OTH)-\d+$/
 function generatePkgId(category, existingPackages) {
   const prefix = PKG_PREFIX[category] || 'PKG'
@@ -109,9 +109,8 @@ export default function Dashboard() {
   const [editDestForm, setEditDestForm] = useState({ color: '#7e5233', image_url: '', description: '', emoji: '📍', image_pos: '' })
 
   // Listings (homestays & houseboats)
-  const [homestays, setHomestays] = useState([])
-  const [houseboats, setHouseboats] = useState([])
-  const [listingModalType, setListingModalType] = useState(null) // 'homestay' | 'houseboat'
+  const [cruises, setCruises] = useState([])
+  const [listingModalType, setListingModalType] = useState(null) // 'cruise'
   const [newListing, setNewListing] = useState({ name: '', color: '#7e5233', image_url: '', description: '', location: '', price: '', emoji: '🏡', image_pos: '' })
   const [listingSaving, setListingSaving] = useState(false)
   const [listingVisLoading, setListingVisLoading] = useState(null)
@@ -471,7 +470,7 @@ export default function Dashboard() {
   }
 
   // ─── Listing handlers (homestays & houseboats) ──────────────────────────────
-  const LISTING_LABEL = { homestay: 'Homestay', houseboat: 'Houseboat' }
+  const LISTING_LABEL = { cruise: 'Cruise' }
 
   const handleAddListing = async (type) => {
     if (!newListing.name.trim()) { toast.error(`${LISTING_LABEL[type]} name is required`); return }
@@ -480,7 +479,7 @@ export default function Dashboard() {
       const res = await fetch('/api/listings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...newListing, type }) })
       if (!res.ok) { const { error } = await res.json(); toast.error(error || 'Failed'); return }
       await fetchListings()
-      setNewListing({ name: '', color: '#7e5233', image_url: '', description: '', location: '', price: '', emoji: type === 'houseboat' ? '🛶' : '🏡', image_pos: '' })
+      setNewListing({ name: '', color: '#7e5233', image_url: '', description: '', location: '', price: '', emoji: '🚢', image_pos: '' })
       toast.success(`${LISTING_LABEL[type]} added!`)
     } catch { toast.error('Failed to add.') }
     finally { setListingSaving(false) }
@@ -1102,10 +1101,7 @@ export default function Dashboard() {
         )}
 
         {/* ── Homestays ── */}
-        {section === 'homestays' && renderListingSection('homestay', homestays)}
-
-        {/* ── Houseboats ── */}
-        {section === 'houseboats' && renderListingSection('houseboat', houseboats)}
+        {section === 'cruises' && renderListingSection('cruise', cruises)}
 
         {/* ── Agencies ── */}
         {section === 'agencies' && (
@@ -1449,7 +1445,7 @@ export default function Dashboard() {
             </div>
             {!showPreview && (
             <div style={{ display: 'flex', borderBottom: '1px solid #f3f4f6', padding: '0 20px' }}>
-              {[['basic','Basic'], ...(['homestay','houseboat'].includes(form.category) ? [['stay','Stay Details']] : []), ['itinerary','Itinerary'],['media','Media & Lists']].map(([k, l]) => (
+              {[['basic','Basic'], ...(['cruise'].includes(form.category) ? [['stay','Stay Details']] : []), ['itinerary','Itinerary'],['media','Media & Lists']].map(([k, l]) => (
                 <button key={k} onClick={() => setTab(k)} style={{ padding: '12px 14px', fontSize: 13, fontWeight: 600, border: 'none', background: 'none', cursor: 'pointer', borderBottom: `2px solid ${tab === k ? '#7e5233' : 'transparent'}`, color: tab === k ? '#7e5233' : '#9ca3af' }}>{l}</button>
               ))}
             </div>
@@ -1464,8 +1460,7 @@ export default function Dashboard() {
                       <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="package" checked={form.category === 'package'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Standard</label>
                       <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="group" checked={form.category === 'group'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Group</label>
                       <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="upcoming" checked={form.category === 'upcoming'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Upcoming</label>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="homestay" checked={form.category === 'homestay'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Homestay</label>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="houseboat" checked={form.category === 'houseboat'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Houseboat</label>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="cruise" checked={form.category === 'cruise'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Cruise</label>
                     </div>
                   </div>
                   <div>
@@ -1487,10 +1482,9 @@ export default function Dashboard() {
                   </div>
                   
                   {(() => {
-                    const isHS = form.category === 'homestay'
-                    const isHB = form.category === 'houseboat'
-                    const optionList = isHS ? homestays : isHB ? houseboats : destinations
-                    const fieldLabel = isHS ? 'Homestay' : isHB ? 'Houseboat' : 'Category'
+                    const isCR = form.category === 'cruise'
+                    const optionList = isCR ? cruises : destinations
+                    const fieldLabel = isCR ? 'Cruise' : 'Category'
                     return (
                       <div>
                         <label style={S.label}>{fieldLabel}</label>
@@ -1674,7 +1668,7 @@ export default function Dashboard() {
                 </div>
               )}
               {!showPreview && tab === 'stay' && (
-                <HomestayFields form={form} setForm={setForm} S={S} pkgOptions={pkgOptions} onOptionsUpdate={setPkgOptions} />
+                <CruiseFields form={form} setForm={setForm} S={S} pkgOptions={pkgOptions} onOptionsUpdate={setPkgOptions} />
               )}
 
               {!showPreview && tab === 'media' && (
@@ -1804,7 +1798,7 @@ export default function Dashboard() {
       {modal === 'listing' && listingModalType && (() => {
         const meta = LISTING_META[listingModalType]
         const Icon = meta.icon
-        const items = listingModalType === 'houseboat' ? houseboats : homestays
+        const items = cruises
         return (
           <div style={{ ...S.overlay, alignItems: 'center' }} onClick={e => e.target === e.currentTarget && setModal(null)}>
             <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 500, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', overflow: 'hidden', maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}>
@@ -1859,7 +1853,7 @@ export default function Dashboard() {
                 )}
                 <label style={S.label}>Add New Destination</label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 8, marginBottom: 8 }}>
-                  <input value={newListing.name} onChange={e => setNewListing(d => ({ ...d, name: e.target.value }))} style={S.input} placeholder={listingModalType === 'houseboat' ? 'e.g. Royal Kettuvallam' : 'e.g. Backwater Villa'} onKeyDown={e => e.key === 'Enter' && handleAddListing(listingModalType)} />
+                  <input value={newListing.name} onChange={e => setNewListing(d => ({ ...d, name: e.target.value }))} style={S.input} placeholder='e.g. Ocean Explorer' onKeyDown={e => e.key === 'Enter' && handleAddListing(listingModalType)} />
                   <input type="color" value={newListing.color} onChange={e => setNewListing(d => ({ ...d, color: e.target.value }))} style={{ width: 50, height: 42, borderRadius: 8, border: '1.5px solid #e5e7eb', cursor: 'pointer', padding: 2 }} />
                 </div>
                 <div style={{ marginBottom: 8 }}>

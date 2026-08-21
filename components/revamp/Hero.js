@@ -18,9 +18,9 @@ const Hero = () => {
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
-      {/* Central Content */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 text-center">
-        <h1 className="text-white font-heading font-bold text-5xl md:text-7xl lg:text-8xl leading-tight mb-6">
+      {/* Content moved lower */}
+      <div className="relative z-10 h-full flex flex-col items-center justify-end pb-24 md:pb-32 px-4 text-center">
+        <h1 className="text-white font-heading font-bold text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
           Let's Travel Together
         </h1>
         <p className="text-white/90 text-lg md:text-2xl font-medium mb-8 max-w-2xl">

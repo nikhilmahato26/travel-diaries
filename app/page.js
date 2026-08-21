@@ -4,6 +4,7 @@ import Hero from '@/components/revamp/Hero'
 import About from '@/components/revamp/About'
 import Destinations from '@/components/revamp/Destinations'
 import Packages from '@/components/revamp/Packages'
+import Cruises from '@/components/revamp/Cruises'
 import UpcomingTrips from '@/components/revamp/UpcomingTrips'
 import VideoTestimonials from '@/components/revamp/VideoTestimonials'
 import Contact from '@/components/revamp/Contact'
@@ -17,6 +18,7 @@ export default function HomePage() {
       <Hero />
       <About />
       <Destinations />
+      <Cruises />
       <Packages />
       <UpcomingTrips />
       <VideoTestimonials />

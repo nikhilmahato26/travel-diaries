@@ -9,7 +9,7 @@ import {
 import { toast } from 'sonner'
 import TagSelector from '@/components/TagSelector'
 import PackagePreview from '@/components/PackagePreview'
-import HomestayFields from '@/components/HomestayFields'
+import CruiseFields from '@/components/CruiseFields'
 import ImageUploader from '@/components/ImageUploader'
 
 function fmtRange(start, end) {
@@ -29,8 +29,7 @@ function getDR(dr) { return (dr && typeof dr === 'object') ? dr : { start: '', e
 const CATEGORIES = [
   { value: 'package',  label: 'Package' },
   { value: 'group',    label: 'Group Package' },
-  { value: 'homestay', label: 'Home Stay' },
-  { value: 'houseboat', label: 'Houseboat' },
+  { value: 'cruise', label: 'Cruise' },
   { value: 'other',    label: 'Other' },
 ]
 
@@ -39,7 +38,7 @@ const EMPTY_PKG = {
   duration: '3', title: '', subtitle: '', hotels: '',
   adults: '', children: '', rooms: '',
   originalPrice: '', salePrice: '', childPrice: '', childAgeMin: '', childAgeMax: '', priceNote: 'Per Person',
-  image: '', heroImage: '', imagePos: '', heroImagePos: '', overview: '', note: '', category: 'package',
+  image: '', heroImage: '', imagePos: '', heroImagePos: '', overview: '', note: '', itineraryPdf: '', category: 'package',
   highlights: [], inclusions: [], exclusions: [],
   itinerary: [{ day: 1, title: '', description: '', activities: [{ time: '', emoji: '', title: '', details: [''], tags: [] }], image: '', hotel: '' }],
   availableDates: [],
@@ -666,7 +665,7 @@ export default function AgencyDashboard() {
               )}
 
               {!showPreview && tab === 'stay' && (
-                <HomestayFields form={form} setForm={setForm} S={S} pkgOptions={pkgOptions} onOptionsUpdate={setPkgOptions} />
+                <CruiseFields form={form} setForm={setForm} S={S} pkgOptions={pkgOptions} onOptionsUpdate={setPkgOptions} />
               )}
 
               {!showPreview && tab === 'media' && (
@@ -677,6 +676,11 @@ export default function AgencyDashboard() {
                       <ImageUploader url={form[f] || ''} onUrlChange={v => setForm(p => ({ ...p, [f]: v }))} pos={form[`${f}Pos`]} onPosChange={v => setForm(p => ({ ...p, [`${f}Pos`]: v }))} height={h} />
                     </div>
                   ))}
+
+                  <div style={{ marginBottom: 14 }}>
+                    <label style={S.label}>Download Itinerary PDF Link</label>
+                    <input type="url" value={form.itineraryPdf || ''} onChange={e => setForm(f => ({ ...f, itineraryPdf: e.target.value }))} style={S.input} placeholder="https://example.com/itinerary.pdf" />
+                  </div>
 
                   {[
                     { l: 'Highlights', f: 'highlights', type: 'highlight', color: '#1e3a5f' },
