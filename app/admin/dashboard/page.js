@@ -1450,7 +1450,7 @@ export default function Dashboard() {
               ))}
             </div>
             )}
-            <div style={{ padding: 20, maxHeight: '70vh', overflowY: 'auto' }}>
+            <div style={{ padding: 20 }}>
               {showPreview && <PackagePreview pkg={form} />}
               {!showPreview && tab === 'basic' && (
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
@@ -1721,13 +1721,13 @@ export default function Dashboard() {
 
       {/* ── Destinations Modal ── */}
       {modal === 'destination' && (
-        <div style={{ ...S.overlay, alignItems: 'center' }} onClick={e => e.target === e.currentTarget && setModal(null)}>
-          <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 500, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', overflow: 'hidden', maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}>
+        <div style={S.overlay} onClick={e => e.target === e.currentTarget && setModal(null)}>
+          <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 500, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: 'linear-gradient(135deg,#153e2d,#1c2575)', flexShrink: 0 }}>
               <h2 style={{ fontWeight: 700, fontSize: 16, color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}><MapPin size={16} /> Manage Destinations</h2>
               <button onClick={() => setModal(null)} style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', border: 'none', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={15} /></button>
             </div>
-            <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+            <div style={{ padding: 20, flex: 1 }}>
               {destinations.length > 0 && (
                 <div style={{ marginBottom: 24 }}>
                   <label style={S.label}>Existing Destinations</label>
@@ -1800,13 +1800,13 @@ export default function Dashboard() {
         const Icon = meta.icon
         const items = cruises
         return (
-          <div style={{ ...S.overlay, alignItems: 'center' }} onClick={e => e.target === e.currentTarget && setModal(null)}>
-            <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 500, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', overflow: 'hidden', maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}>
+          <div style={S.overlay} onClick={e => e.target === e.currentTarget && setModal(null)}>
+            <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 500, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: 'linear-gradient(135deg,#153e2d,#1c2575)', flexShrink: 0 }}>
                 <h2 style={{ fontWeight: 700, fontSize: 16, color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}><Icon size={16} /> Manage {meta.plural}</h2>
                 <button onClick={() => setModal(null)} style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', border: 'none', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={15} /></button>
               </div>
-              <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+              <div style={{ padding: 20, flex: 1 }}>
                 {items.length > 0 && (
                   <div style={{ marginBottom: 24 }}>
                     <label style={S.label}>Existing {meta.plural}</label>
@@ -1875,7 +1875,7 @@ export default function Dashboard() {
 
       {/* ── Confirm Dialog ── */}
       {confirm && (
-        <div style={{ ...S.overlay, alignItems: 'center', zIndex: 70 }} onClick={e => e.target === e.currentTarget && setConfirm(null)}>
+        <div style={{ ...S.overlay, zIndex: 70 }} onClick={e => e.target === e.currentTarget && setConfirm(null)}>
           <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 360, padding: 28, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', textAlign: 'center' }}>
             <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><AlertTriangle size={24} style={{ color: '#3b82f6' }} /></div>
             <h3 style={{ fontWeight: 700, fontSize: 17, color: '#111', marginBottom: 8 }}>Are you sure?</h3>
@@ -1890,7 +1890,7 @@ export default function Dashboard() {
 
       {/* ── Delete Package ── */}
       {modal === 'delete' && (
-        <div style={{ ...S.overlay, alignItems: 'center' }} onClick={e => e.target === e.currentTarget && setModal(null)}>
+        <div style={S.overlay} onClick={e => e.target === e.currentTarget && setModal(null)}>
           <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 380, padding: 28, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', textAlign: 'center' }}>
             <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><AlertTriangle size={24} style={{ color: '#3b82f6' }} /></div>
             <h3 style={{ fontWeight: 700, fontSize: 18, color: '#111', marginBottom: 8 }}>Delete Package?</h3>
@@ -1907,7 +1907,7 @@ export default function Dashboard() {
 
       {/* ── Feature Duration Modal ── */}
       {featureModal && (
-        <div style={{ ...S.overlay, alignItems: 'center' }} onClick={e => e.target === e.currentTarget && setFeatureModal(null)}>
+        <div style={S.overlay} onClick={e => e.target === e.currentTarget && setFeatureModal(null)}>
           <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 360, padding: 28, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', textAlign: 'center' }}>
             <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#fffbeb', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}>
               <Star size={24} style={{ color: '#f59e0b', fill: '#f59e0b' }} />
