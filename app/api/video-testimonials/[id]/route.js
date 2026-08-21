@@ -6,7 +6,7 @@ export async function DELETE(req, { params }) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 })
   }
   try {
-    const { id } = params
+    const { id } = await params
     await deleteVideoTestimonial(id)
     return Response.json({ success: true })
   } catch (error) {

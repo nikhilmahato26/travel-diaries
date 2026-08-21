@@ -234,7 +234,11 @@ export default function Dashboard() {
     if (anyModalOpen) {
       const prevOverflow = document.body.style.overflow
       document.body.style.overflow = 'hidden'
-      return () => { document.body.style.overflow = prevOverflow }
+      window.lenis?.stop()
+      return () => {
+        document.body.style.overflow = prevOverflow
+        window.lenis?.start()
+      }
     }
   }, [modal, confirm, featureModal, testimonialModal])
 
@@ -628,6 +632,11 @@ export default function Dashboard() {
                  }),
     overlay:     { position: 'fixed', inset: 0, zIndex: 50, background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '32px 16px', overflowY: 'auto' },
     modal:       { background: '#fff', borderRadius: 20, width: '100%', maxWidth: 860, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', overflow: 'hidden', marginBottom: 32 },
+    modalOverlay:{ position: 'fixed', inset: 0, zIndex: 50, background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '32px 16px', overflowY: 'auto' },
+    modalHeader: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', borderBottom: '1px solid #f3f4f6' },
+    modalBody:   { padding: 20 },
+    modalFooter: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 10, padding: '14px 20px', borderTop: '1px solid #f3f4f6', background: '#fafafa' },
+    formGroup:   { marginBottom: 16 },
   }
 
   const handleSaveVideoTestimonial = async () => {
@@ -959,7 +968,7 @@ export default function Dashboard() {
                   <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
                     <thead>
                       <tr style={{ background: '#f9fafb', borderBottom: '1px solid #f3f4f6' }}>
-                        {['Pkg ID', 'Package', 'Category', 'Price', 'Status', 'Hero', 'Visible', 'Actions'].map((h, i) => (
+                        {['Pkg ID', 'Package', 'Category', 'Price', 'Status', 'Visible', 'Actions'].map((h, i) => (
                           <th key={h} style={{ padding: '10px 16px', textAlign: i >= 5 ? 'center' : 'left', fontWeight: 700, color: '#6b7280', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>{h}</th>
                         ))}
                       </tr>
@@ -999,34 +1008,6 @@ export default function Dashboard() {
                                 </div>
                               ) : (
                                 <span style={{ padding: '3px 10px', borderRadius: 999, fontSize: 11, fontWeight: 700, color: sc.color, background: sc.bg }}>{sc.label}</span>
-                              )}
-                            </td>
-                            <td style={{ padding: '12px 16px', textAlign: 'center' }}>
-                              {pkg.status === 'approved' && (
-                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
-                                  <button
-                                    onClick={() => {
-                                      if (pkg.featured) {
-                                        handleFeature(pkg.id, false, 0)
-                                      } else {
-                                        setFeatureDays('30')
-                                        setFeatureModal({ id: pkg.id, order: featuredPackages.length })
-                                      }
-                                    }}
-                                    disabled={actionLoading === `feature-${pkg.id}`}
-                                    title={pkg.featured ? 'Remove from hero' : 'Push to hero'}
-                                    style={{ width: 30, height: 30, borderRadius: 8, border: `1px solid ${pkg.featured ? '#fde68a' : '#e5e7eb'}`, background: pkg.featured ? '#fffbeb' : 'none', cursor: actionLoading === `feature-${pkg.id}` ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    {actionLoading === `feature-${pkg.id}`
-                                      ? <span style={{ width: 10, height: 10, border: '2px solid #fde68a', borderTop: '2px solid #f59e0b', borderRadius: '50%', animation: 'spin 1s linear infinite', display: 'inline-block' }} />
-                                      : <Star size={14} style={{ color: pkg.featured ? '#f59e0b' : '#d1d5db', fill: pkg.featured ? '#f59e0b' : 'none' }} />
-                                    }
-                                  </button>
-                                  {pkg.featured && pkg.featuredAt && (
-                                    <span style={{ fontSize: 9, color: '#f59e0b', fontWeight: 600, whiteSpace: 'nowrap' }}>
-                                      {pkg.featuredDays}d
-                                    </span>
-                                  )}
-                                </div>
                               )}
                             </td>
                             <td style={{ padding: '12px 16px', textAlign: 'center' }}>
@@ -1484,7 +1465,7 @@ export default function Dashboard() {
 
       {/* ── Add/Edit Package Modal ── */}
       {modal === 'form' && (
-        <div style={S.overlay}>
+        <div style={S.overlay} data-lenis-prevent>
           <div style={S.modal}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: 'linear-gradient(135deg,#7e5233,#c93d00)' }}>
               <h2 style={{ fontWeight: 700, fontSize: 16, color: '#fff' }}>{showPreview ? 'Package Preview' : editId ? 'Edit Package' : 'Add Package'}</h2>
@@ -1505,7 +1486,6 @@ export default function Dashboard() {
                     <label style={S.label}>Category</label>
                     <div style={{ display: 'flex', gap: 15, flexWrap: 'wrap' }}>
                       <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="package" checked={form.category === 'package'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Standard</label>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="group" checked={form.category === 'group'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Group</label>
                       <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="upcoming" checked={form.category === 'upcoming'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Upcoming</label>
                       <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}><input type="radio" name="category" value="cruise" checked={form.category === 'cruise'} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} /> Cruise</label>
                     </div>
@@ -1768,7 +1748,7 @@ export default function Dashboard() {
 
       {/* ── Destinations Modal ── */}
       {modal === 'destination' && (
-        <div style={S.overlay} onClick={e => e.target === e.currentTarget && setModal(null)}>
+        <div style={S.overlay} data-lenis-prevent onClick={e => e.target === e.currentTarget && setModal(null)}>
           <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 500, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: 'linear-gradient(135deg,#153e2d,#1c2575)', flexShrink: 0 }}>
               <h2 style={{ fontWeight: 700, fontSize: 16, color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}><MapPin size={16} /> Manage Destinations</h2>
@@ -1847,7 +1827,7 @@ export default function Dashboard() {
         const Icon = meta.icon
         const items = cruises
         return (
-          <div style={S.overlay} onClick={e => e.target === e.currentTarget && setModal(null)}>
+          <div style={S.overlay} data-lenis-prevent onClick={e => e.target === e.currentTarget && setModal(null)}>
             <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 500, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: 'linear-gradient(135deg,#153e2d,#1c2575)', flexShrink: 0 }}>
                 <h2 style={{ fontWeight: 700, fontSize: 16, color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}><Icon size={16} /> Manage {meta.plural}</h2>
@@ -1922,7 +1902,7 @@ export default function Dashboard() {
 
       {/* ── Confirm Dialog ── */}
       {confirm && (
-        <div style={{ ...S.overlay, zIndex: 70 }} onClick={e => e.target === e.currentTarget && setConfirm(null)}>
+        <div style={{ ...S.overlay, zIndex: 70 }} data-lenis-prevent onClick={e => e.target === e.currentTarget && setConfirm(null)}>
           <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 360, padding: 28, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', textAlign: 'center' }}>
             <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><AlertTriangle size={24} style={{ color: '#3b82f6' }} /></div>
             <h3 style={{ fontWeight: 700, fontSize: 17, color: '#111', marginBottom: 8 }}>Are you sure?</h3>
@@ -1937,7 +1917,7 @@ export default function Dashboard() {
 
       {/* ── Delete Package ── */}
       {modal === 'delete' && (
-        <div style={S.overlay} onClick={e => e.target === e.currentTarget && setModal(null)}>
+        <div style={S.overlay} data-lenis-prevent onClick={e => e.target === e.currentTarget && setModal(null)}>
           <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 380, padding: 28, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', textAlign: 'center' }}>
             <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><AlertTriangle size={24} style={{ color: '#3b82f6' }} /></div>
             <h3 style={{ fontWeight: 700, fontSize: 18, color: '#111', marginBottom: 8 }}>Delete Package?</h3>
@@ -1954,7 +1934,7 @@ export default function Dashboard() {
 
       {/* ── Feature Duration Modal ── */}
       {featureModal && (
-        <div style={S.overlay} onClick={e => e.target === e.currentTarget && setFeatureModal(null)}>
+        <div style={S.overlay} data-lenis-prevent onClick={e => e.target === e.currentTarget && setFeatureModal(null)}>
           <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 360, padding: 28, boxShadow: '0 20px 60px rgba(0,0,0,0.2)', textAlign: 'center' }}>
             <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#fffbeb', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}>
               <Star size={24} style={{ color: '#f59e0b', fill: '#f59e0b' }} />
@@ -1985,7 +1965,7 @@ export default function Dashboard() {
       )}
       {/* ── Testimonial Modal ── */}
       {testimonialModal && (
-        <div style={S.modalOverlay}>
+        <div style={S.modalOverlay} data-lenis-prevent>
           <div style={{ ...S.modal, maxWidth: 500 }}>
             <div style={S.modalHeader}>
               <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0 }}>{testimonialModal === 'add' ? 'Add' : 'Edit'} Testimonial</h2>
